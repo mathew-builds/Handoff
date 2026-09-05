@@ -54,6 +54,7 @@ jobs:
           fetch-depth: 1
 
       - name: Run Claude Code
+        id: claude
         uses: anthropics/claude-code-action@v1
         with:
           # Subscription billing (Pro/Max/Team/Enterprise). Generate with: claude setup-token
@@ -98,3 +99,60 @@ jobs:
             --allowedTools "Bash(npm test),Bash(pytest *),Bash(python -m pytest *),Bash(make test)"
           # Optional: pin the model instead of taking the Claude Code default.
           #   --model claude-sonnet-5
+
+      # ── Open the pull request, because the action will not ────────────────
+      # The action pushes a branch and posts a "Create PR" link; it has no
+      # PR-creation tool in tag mode (D12).
+      #
+      # This CANNOT be a separate push-triggered workflow, which is what we
+      # tried first. `actions/checkout` defaults to `persist-credentials: true`,
+      # so it writes the workflow's GITHUB_TOKEN into git config — and Claude's
+      # push is then authenticated with it. GitHub does not start workflow runs
+      # from that token, so a `on: push` workflow never fires for Claude's
+      # branches. It fires for a human's push, which is exactly why our first
+      # attempt looked like it worked. See D12 and issue #61.
+      #
+      # Doing it here instead needs no push trigger at all: same job, same
+      # runner, and `branch_name` comes straight from the action.
+      - name: Open the pull request
+        if: steps.claude.outputs.branch_name != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.claude.outputs.branch_name }}
+          BASE: ${{ github.event.repository.default_branch }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+
+          # Idempotent: Claude may push more than once while it iterates.
+          if [ "$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')" != "0" ]; then
+            echo "A pull request is already open for $BRANCH. Nothing to do."
+            exit 0
+          fi
+
+          git fetch --quiet origin "$BASE" "$BRANCH"
+          range="origin/$BASE..origin/$BRANCH"
+          if [ "$(git rev-list --count "$range")" = "0" ]; then
+            echo "$BRANCH has no commits ahead of $BASE. Nothing to open."
+            exit 0
+          fi
+
+          # Last NON-merge commit: if the branch was refreshed from the base,
+          # the tip is a merge commit whose subject is useless as a PR title.
+          title="$(git log --no-merges -1 --pretty=%s "$range")"
+          [ -n "$title" ] || title="Claude: changes on $BRANCH"
+
+          {
+            git log --no-merges -1 --pretty=%b "$range" \
+              | sed -E '/^(Co-authored-by|Signed-off-by|Claude-Session):/d'
+            printf '\n---\n\n'
+            printf 'Opened automatically by the workflow that ran Claude.\n'
+            printf 'The Claude Code action pushes a branch but cannot open the pull request itself.\n'
+            if [ -n "${ISSUE:-}" ] && [ "$ISSUE" != "null" ]; then
+              printf '\nCloses #%s\n' "$ISSUE"
+            fi
+          } > /tmp/pr-body.md
+
+          gh pr create --base "$BASE" --head "$BRANCH" \
+            --title "$title" --body-file /tmp/pr-body.md
+          echo "Opened a pull request for $BRANCH."

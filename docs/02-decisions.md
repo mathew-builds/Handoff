@@ -157,10 +157,20 @@ Also confirmed, and load-bearing for the rest of the design:
 
 ### D12 — A companion workflow opens the pull request; Claude does not
 **Date:** 2026-09-05
-**Decision:** `templates/claude-open-pr.yml` opens the PR when Claude pushes a `claude/**` branch.
+**Decision:** A step **inside `claude.yml`**, immediately after the action, opens the pull request using the action's `branch_name` output.
 **Beat:** (a) granting Claude a `gh pr create` tool; (b) switching to agent mode; (c) leaving the human click in.
 **Why:** The action does not open pull requests in tag mode — confirmed by Anthropic's own docs ("Claude does not create pull requests automatically… The user must click the link and create the PR themselves") and by our run on 2026-09-05, whose log contains zero PR-creation tools. Without this, the `pull_request opened` event never fires, so the return path in `README.md` and task 1.5 is dead. A workflow costs no model turns and cannot fail halfway through a task the way a tool call can.
 **Known limitation:** a PR opened with the default `GITHUB_TOKEN` does not start further Actions workflow runs, so your own CI will not run on it. Webhooks and API events *do* fire, which is what the return-path routine needs. Pass an App token if you need CI on these PRs.
+
+**Correction, 2026-09-05 — the first version of this was broken, and our verification was invalid.**
+
+We first shipped a *separate* `claude-open-pr.yml` triggered `on: push` to `claude/**`. **It never fired for Claude.** `actions/checkout` defaults to `persist-credentials: true`, so it writes the workflow's `GITHUB_TOKEN` into git config; Claude's push from inside the runner is authenticated with that token; and GitHub does not start workflow runs from it. That is the same rule this project already quoted in R3 — we documented it and then built a workflow that depended on breaking it.
+
+**Why we didn't catch it:** both times we "verified" that workflow, the push came from a laptop with a human's credentials. A human's push *does* trigger it. The path that matters — Claude pushing from inside the runner — was never exercised. A control that does not test the property the conclusion rests on proves nothing, and this one proved nothing twice.
+
+**Caught by:** running the bridge end to end from Grok Bot. Issue 5 on the trial repo produced a branch with the work and **no pull request**. Issue #61.
+
+**Verified after the fix, on the real path:** issue 6 → Claude ran → branch `claude/issue-6-20260905-1816` → **PR #7 opened automatically**, titled from Claude's commit, with `Closes #6`. No human push anywhere in that chain.
 **Requires a repo setting:** Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**. This is **off by default** and the workflow fails with `GitHub Actions is not permitted to create or approve pull requests` until you turn it on. Discovered by running it, 2026-09-05.
 **Reverses if:** the action gains a PR-creation tool in tag mode. Then delete this workflow.
 

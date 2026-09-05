@@ -5,7 +5,7 @@ Rules: one task per PR, in order, phases in order. Each task has an acceptance t
 ## Phase 0 — Prove the thesis
 
 - [ ] **0.1 Validate `templates/claude.yml` against the official docs.** Confirm every input name exists on `anthropics/claude-code-action@v1` (`claude_code_oauth_token`, `claude_args`), that the `if:` expression is correct for each event type, and that `--allowedTools` syntax matches current Claude Code. *Accept:* `actionlint` passes; a note in `02-decisions.md` D10 records the verified date.
-- [x] **0.2 Run Step 1–2 of the setup guide on a real private repo.** *Accept:* a pull request exists from an `@claude` issue — opened by `github-actions` via `claude-open-pr`, **not** by the Claude app, which has no such tool (#41); Anthropic Console shows no API spend; run URL recorded in `docs/07-evidence.md` under "Our runs". **Done 2026-09-05: $0.00 API spend.**
+- [x] **0.2 Run Step 1–2 of the setup guide on a real private repo.** *Accept:* a pull request exists from an `@claude` issue — opened by `github-actions` via the PR step in `claude.yml`, **not** by the Claude app, which has no such tool (#41); Anthropic Console shows no API spend; run URL recorded in `docs/07-evidence.md` under "Our runs". **Done 2026-09-05: $0.00 API spend.**
 - [x] **0.3 Measure one run.** Wall-clock, turns used, Actions time. *Accept:* a row in `docs/08-measurements.md`. **Done 2026-09-05.** Actions cost is recorded as wall-clock, not money — GitHub's timing API reports `billable_ms: 0` on this repo and we do not publish figures we cannot substantiate.
 
 ## Phase 1 — The bridge

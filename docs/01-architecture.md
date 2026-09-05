@@ -9,7 +9,7 @@
 | **GitHub issue / PR** | GitHub | free | The task ledger, the conversation, the approval gate. |
 | **claude-code-action** | GitHub-hosted runner | GitHub Actions minutes | Runs Claude Code against the repo when `@claude` is mentioned. |
 | **Claude Code** | inside the action | **Claude Max OAuth token** | Reads the issue, edits, tests, **pushes a branch**. It has no tool to open a pull request. |
-| **claude-open-pr workflow** | GitHub-hosted runner | Actions minutes (~12s) | Opens the pull request the action does not. No model turns. See D12. |
+| **the PR step in `claude.yml`** | the same runner, after Claude | seconds | Opens the pull request the action does not. No model turns. See D12. |
 | **PR-ready routine** | Grok Bot cloud | Grok Bot allowance (one turn) | Catches the PR event, tells the Chief of Staff. |
 | **You** | phone / laptop | — | Review, merge, approve anything irreversible. |
 
@@ -37,7 +37,7 @@ flowchart LR
         PR[/"Pull request"/]:::gh
         CI[["Tests / CI"]]:::gh
         BR[/"branch claude/issue-N"/]:::gh
-        OPR[["claude-open-pr workflow"]]:::gh
+        OPR[["PR step in claude.yml"]]:::gh
         ISSUE --> RUN --> BR --> OPR --> PR --> CI
     end
 
@@ -78,7 +78,7 @@ sequenceDiagram
     GH->>CC: issue event → workflow starts (write-access check passes)
     CC->>CC: read issue + CLAUDE.md, edit, run tests
     CC->>GH: push branch, comment on issue 212 with summary and a PR link
-    GH->>GH: claude-open-pr workflow opens PR 213
+    GH->>GH: the same workflow's next step opens PR 213
     GH-->>RT: pull_request opened event
     RT->>CoS: "PR 213 ready — tests green"
     CoS->>You: one-line report + link

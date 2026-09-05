@@ -56,14 +56,12 @@ fi
 
 echo "→ Workflows"
 mkdir -p .github/workflows
-for f in claude.yml claude-open-pr.yml; do
-  if [ -e ".github/workflows/$f" ]; then
-    ok "$f already present, left alone"
-  else
-    cp "$BRIDGE_DIR/templates/$f" ".github/workflows/$f"
-    ok "$f installed"
-  fi
-done
+if [ -e ".github/workflows/claude.yml" ]; then
+  ok "claude.yml already present, left alone"
+else
+  cp "$BRIDGE_DIR/templates/claude.yml" ".github/workflows/claude.yml"
+  ok "claude.yml installed"
+fi
 
 echo "→ Repo instructions"
 if [ -e CLAUDE.md ]; then
@@ -75,7 +73,7 @@ else
 fi
 
 echo "→ Actions must be allowed to open pull requests"
-# Off by default on every repo. Without it claude-open-pr.yml fails with
+# Off by default on every repo. Without it the PR step in claude.yml fails with
 # "GitHub Actions is not permitted to create or approve pull requests". (D12)
 if gh api "repos/$REPO/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null | grep -q true; then
   ok "already enabled"

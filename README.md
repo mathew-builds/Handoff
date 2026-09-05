@@ -40,7 +40,7 @@ flowchart LR
 1. You ask the Chief of Staff for something that needs engineering.
 2. It delegates to the **Coder** bot, whose only job is to open a GitHub issue with `@claude` and a clear brief.
 3. The official [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions) runs on a GitHub-hosted runner, authenticated with your **Claude subscription OAuth token** — not an API key.
-4. Claude Code reads the issue, edits, runs tests, and **pushes a branch**. It does not open the pull request — the action has no tool for that. A second workflow in this repo (`templates/claude-open-pr.yml`) opens it, which costs no model turns and makes the `pull_request opened` event fire.
+4. Claude Code reads the issue, edits, runs tests, and **pushes a branch**. It does not open the pull request — the action has no tool for that. A later step in the *same* workflow opens it, which costs no model turns and makes the `pull_request opened` event fire.
 5. A Grok Bot **routine** catches that event and the Chief of Staff tells you it's ready.
 6. You review and merge. **The merge is the approval.**
 
@@ -71,8 +71,7 @@ claude setup-token
 gh secret set CLAUDE_CODE_OAUTH_TOKEN
 
 mkdir -p .github/workflows
-cp templates/claude.yml         .github/workflows/claude.yml
-cp templates/claude-open-pr.yml .github/workflows/claude-open-pr.yml
+cp templates/claude.yml .github/workflows/claude.yml
 # Only if the repo has no CLAUDE.md yet — this OVERWRITES:
 cp templates/CLAUDE.md.template CLAUDE.md
 
