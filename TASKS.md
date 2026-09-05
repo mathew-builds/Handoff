@@ -5,30 +5,30 @@ Rules: one task per PR, in order, phases in order. Each task has an acceptance t
 ## Phase 0 — Prove the thesis
 
 - [ ] **0.1 Validate `templates/claude.yml` against the official docs.** Confirm every input name exists on `anthropics/claude-code-action@v1` (`claude_code_oauth_token`, `claude_args`), that the `if:` expression is correct for each event type, and that `--allowedTools` syntax matches current Claude Code. *Accept:* `actionlint` passes; a note in `02-decisions.md` D10 records the verified date.
-- [ ] **0.2 Run Step 1–2 of the setup guide on a real private repo.** *Accept:* a PR opened by the Claude app from an `@claude` issue; Anthropic Console shows no API spend; screenshot or run URL recorded in `docs/07-evidence.md` under a new "Our runs" heading.
-- [ ] **0.3 Measure one run.** Wall-clock, turns used, Claude usage delta, Actions minutes. *Accept:* a row in a new `docs/08-measurements.md` table.
+- [x] **0.2 Run Step 1–2 of the setup guide on a real private repo.** *Accept:* a pull request exists from an `@claude` issue — opened by `github-actions` via `claude-open-pr`, **not** by the Claude app, which has no such tool (#41); Anthropic Console shows no API spend; run URL recorded in `docs/07-evidence.md` under "Our runs". **Done 2026-09-05: $0.00 API spend.**
+- [x] **0.3 Measure one run.** Wall-clock, turns used, Actions time. *Accept:* a row in `docs/08-measurements.md`. **Done 2026-09-05.** Actions cost is recorded as wall-clock, not money — GitHub's timing API reports `billable_ms: 0` on this repo and we do not publish figures we cannot substantiate.
 
 ## Phase 1 — The bridge
 
-- [ ] **1.1 Machine account + scoped token** per setup Step 3. *Accept:* the token can open an issue on the target repo and is rejected on any other repo (`curl` checks recorded).
+- [ ] **1.1 Machine account + scoped token** per setup Step 3. **The repo must be org-owned** — a collaborator cannot mint a fine-grained token for a repo they do not own (#46). *Accept:* the token can open an issue on the target repo and is rejected on any other; both `curl` commands and their responses pasted into `docs/07-evidence.md` under "Our runs".
 - [ ] **1.2 Verify the trigger path from the machine account.** *Accept:* issue by the bot account → action runs (write-access check passes) → PR.
 - [ ] **1.3 Coder bot** from `templates/bots/coder.md`, token via secure request. *Accept:* Coder opens a well-formed issue from a one-line ask; `/workspace` on its computer shows no code edits.
 - [ ] **1.4 Investigate Grok Bot's native GitHub connector.** Can it open issues under an identity you control without a stored token? *Accept:* a paragraph in `02-decisions.md` D5 with a dated finding; if yes, update the Coder template with the preferred path.
 - [ ] **1.5 PR-ready routine** from `templates/routines/pr-ready.md`. *Accept:* a hand-opened PR is reported in the channel within a few minutes.
-- [ ] **1.6 Runbook R1–R7 dry run.** Deliberately trigger three of them (read-only account comment, cancel a run, expired token) and record what actually happened. *Accept:* `04-operations.md` runbooks corrected where reality differed.
+- [ ] **1.6 Runbook R1–R7 dry run.** Deliberately trigger three of them (read-only account comment, cancel a run, expired token). *Accept:* for each, a line in `docs/07-evidence.md` giving the run URL and **what you actually saw**, then `04-operations.md` corrected where reality differed. R1, R2 and R3 have already been corrected from documentation — this is the execution check.
 
 ## Phase 2 — The team
 
 - [ ] **2.1 Chief of Staff** from template; pinned; one project channel. *Accept:* a two-step task with no routing hints is researched, delegated to Coder, and reported once.
 - [ ] **2.2 Auto Review rules** from `templates/auto-review-rules.md`; Cursor on-demand limit set. *Accept:* "email the client" is stopped and asks; a screenshot in evidence.
-- [ ] **2.3 Consumer `CLAUDE.md` tuned** for the target repo (tests command, never-touch paths). *Accept:* five real tasks merged; rejection rate recorded.
+- [ ] **2.3 Consumer `CLAUDE.md` tuned** for the target repo (tests command, never-touch paths). *Accept:* five real tasks merged; a `merged / rejected` row per task added to the table in `docs/08-measurements.md`.
 - [ ] **2.4 Meter check.** Track Grok Bot weekly % on Mon/Wed/Fri for two weeks with coordination-only work. *Accept:* table in `08-measurements.md`; under 50% by Wednesday, or a note on what drained it.
-- [ ] **2.5 Brief quality loop.** For every rejected PR, write one line: what was wrong with the *brief*. Fold fixes into the Coder template. *Accept:* rejection rate trending down across two weeks.
+- [ ] **2.5 Brief quality loop.** For every rejected PR, one line in `docs/08-measurements.md`: what was wrong with the *brief*. Fold fixes into the Coder template. *Accept:* week-two rejection rate lower than week-one, both computed from that table.
 
 ## Phase 3 — Polish and publish
 
 - [ ] **3.1 `scripts/setup.sh` end to end** on a fresh repo. *Accept:* Step 1 completes with no manual edits except CLAUDE.md placeholders.
-- [ ] **3.2 `scripts/doctor.sh`.** Checks: secret present, workflow on default branch, Claude app installed, machine account has write, token expiry date. *Accept:* fails loudly on each missing item when tested.
+- [ ] **3.2 `scripts/doctor.sh`.** Checks: secret present, **both** workflows on the default branch, the "Allow GitHub Actions to create and approve pull requests" setting enabled (#46 — off by default and easy to miss), Claude app installed, machine account has write, token expiry date. *Accept:* exits non-zero on each missing item, demonstrated by removing each one in turn.
 - [ ] **3.3 Weekly cost report.** A second workflow in agent mode on a Monday schedule: reads last week's PRs and Actions minutes, posts a cost-per-merged-PR comment on a pinned issue. *Accept:* one real report posted.
 - [ ] **3.4 Fresh-eyes setup test.** A new Claude Code session with only the README completes setup on a new repo. *Accept:* every point of confusion becomes a doc fix.
 - [ ] **3.5 `CONTRIBUTING.md`, `CHANGELOG.md`, tag `v1.0.0`.** *Accept:* release published; README badges; `07-evidence.md` dated.

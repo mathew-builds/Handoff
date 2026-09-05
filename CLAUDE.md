@@ -9,6 +9,8 @@ This repo is the **grokbot-claude-bridge** project: a zero-server template that 
 ## Ground rules
 - Never commit secrets. `CLAUDE_CODE_OAUTH_TOKEN`, GitHub tokens and Grok Bot connector secrets live only in GitHub Secrets or the user's local machine.
 - Keep `templates/claude.yml` aligned with the official `anthropics/claude-code-action@v1` inputs. Verify against https://code.claude.com/docs/en/github-actions before changing it.
+- **Consumers need both workflows.** `claude.yml` does the work; `claude-open-pr.yml` opens the pull request, which the action cannot (D12). Any doc describing setup must mention both.
+- **Do not claim a vendor behaviour you have not read in their docs or seen in a run.** Four claims in the original scaffold were confidently wrong. When you cannot verify, write "unverified" — it is an acceptable answer.
 - Every workflow change must keep: `concurrency` group, a `timeout-minutes`, and `--max-turns` in `claude_args`.
 - Prefer boring solutions. If a task can be done with a GitHub feature, do not add a service.
 - Mermaid diagrams live in the docs next to the text they explain. Update the diagram when the flow changes.
@@ -24,18 +26,22 @@ This repo is the **grokbot-claude-bridge** project: a zero-server template that 
 - Dates on anything that can go stale (prices, limits, vendor behaviour).
 
 ## Verification commands
+
+These are what CI runs. Every one exits non-zero on failure — **never add `|| true`**,
+because a check that reports instead of failing reads as a pass (that was issue #36).
+
 ```bash
-# lint workflow files
-actionlint .github/workflows/*.yml templates/claude.yml 2>/dev/null || echo "install actionlint"
-# check mermaid blocks parse (optional)
-npx -y @mermaid-js/mermaid-cli -i docs/01-architecture.md -o /tmp/out.md 2>/dev/null || true
-# markdown links
-npx -y markdown-link-check README.md docs/*.md 2>/dev/null || true
+actionlint -ignore 'unexpected key "queue" for "concurrency" section' \
+  .github/workflows/*.yml templates/*.yml   # lint workflows AND the templates
+python3 scripts/check-links.py              # every relative doc link resolves
+python3 scripts/check-workflow-caps.py      # the three cost brakes survive
 ```
 
+Before trusting a new check, run it against **deliberately broken** input and confirm
+it goes red. A check that has never failed has not been tested.
+
 ## Diagrams
-Source of truth is the Mermaid in each doc. `docs/diagrams/*.png` are rendered copies for readers who can't render Mermaid; regenerate them when a diagram changes:
-```bash
-npx -y @mermaid-js/mermaid-cli -i docs/01-architecture.md -o docs/diagrams/01-architecture.md   # extracts + renders
-```
-Avoid `#` inside sequence-diagram labels — Mermaid treats it as an entity prefix and truncates the text. Write "issue 212", not "issue #212".
+Source of truth is the Mermaid in each doc; GitHub renders it natively, so there are
+no checked-in PNG copies to keep in sync. Avoid `#` inside sequence-diagram labels —
+Mermaid treats it as an entity prefix and truncates the text. Write "issue 212", not
+"issue #212".

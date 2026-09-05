@@ -8,7 +8,8 @@
 | **Coder** bot | Grok Bot cloud | Grok Bot weekly allowance (a few turns per task) | Turns a request into a well-formed GitHub issue containing `@claude`. **Never writes code.** |
 | **GitHub issue / PR** | GitHub | free | The task ledger, the conversation, the approval gate. |
 | **claude-code-action** | GitHub-hosted runner | GitHub Actions minutes | Runs Claude Code against the repo when `@claude` is mentioned. |
-| **Claude Code** | inside the action | **Claude Max OAuth token** | Reads the issue, edits, tests, opens the PR. |
+| **Claude Code** | inside the action | **Claude Max OAuth token** | Reads the issue, edits, tests, **pushes a branch**. It has no tool to open a pull request. |
+| **claude-open-pr workflow** | GitHub-hosted runner | Actions minutes (~12s) | Opens the pull request the action does not. No model turns. See D12. |
 | **PR-ready routine** | Grok Bot cloud | Grok Bot allowance (one turn) | Catches the PR event, tells the Chief of Staff. |
 | **You** | phone / laptop | — | Review, merge, approve anything irreversible. |
 
@@ -35,7 +36,9 @@ flowchart LR
         RUN[["claude-code-action<br/>GitHub-hosted runner"]]:::gh
         PR[/"Pull request"/]:::gh
         CI[["Tests / CI"]]:::gh
-        ISSUE --> RUN --> PR --> CI
+        BR[/"branch claude/issue-N"/]:::gh
+        OPR[["claude-open-pr workflow"]]:::gh
+        ISSUE --> RUN --> BR --> OPR --> PR --> CI
     end
 
     subgraph L3["L3 · Worker"]
@@ -55,7 +58,7 @@ flowchart LR
     classDef claude fill:#FBEEE8,stroke:#B85A36
 ```
 
-Layers are named to match the earlier v3 design so the vocabulary carries over. L4 (engineering manager) and L1 (substrate) are intentionally absent: GitHub Actions is stateless and GitHub-hosted.
+Layer numbers are a naming convention only; there is no separate v3 design document in this repo. L4 (engineering manager) and L1 (substrate) are intentionally absent: GitHub Actions is stateless and GitHub-hosted.
 
 ## Sequence: one task, end to end
 
@@ -74,12 +77,13 @@ sequenceDiagram
     Coder->>GH: open issue 212 — "@claude fix field mapping in sync.py, tests must pass"
     GH->>CC: issue event → workflow starts (write-access check passes)
     CC->>CC: read issue + CLAUDE.md, edit, run tests
-    CC->>GH: open PR 213, comment on issue 212 with summary
+    CC->>GH: push branch, comment on issue 212 with summary and a PR link
+    GH->>GH: claude-open-pr workflow opens PR 213
     GH-->>RT: pull_request opened event
     RT->>CoS: "PR 213 ready — tests green"
     CoS->>You: one-line report + link
     You->>GH: review, merge
-    Note over You,GH: The PR is the approval. Nothing merges without you.
+    Note over You,GH: Your merge is the approval. Nothing reaches main without you.
 ```
 
 Typical wall-clock: 1–2 min runner start + task time. Grok Bot spends ~3–5 turns total. Claude Max absorbs the rest.
@@ -95,7 +99,7 @@ flowchart LR
     end
     subgraph M2["Meter 2 — Claude Max (flat monthly)"]
         direction LR
-        D[Read repo] --> E[Edit files] --> F[Run tests] --> G[Open PR]
+        D[Read repo] --> E[Edit files] --> F[Run tests] --> G[Push branch]
     end
     subgraph M3["Meter 3 — GitHub Actions minutes"]
         H[Runner time]
@@ -117,7 +121,7 @@ The whole project is the arrow from B to D. Everything to the right of it used t
 | Task list | GitHub Issues (canonical). Notion, if used, is a view. |
 | Conversation about a task | The issue thread. `@claude` follow-ups go there. |
 | Repo conventions, rules, "tests must pass" | `CLAUDE.md` in the consumer repo |
-| What Claude did | PR description + action logs |
+| What Claude did | A **single comment** on the issue, which Claude overwrites as it works, plus the action logs. There is no Claude-authored PR description. |
 | Bot behaviour | Bot descriptions in Grok Bot (versioned here under `templates/bots/`) |
 
 There is no session state. That is a feature: nothing to back up, nothing to get stuck.
@@ -127,16 +131,16 @@ There is no session state. That is a feature: nothing to back up, nothing to get
 ```mermaid
 flowchart LR
     subgraph U["Untrusted / shared"]
-        GBVM["Grok Bot shared computer<br/>holds: issues-only token for ONE repo"]
+        GBVM["Grok Bot shared computer<br/>holds: a GitHub token for ONE repo"]
     end
     subgraph G["GitHub"]
         ISSUES["Issues API<br/>(write-access accounts only trigger Claude)"]
         SECRETS["Repo Secrets<br/>CLAUDE_CODE_OAUTH_TOKEN"]
     end
     subgraph T["Ephemeral runner — destroyed after each run"]
-        RUNNER["Repo checkout + Claude Code"]
+        RUNNER["Repo checkout + Claude Code<br/>ALSO holds a GitHub token<br/>with contents:write"]
     end
-    GBVM -- "can only open / comment issues" --> ISSUES
+    GBVM -- "opens / comments on issues" --> ISSUES
     ISSUES -- "triggers workflow" --> RUNNER
     SECRETS -. "injected at run time" .-> RUNNER
     style U fill:#FBECEA,stroke:#A02B20
@@ -144,9 +148,10 @@ flowchart LR
     style T fill:#EAF3EE,stroke:#2C6B4F
 ```
 
-- The Grok Bot computer is shared by every bot on the account. It gets a **fine-grained GitHub token scoped to issues:write on one repo** and nothing else.
+- The Grok Bot computer is shared by every bot on the account. It holds a GitHub token for one repo. **That token is a spam control, not a privilege control** — the action checks the *account's* write access, not the *token's* scope, so anyone holding it can start a full run. See D5 and `05-security.md`.
 - The Claude OAuth token exists only in GitHub Secrets and the ephemeral runner.
-- The action only runs for comments from accounts with **write access**. Strangers cannot spend your quota or inject prompts.
+- **The runner holds more than the Claude token.** It also gets a GitHub App installation token and the workflow's own `GITHUB_TOKEN`, which this template grants `contents: write`, `pull-requests: write` and `issues: write`. So a successful injection can push code, not merely spend quota.
+- The action only runs when the **triggering account has write access**. That stops strangers *spending your quota*. It does **not** stop prompt injection: every comment on the thread reaches Claude regardless of who wrote it, so a read-only account can plant text that Claude reads the next time someone with write access says `@claude`. See `05-security.md`.
 
 See `05-security.md` for the full threat model.
 
