@@ -41,10 +41,9 @@ gh secret set CLAUDE_CODE_OAUTH_TOKEN
 #     (`claude /install-github-app` does NOT work — that is a slash command
 #      inside a session, not a CLI argument.)
 
-# 1d. Add the workflows
+# 1d. Add the workflow
 mkdir -p .github/workflows
-cp <bridge>/templates/claude.yml         .github/workflows/claude.yml
-cp <bridge>/templates/claude-open-pr.yml .github/workflows/claude-open-pr.yml
+cp <bridge>/templates/claude.yml .github/workflows/claude.yml
 
 # 1e. Repo instructions. STOP AND READ:
 #     If this repo already has a CLAUDE.md, `cp` DESTROYS it. Merge the
@@ -57,7 +56,7 @@ git add -A && git commit -m "add claude bridge" && git push
 
 **1f. Enable one repository setting.** Settings → Actions → General → Workflow permissions → tick **"Allow GitHub Actions to create and approve pull requests"**. It is **off by default on every repository**, and without it the pull-request workflow fails with `GitHub Actions is not permitted to create or approve pull requests`.
 
-**Check:** `gh secret list` shows `CLAUDE_CODE_OAUTH_TOKEN`; both workflow files are on the **default branch** (Actions only triggers issue events from there); the setting in 1f is ticked.
+**Check:** `gh secret list` shows `CLAUDE_CODE_OAUTH_TOKEN`; the workflow file is on the **default branch** (Actions only triggers issue events from there); the setting in 1f is ticked.
 
 ## Step 2 — First PR from your own account (15 min)
 
@@ -67,7 +66,7 @@ gh issue create --title "Add a CONTRIBUTING.md" \
 Done means: the file exists and the tests still pass."
 ```
 
-Watch **Actions** in the repo. Within ~1–2 minutes a run starts. Claude comments on the issue, does the work, and **pushes a branch**. The `claude-open-pr` workflow then opens the pull request — Claude itself cannot, and will instead post a pre-filled "Create PR" link.
+Watch **Actions** in the repo. Within ~1–2 minutes a run starts. Claude comments on the issue, does the work, and **pushes a branch**. A later step in the same workflow then opens the pull request — Claude itself cannot, and will instead post a pre-filled "Create PR" link.
 
 **Check:**
 - A pull request exists. It is opened by **`github-actions`**, not by the Claude app — that is expected, see D12.
