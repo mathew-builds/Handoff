@@ -71,7 +71,7 @@ Check which half is failing before changing anything.
 - Claude runs your tests inside its own turn regardless (see `CLAUDE.md.template`).
 
 ### R4 — Grok Bot allowance at 100% mid-week
-- Look for bot-to-bot loops (channel history) and short-interval routines first. Staff-confirmed: every bot-to-bot message is a metered turn, and "please stay quiet" is only a hint.
+- Look for bot-to-bot loops (group chat history) and short-interval routines first. Staff-confirmed: every bot-to-bot message is a metered turn, and "please stay quiet" is only a hint.
 - Consolidate to one command agent with subagents; delete idle specialist bots; make routines hourly.
 - Confirm the on-demand limit is `$0` so it can't spill.
 

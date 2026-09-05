@@ -114,15 +114,17 @@ scripts/doctor.sh OWNER/REPO
 2. Give it the token via Grok Bot's secure secret request (the bot asks; you paste). Never paste a token into chat.
 3. Tell Coder: *"Open an issue asking @claude to add a `docs/HELLO.md` with one sentence."*
 
-**Check:** an issue appears on GitHub authored by the machine account, **the action actually runs**, and a pull request comes back. Grok Bot's usage meter moved by a few turns, not a chunk.
+**Check:** an issue appears on GitHub authored by the account behind the token, **the action actually runs**, and a pull request comes back. Grok Bot's usage meter moved by a few turns, not a chunk.
 
 Check that the *action ran*, not merely that the issue was created. Those are different failures with the same appearance.
 
 ### Which GitHub identity the bot uses — do not skip this
 
-xAI's default is that **bots act as you**: *"Bots act as the signed-in member… every action stays attributable to a named member."* That works — the action accepts it — but it puts your personal GitHub identity on a computer shared by every bot you own. **Configure the machine account instead**, which xAI explicitly supports: *"Use scoped service accounts where the source system supports them."*
+xAI's default is that **bots act as you**: *"Bots act as the signed-in member… every action stays attributable to a named member."* Under **D5a that is what we want** — the action's write-access check tests the *account*, so a token on an account with write access is what makes it pass. A dedicated machine account is an **attribution upgrade, not a prerequisite**: it makes bot-opened issues distinguishable from your own, and it needs an org-owned repo (#46). Start without it.
 
-Use the **PAT-flavoured GitHub connector** and paste the machine account's token into its **secure credential field**, not into chat: *"The Bot does not receive the raw key, and the key does not become part of the transcript or model context."*
+What still matters is *how* the credential is held. Use the **PAT-flavoured GitHub connector** and paste a **fine-grained token on your own account**, scoped to `Issues: read and write` on the one target repo, into its **secure credential field** — never into chat: *"The Bot does not receive the raw key, and the key does not become part of the transcript or model context."* Prefer this over the "Sign in with GitHub" button, which carries whatever access you already have rather than only what you scoped.
+
+Be clear-eyed about what that scope buys. Per #47 it is a **spam control, not a privilege control** — whoever holds the token can start a full Claude run on a prompt they wrote. What actually contains the blast radius is that the runner is ephemeral, the tool allow-list is narrow, the repo is private, and you are the merge gate.
 
 **Then prove it, in about a minute.** Ask the bot to open an issue, and inspect the exact field the action checks:
 
@@ -134,8 +136,8 @@ gh api repos/OWNER/REPO/issues/N \
 | Result | Meaning | Verdict |
 |---|---|---|
 | `type: "Bot"`, login ends `[bot]` | A GitHub App | **Rejected by the action.** Do not "fix" this with `allowed_bots` — any `[bot]` actor skips the permission check entirely, making that list your only access control. |
-| `type: "User"`, login = **you** | The default. Works, but your identity is on the shared computer | **Reconfigure.** This is the regression D5 exists to prevent. |
-| `type: "User"`, login = **the machine account** | What you want | ✅ |
+| `type: "User"`, login = **you** | The token you scoped is being used, and the account behind it has write access | ✅ **This is what D5a expects.** Confirm the token itself is fine-grained and limited to `Issues` on one repo — the login tells you the account, not the scope. |
+| `type: "User"`, login = **a dedicated machine account** | The D5 attribution upgrade | ✅ Also correct, and better for audit trails. Needs an org-owned repo (#46), so it is not where you start. |
 
 Then confirm the other half of the gate:
 

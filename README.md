@@ -23,7 +23,7 @@ flowchart LR
         ISSUE[Issue 212<br/>@claude ...]
         ACTION[claude-code-action<br/>on a GitHub-hosted runner]
         BRANCH[branch claude/issue-212]
-        PR[PR 213<br/><i>opened by a companion workflow</i>]
+        PR[PR 213<br/><i>opened by a later step in the same workflow</i>]
         ISSUE --> ACTION --> BRANCH --> PR
     end
 
@@ -79,7 +79,9 @@ cp templates/CLAUDE.md.template CLAUDE.md
 # 3. Settings -> Actions -> General -> tick
 #    "Allow GitHub Actions to create and approve pull requests" (off by default)
 # 4. Open an issue containing "@claude" from your own account. Get a PR back.
-# 5. Only then: machine account (setup guide Step 3), then the Coder bot.
+# 5. Only then: a fine-grained token on your own account, Issues-only, one repo
+#    (setup guide Step 3), then the Coder bot. A dedicated machine account is a
+#    later attribution upgrade, not a prerequisite — see D5a.
 ```
 
 ## Documentation
