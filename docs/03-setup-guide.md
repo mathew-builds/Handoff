@@ -12,6 +12,9 @@ Step 2 is the whole thesis test. If a PR comes back billed to your Max plan, eve
 
 ## Prerequisites
 
+> **Before anything Grok Bot related:** accounts on **Legacy Privacy Mode cannot start Grok Bot** — *"Accounts using Legacy Privacy Mode must move to a supported Cursor data setting before Grok Bot can start."* Change it at <https://cursor.com/dashboard/settings?openPrivacy=true>. Grok Bot is a **desktop and mobile app only** — there is no web app, no Slack app, no X surface. Download from <https://x.ai/bot>. Creating and editing routines is **desktop-only**.
+
+
 - A Claude subscription: **Pro, Max, Team or Enterprise all work.** Max is a capacity recommendation, not a requirement.
 - A GitHub repo you want Claude to work on (private recommended). The `gh` CLI logged in, with **admin** on that repo.
 - **For Phase 1 only:** that repo must be **owned by a GitHub organisation**, not by your personal account. Step 3's machine-account token cannot be created otherwise — see the warning in Step 3. Steps 1 and 2 work fine on a personal repo.
@@ -110,19 +113,40 @@ Stop here for a day if you like. You've proven the expensive half.
 
 Check that the *action ran*, not merely that the issue was created. Those are different failures with the same appearance.
 
-**On Grok Bot's built-in GitHub connector** (see D5 and task 1.4). Three possible shapes, only one of which is acceptable:
+### Which GitHub identity the bot uses — do not skip this
 
-| The connector acts as… | What happens |
-|---|---|
-| A **GitHub App / bot** | The run is **rejected**: the action refuses bot actors unless listed in `allowed_bots`. Do not use `allowed_bots` — any `[bot]` actor skips the permission check entirely, so that list becomes your only access control. |
-| **You**, via OAuth | It works — by putting your personal identity back on Grok Bot's shared computer, which is the exact thing the machine account exists to avoid. A regression, not a shortcut. |
-| **The machine account** | The only acceptable outcome. Prefer it. |
+xAI's default is that **bots act as you**: *"Bots act as the signed-in member… every action stays attributable to a named member."* That works — the action accepts it — but it puts your personal GitHub identity on a computer shared by every bot you own. **Configure the machine account instead**, which xAI explicitly supports: *"Use scoped service accounts where the source system supports them."*
+
+Use the **PAT-flavoured GitHub connector** and paste the machine account's token into its **secure credential field**, not into chat: *"The Bot does not receive the raw key, and the key does not become part of the transcript or model context."*
+
+**Then prove it, in about a minute.** Ask the bot to open an issue, and inspect the exact field the action checks:
+
+```bash
+gh api repos/OWNER/REPO/issues/N \
+  --jq '{login: .user.login, type: .user.type, app: .performed_via_github_app.slug}'
+```
+
+| Result | Meaning | Verdict |
+|---|---|---|
+| `type: "Bot"`, login ends `[bot]` | A GitHub App | **Rejected by the action.** Do not "fix" this with `allowed_bots` — any `[bot]` actor skips the permission check entirely, making that list your only access control. |
+| `type: "User"`, login = **you** | The default. Works, but your identity is on the shared computer | **Reconfigure.** This is the regression D5 exists to prevent. |
+| `type: "User"`, login = **the machine account** | What you want | ✅ |
+
+Then confirm the other half of the gate:
+
+```bash
+gh api repos/OWNER/REPO/collaborators/THAT_LOGIN/permission --jq .permission
+```
+
+Must be `write` or `admin`.
+
+**A limit you cannot engineer around.** Grok Bot gives each *user* one shared computer, and connectors are account-wide: *"Files, browser sessions, and command line credentials on that computer are available across your Bot roster. Do not use separate Bots as a security boundary."* So the machine-account credential is available to **every bot on your account**, not just the Coder. "The Coder's token" is a convenient fiction — it is the account's token. Size its permissions accordingly.
 
 ## Step 5 — Return path (15 min)
 
 1. Create a routine on the **Chief of Staff** bot from `templates/routines/pr-ready.md`.
 2. Trigger: GitHub event, pull request opened, on the target repo.
-3. Action: post one line in the project channel with the PR link and CI status.
+3. Action: post one line in the project group chat with the PR link and CI status.
 
 **Check:** open a throwaway PR by hand; the Chief of Staff reports it within a couple of minutes.
 
@@ -130,13 +154,15 @@ Check that the *action ran*, not merely that the issue was created. Those are di
 
 1. In Grok Bot → Auto Review, add the rules from `templates/auto-review-rules.md`.
 2. Set the Cursor account **on-demand limit** to `$0` (or a small number) so the weekly pool can't silently spill.
-3. In every channel charter add: *"At most three rounds of bot-to-bot discussion before reporting to me."*
+3. Add to **every bot's description** (there is no channel charter — see below): *"At most three rounds of bot-to-bot discussion before reporting to me."*
 
 **Check:** ask Ops to "email the client about the PR" — it must stop and ask you.
 
 ## Step 7 — Create the Chief of Staff (10 min)
 
-Paste `templates/bots/chief-of-staff.md`. Pin it. Open one project channel with Chief of Staff, Coder, and you.
+Paste `templates/bots/chief-of-staff.md` into **Bot actions → Edit Profile → description**. Then create a **group chat** (New → select 2–6 bots) containing the Chief of Staff and the Coder.
+
+Note what a group chat is and is not: it holds **bots only, 2–6 of them**, plus you as the message sender. There is no second human, and there is **no charter or instructions field** — standing rules live in each bot's description. Group chats also count against the account cap of **50 bots and group chats combined**.
 
 **Check:** give it a two-step task without saying who does what ("find out which HubSpot fields changed this week, then fix our mapping"). It should research, then delegate to Coder, then report once.
 

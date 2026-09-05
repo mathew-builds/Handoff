@@ -49,6 +49,39 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 
 **Reverses if:** Grok Bot's GitHub connector can open issues **as the machine account** without storing a token. If it acts as a GitHub App the action rejects it; if it acts as *you*, it re-introduces your personal identity and is a regression. Only the machine-account shape is an improvement — see task 1.4.
 
+**Task 1.4 finding, 2026-09-05 — the connector acts as YOU by default, and that is the regression case.**
+
+xAI states it twice, in two separate documents:
+
+> Bots act as the signed-in member. A Bot can never hold more access than the person it belongs to, every action stays attributable to a named member.
+> — <https://docs.x.ai/grok-bot/security>
+
+> A Bot has no identity of its own and cannot hold more access than the signed-in member.
+> — <https://docs.x.ai/grok-bot/security-faq>
+
+Corroborated first-hand: in a published walkthrough the Bot's cloud computer was already signed in as the author's personal GitHub account, and the Bot closed an issue **as that account** — no `[bot]` suffix, no App identity.
+
+So the connector's default shape is (b), "acts as you". The action would **accept** it — a user-to-server token still reports `type: "User"` — but it puts your personal GitHub identity on a shared machine, which is the one thing D5 exists to prevent. **Do not take the default path.**
+
+**The good news: xAI documents the service-account route and recommends it.**
+
+> Sign the Bot's browser into accounts sized to the task, and sign it out of accounts it no longer needs. **Use scoped service accounts where the source system supports them.**
+> — <https://docs.x.ai/grok-bot/teams-and-enterprises>
+
+There is also a **PAT-flavoured GitHub connector** with a masked credential field:
+
+> enter it through the connector's secure credential field, not through the conversation… **The Bot does not receive the raw key**, and the key does not become part of the transcript or model context.
+
+That is *better* than this project's original design, which assumed the bot would hold the token and use it. Preferred path is now: machine-account fine-grained PAT → the connector's secure credential field.
+
+**The sharp edge that does not go away.** The agent computer is one microVM per *user*, and connectors are **account-wide**:
+
+> Files, browser sessions, and command line credentials on that computer are available across your Bot roster. Do not use separate Bots as a security boundary.
+
+So the machine-account credential is visible to **every bot you own**, not just the Coder. You cannot scope it to one bot. This is exactly what D4 assumes and `05-security.md` already tells you to design for — but it means "the Coder's token" is a convenient fiction; it is the account's token.
+
+**Not reproduced.** All of the above is read from vendor documentation. The five-minute experiment that settles it is in `03-setup-guide.md` Step 4.
+
 ### D6 — Your merge is the approval; no permission relay
 **Date:** 2026-09-05
 **Decision:** Claude runs with a fixed allow-list of tools inside the runner; nothing reaches production until you merge.
