@@ -17,9 +17,14 @@ on:
 permissions:
   contents: read
 
+# Cancel superseded runs on a PR branch — you don't need CI on a commit you
+# have already pushed past. But NEVER cancel on main: every commit that lands
+# there deserves a completed verdict, and a cancelled run looks identical to a
+# failed one in the Actions tab. Two merges five seconds apart on 2026-09-05
+# cancelled the first one's CI and it read as a broken build.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   check:
