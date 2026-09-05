@@ -66,7 +66,8 @@ Read-only accounts are **not** silently ignored — that used to be written here
 Check which half is failing before changing anything.
 
 - **Claude's own commits do trigger CI.** The template deliberately does *not* pass `github_token`, so the action authenticates as the Claude GitHub App. This runbook used to say the opposite and sent you fixing a problem you don't have.
-- **The pull request opened by `claude-open-pr` does not trigger CI.** That workflow uses the default `GITHUB_TOKEN`, and GitHub does not start workflow runs from it. Webhooks still fire, which is what the Grok Bot return-path routine needs. If you need CI on those pull requests specifically, pass a GitHub App token to that workflow — and accept that you are then storing another credential.
+- **The pull request opened by the workflow does not trigger CI.** That step uses the default `GITHUB_TOKEN`, and GitHub does not start workflow runs from it. Webhooks still fire, which is what the Grok Bot return-path routine needs. If you need CI on those pull requests specifically, pass a GitHub App token to that step — and accept that you are then storing another credential.
+- **The same rule is why the PR step lives inside `claude.yml`.** `actions/checkout` writes the workflow `GITHUB_TOKEN` into git config, so Claude's own push is made with it and cannot trigger any `on: push` workflow. See #61.
 - Claude runs your tests inside its own turn regardless (see `CLAUDE.md.template`).
 
 ### R4 — Grok Bot allowance at 100% mid-week

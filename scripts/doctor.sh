@@ -62,23 +62,21 @@ else
        "claude setup-token   then   gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $REPO"
 fi
 
-for wf in claude.yml claude-open-pr.yml; do
-  if gh api "repos/$REPO/contents/.github/workflows/$wf?ref=$BASE" >/dev/null 2>&1; then
-    pass "$wf is on $BASE"
-  elif gh api "repos/$REPO/contents/.github/workflows/$wf" >/dev/null 2>&1; then
-    fail "$wf exists but is NOT on $BASE" \
-         "Actions only triggers issue events from the default branch. Merge it to $BASE."
-  else
-    fail "$wf is missing" "cp templates/$wf .github/workflows/ then commit and push to $BASE"
-  fi
-done
+if gh api "repos/$REPO/contents/.github/workflows/claude.yml?ref=$BASE" >/dev/null 2>&1; then
+  pass "claude.yml is on $BASE"
+elif gh api "repos/$REPO/contents/.github/workflows/claude.yml" >/dev/null 2>&1; then
+  fail "claude.yml exists but is NOT on $BASE" \
+       "Actions only triggers issue events from the default branch. Merge it to $BASE."
+else
+  fail "claude.yml is missing" "cp templates/claude.yml .github/workflows/ then commit and push to $BASE"
+fi
 
 head_ "Pull requests"
 if [ "$(gh api "repos/$REPO/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null)" = "true" ]; then
   pass "Actions may create pull requests"
 else
   fail "Actions may NOT create pull requests — off by default on every repo" \
-       "Settings → Actions → General → Workflow permissions → tick 'Allow GitHub Actions to create and approve pull requests'. Without it claude-open-pr.yml fails and no PR is ever opened."
+       "Settings → Actions → General → Workflow permissions → tick 'Allow GitHub Actions to create and approve pull requests'. Without it the PR step in claude.yml fails and no pull request is ever opened."
 fi
 
 head_ "Machine account"
