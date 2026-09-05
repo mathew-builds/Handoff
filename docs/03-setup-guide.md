@@ -110,13 +110,34 @@ Stop here for a day if you like. You've proven the expensive half.
 
 Check that the *action ran*, not merely that the issue was created. Those are different failures with the same appearance.
 
-**On Grok Bot's built-in GitHub connector** (see D5 and task 1.4). Three possible shapes, only one of which is acceptable:
+### Which GitHub identity the bot uses — do not skip this
 
-| The connector acts as… | What happens |
-|---|---|
-| A **GitHub App / bot** | The run is **rejected**: the action refuses bot actors unless listed in `allowed_bots`. Do not use `allowed_bots` — any `[bot]` actor skips the permission check entirely, so that list becomes your only access control. |
-| **You**, via OAuth | It works — by putting your personal identity back on Grok Bot's shared computer, which is the exact thing the machine account exists to avoid. A regression, not a shortcut. |
-| **The machine account** | The only acceptable outcome. Prefer it. |
+xAI's default is that **bots act as you**: *"Bots act as the signed-in member… every action stays attributable to a named member."* That works — the action accepts it — but it puts your personal GitHub identity on a computer shared by every bot you own. **Configure the machine account instead**, which xAI explicitly supports: *"Use scoped service accounts where the source system supports them."*
+
+Use the **PAT-flavoured GitHub connector** and paste the machine account's token into its **secure credential field**, not into chat: *"The Bot does not receive the raw key, and the key does not become part of the transcript or model context."*
+
+**Then prove it, in about a minute.** Ask the bot to open an issue, and inspect the exact field the action checks:
+
+```bash
+gh api repos/OWNER/REPO/issues/N \
+  --jq '{login: .user.login, type: .user.type, app: .performed_via_github_app.slug}'
+```
+
+| Result | Meaning | Verdict |
+|---|---|---|
+| `type: "Bot"`, login ends `[bot]` | A GitHub App | **Rejected by the action.** Do not "fix" this with `allowed_bots` — any `[bot]` actor skips the permission check entirely, making that list your only access control. |
+| `type: "User"`, login = **you** | The default. Works, but your identity is on the shared computer | **Reconfigure.** This is the regression D5 exists to prevent. |
+| `type: "User"`, login = **the machine account** | What you want | ✅ |
+
+Then confirm the other half of the gate:
+
+```bash
+gh api repos/OWNER/REPO/collaborators/THAT_LOGIN/permission --jq .permission
+```
+
+Must be `write` or `admin`.
+
+**A limit you cannot engineer around.** Grok Bot gives each *user* one shared computer, and connectors are account-wide: *"Files, browser sessions, and command line credentials on that computer are available across your Bot roster. Do not use separate Bots as a security boundary."* So the machine-account credential is available to **every bot on your account**, not just the Coder. "The Coder's token" is a convenient fiction — it is the account's token. Size its permissions accordingly.
 
 ## Step 5 — Return path (15 min)
 
