@@ -34,6 +34,17 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 **Why:** "Small things" is how the weekly meter empties. One rule, no exceptions, is easier to enforce than a judgement call.
 **Reverses if:** Grok Bot ships a model picker and a per-product spend cap and the allowance is published. Then revisit.
 
+### D5a — Start with your own scoped token, not a machine account
+**Date:** 2026-09-05
+**Decision:** For the first working bridge, mint a **fine-grained token on your own account**, scoped to `Issues: read and write` on **one** repo, and paste it into Grok Bot's GitHub plugin. No organisation, no second GitHub account.
+**Beat:** D5's machine account, as a *starting* requirement.
+**Why:** D5 justified the machine account on blast radius — *"its theft costs you spam issues, not your account."* **We disproved that ourselves** (see the correction in D5 and issue #47): the action checks the **account's** write access, not the token's scope, so a stolen machine-account token buys an attacker exactly what a stolen personal token buys them — issues on one repo, and your Claude quota. The machine account was carrying a security argument that turned out to be false.
+
+What it still buys is **attribution**: you can tell at a glance which issues a bot opened. That is worth having eventually. It is not worth an organisation, a second account with its own email, an org-owner token approval and a repo migration *before you have seen the thing work once*.
+
+Note that #46 does **not** apply here: GitHub only blocks fine-grained tokens for repos where you are an *outside or repository collaborator*. On a repo you own, it is fine.
+**Reverses if:** you want bot-authored issues distinguishable from your own — real work on a shared repo, or anything with an audit requirement. Then do D5 properly. It is an upgrade, not a prerequisite.
+
 ### D5 — A GitHub machine account for the Coder bot
 **Date:** 2026-09-05
 **Decision:** Create a dedicated GitHub account for the bot; make it a member of the **organisation** that owns the target repo; give it write access to that repo; issue it a fine-grained token scoped to that repo's issues.
