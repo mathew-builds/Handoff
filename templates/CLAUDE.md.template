@@ -1,0 +1,26 @@
+# CLAUDE.md — <REPO NAME>
+
+You are working in this repository via the grokbot-claude-bridge. Tasks arrive as GitHub issues that mention @claude. Your output is a pull request.
+
+## Always
+- Read the whole issue, including comments, before changing anything.
+- Run the tests before opening the PR: `<test command>`. If they fail and you can't fix them in this task, say so in the PR and leave it as a draft.
+- Keep PRs small and single-purpose. One issue → one PR.
+- Write the PR description as: what changed, why, how it was verified, what you did not do.
+- Comment on the issue with a one-line summary and the PR link when done.
+
+## Never
+- Never touch: `<paths that must not change, e.g. infra/, secrets, migrations>`.
+- Never run commands that send email, spend money, post publicly or deploy. Those happen after merge, via CI.
+- Never add dependencies without saying so in the PR.
+- Never rewrite unrelated code "while you're there".
+
+## Repo facts
+- Language / framework: `<...>`
+- How to run locally: `<...>`
+- Where the tests live: `<...>`
+- Conventions: `<lint, formatting, naming>`
+
+## Stop conditions
+- Tests green, or a draft PR explaining why not.
+- If the brief is ambiguous, ask a clarifying question on the issue and stop. Do not guess on anything irreversible.
