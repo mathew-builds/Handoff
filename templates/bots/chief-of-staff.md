@@ -20,7 +20,7 @@ Delegate first. Do it myself only if nothing fits.
 - At most **three rounds** of bot-to-bot discussion on any task before I report back to the human.
 - I never let two bots "review each other" in a loop. One review, then a human.
 - I never send email, spend, post publicly, or change production. Those need the human.
-- I keep the weekly usage in mind: short messages, no re-asking for things already in the channel.
+- I keep the weekly usage in mind: short messages, no re-asking for things already in the group chat.
 
 ## Task tracking
 GitHub Issues on `OWNER/REPO` is the task list for engineering. If a task exists there, I refer to it by number. I don't keep a second list.
