@@ -75,6 +75,33 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 **Why:** Loops don't get bored. These three lines are the entire cost brake on the Claude side.
 **Reverses if:** never.
 
+**`templates/claude.yml` verified: 2026-09-05** (task 0.1) against
+[the official docs](https://code.claude.com/docs/en/github-actions), the action's
+[configuration](https://github.com/anthropics/claude-code-action/blob/main/docs/configuration.md)
+and [security](https://github.com/anthropics/claude-code-action/blob/main/docs/security.md)
+references, the [permission rule syntax](https://code.claude.com/docs/en/permissions),
+and the upstream [`examples/claude.yml`](https://github.com/anthropics/claude-code-action/blob/main/examples/claude.yml).
+
+| Checked | Result |
+|---|---|
+| Input names `claude_code_oauth_token`, `claude_args` | Valid on `@v1`. |
+| `if:` expression, per event type | Correct — byte-identical to upstream's. |
+| `--allowedTools` / `Bash(cmd *)` pattern syntax | Valid. The space-separated trailing `*` is the documented form; `Bash(cmd:*)` is an equivalent alias. |
+| `concurrency` group expression | Correct. `github.event.issue.number` covers `issues` and `issue_comment`; the `||` falls through to `github.event.pull_request.number` for both review events. |
+| `actionlint` | Passes (v1.7.12, no findings). |
+
+Three things were wrong and are fixed in the same PR:
+
+1. **`actions: read` was missing** from `permissions:`. Upstream requires it "for Claude to read CI results on PRs" — without it, R3 in `04-operations.md` cannot work as written.
+2. **`actions/checkout` was pinned to `@v4`**; upstream moved to `@v6`.
+3. **The Bash allow-list was decorative.** `Bash(python *)` permits `python -c '<anything>'` and `Bash(git *)` permits `git -c core.fsmonitor=<script> …` — both are arbitrary code execution with network egress, which falsifies the mitigation claimed in `05-security.md` ("Fixed allow-list, no arbitrary network egress tools"). Narrowed to specific test and read-only-git verbs.
+
+Also confirmed, and load-bearing for the rest of the design:
+
+- **`--allowedTools` adds to the action's base GitHub tools rather than replacing them**, so the narrower list cannot stop Claude commenting on the issue or opening the PR.
+- **The action rejects bot actors by default**, `allowed_bots` is empty, and allowed bots are *not* permission-checked. A GitHub *user* account (D5's machine account) is unaffected; a GitHub *App* — which is the likely shape of Grok Bot's native connector — would be rejected. This is a precondition for D5 and task 1.4, not a detail.
+- **Do not pass `github_token`.** Left unset, the action authenticates as the Claude GitHub App, which is what lets your CI trigger on Claude's commits.
+
 ### D11 — Publish as an MIT template
 **Date:** 2026-09-05
 **Decision:** Open source, template-shaped.
