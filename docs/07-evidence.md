@@ -31,7 +31,7 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 
 ## What drains fastest (community consensus + staff)
 
-1. Bot-to-bot loops in channels
+1. Bot-to-bot loops in group chats
 2. Short-interval routines (a 15-minute cron is ~100 runs a day)
 3. Long coding / agent loops — the heaviest model tier gets routed in
 4. Browser / computer-use sessions
@@ -90,16 +90,32 @@ Note the run log printed `total_cost_usd: 0.157`. That figure is **not** a charg
 
 Recorded as passed on the substance — work delivered, billed to the subscription — with the PR clause corrected rather than quietly ignored.
 
-### 2026-09-05 — the return path, restored
+### 2026-09-05 — the return path, first attempt, and why it did not count
 
-**[Run 33974291123](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33974291123)** — `templates/claude-open-pr.yml` opening the pull request the action does not open. Produced [PR #3](https://github.com/mathew-builds/claude-bridge-trial/pull/3), titled from Claude's commit, linked back to the issue with `Closes #1`.
+**[Run 33974291123](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33974291123)** — a *separate* `claude-open-pr.yml`, triggered `on: push`, opening the pull request the action does not open. Produced [PR #3](https://github.com/mathew-builds/claude-bridge-trial/pull/3).
 
-Two things this cost us to learn, neither of which is in any vendor document:
+**That workflow no longer exists.** It was deleted in PR #62 because **it never fired for Claude**: `actions/checkout` persists the workflow `GITHUB_TOKEN`, Claude's push from inside the runner uses it, and GitHub does not start workflow runs from that token. The run above passed only because the push came from a laptop. A control that does not exercise the property the conclusion rests on proves nothing — and this one was accepted twice. See D12 and issue #61.
+
+Two things it cost us to learn, both still true of the current design:
 
 1. It fails with `GitHub Actions is not permitted to create or approve pull requests` until you enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**. Off by default on every repository.
 2. Taking the PR title from `git log -1` yields the merge commit's subject whenever the branch has been refreshed from base. Use the last non-merge commit.
 
-**Not verified:** whether a PR opened by the default `GITHUB_TOKEN` delivers a `pull_request opened` *webhook*. GitHub suppresses *workflow runs* from that token; webhooks are documented as unaffected, but we have not tested it. Task 1.5 settles it.
+### 2026-09-05 — the return path, proven on the path that matters
+
+**[Run 33983515065](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33983515065)** — issue 6, "bridge test 2 — does the PR open now?", with the PR step now **inside `claude.yml`**.
+
+| | |
+|---|---|
+| The push | commit `7070309`, author **and** committer `claude[bot]`, 18:16:42Z — **no human push anywhere in the chain** |
+| The step | "Open the pull request" — `success`, in the same run |
+| The result | [PR #7](https://github.com/mathew-builds/claude-bridge-trial/pull/7), opened 18:16:59Z by `github-actions`, titled from Claude's commit, with `Closes #6` |
+
+This is the case that failed twice before. It is the only run in this file that establishes the current design works.
+
+**Verified 2026-09-06:** that PR generated a `pull_request` event — `actor=github-actions[bot]`, `action=opened` — observed directly on the repository's events API. So a PR opened with the default `GITHUB_TOKEN` does produce the event, even though GitHub suppresses *workflow runs* from that token.
+
+**Still not verified:** whether that event is *delivered to a webhook subscriber*. This repository has never had a webhook configured, so nothing was delivered and nothing was observed. D12's "webhooks and API events do fire" is, on the webhook half, still an inference from GitHub's documentation rather than something we have watched happen. Task 1.5 pass 2 settles it.
 
 ### 2026-09-05 — assignment costs runner time, not subscription usage
 

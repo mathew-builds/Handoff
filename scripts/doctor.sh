@@ -43,10 +43,9 @@ printf '\033[1mgrokbot-claude-bridge doctor\033[0m — %s (default branch: %s)\n
 head_ "Repository"
 OWNER_TYPE="$(gh api "repos/$REPO" --jq .owner.type 2>/dev/null)"
 if [ "$OWNER_TYPE" = "Organization" ]; then
-  pass "owned by an organisation — the machine-account token can be created"
+  pass "owned by an organisation — also supports the D5 machine-account upgrade"
 else
-  warn "owned by a personal account" \
-       "Phase 1's machine-account token cannot be created here. GitHub does not let a collaborator make a fine-grained token for a repo they do not own. Move it to an organisation. (issue #46)"
+  pass "owned by a personal account — you can create a fine-grained token for a repo you own (D5a)"
 fi
 if [ "$(gh api "repos/$REPO" --jq .private 2>/dev/null)" = "true" ]; then
   pass "private"
