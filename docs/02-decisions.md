@@ -102,6 +102,23 @@ Also confirmed, and load-bearing for the rest of the design:
 - **The action rejects bot actors by default**, `allowed_bots` is empty, and allowed bots are *not* permission-checked. A GitHub *user* account (D5's machine account) is unaffected; a GitHub *App* — which is the likely shape of Grok Bot's native connector — would be rejected. This is a precondition for D5 and task 1.4, not a detail.
 - **Do not pass `github_token`.** Left unset, the action authenticates as the Claude GitHub App, which is what lets your CI trigger on Claude's commits.
 
+### D12 — A companion workflow opens the pull request; Claude does not
+**Date:** 2026-09-05
+**Decision:** `templates/claude-open-pr.yml` opens the PR when Claude pushes a `claude/**` branch.
+**Beat:** (a) granting Claude a `gh pr create` tool; (b) switching to agent mode; (c) leaving the human click in.
+**Why:** The action does not open pull requests in tag mode — confirmed by Anthropic's own docs ("Claude does not create pull requests automatically… The user must click the link and create the PR themselves") and by our run on 2026-09-05, whose log contains zero PR-creation tools. Without this, the `pull_request opened` event never fires, so the return path in `README.md` and task 1.5 is dead. A workflow costs no model turns and cannot fail halfway through a task the way a tool call can.
+**Known limitation:** a PR opened with the default `GITHUB_TOKEN` does not start further Actions workflow runs, so your own CI will not run on it. Webhooks and API events *do* fire, which is what the return-path routine needs. Pass an App token if you need CI on these PRs.
+**Requires a repo setting:** Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**. This is **off by default** and the workflow fails with `GitHub Actions is not permitted to create or approve pull requests` until you turn it on. Discovered by running it, 2026-09-05.
+**Reverses if:** the action gains a PR-creation tool in tag mode. Then delete this workflow.
+
+### D13 — This repo runs its own CI, and every check exits non-zero
+**Date:** 2026-09-05
+**Decision:** `.github/workflows/ci.yml` runs actionlint over the templates (at a real workflow path), a relative-link check, and a check that the consumer workflow keeps its three cost brakes.
+**Beat:** the previous state — no CI at all, and a "Verification commands" block in `CLAUDE.md` where every command ended in `|| true`.
+**Why:** The project tells consumers to gate everything on tests and then shipped an unlinted template; PR #20 merged with zero checks. A check that reports instead of failing reads as a pass. The caps check in particular turns the `CLAUDE.md` ground rule about `concurrency`/`timeout-minutes`/`--max-turns` from a sentence someone might read into a control that blocks a merge.
+**Verified:** both scripts were run against good input (exit 0) *and* deliberately broken input (exit 1) before being trusted.
+**Reverses if:** never. Add checks; do not remove them.
+
 ### D11 — Publish as an MIT template
 **Date:** 2026-09-05
 **Decision:** Open source, template-shaped.

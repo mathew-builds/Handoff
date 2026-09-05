@@ -1,0 +1,71 @@
+# CI for the bridge repo itself.
+#
+# This project tells consumers to gate everything on tests, then for a while
+# shipped an unlinted template with no checks of its own (issue #24). PR #20
+# merged with zero checks. This is the fix.
+#
+# Every step here must exit non-zero on failure. A check that reports instead of
+# failing reads as a pass, which is issue #36 — do not add `|| true` to anything.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install actionlint
+        run: |
+          set -euo pipefail
+          bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint --version
+
+      - name: Lint every workflow, including the templates consumers copy
+        run: |
+          set -euo pipefail
+          # The templates are the product. Lint them at a real workflow path so
+          # actionlint's event- and context-sensitive rules actually run.
+          mkdir -p .lintcheck/.github/workflows
+          cp templates/*.yml .lintcheck/.github/workflows/
+          ./actionlint .github/workflows/*.yml
+          (cd .lintcheck && ../actionlint .github/workflows/*.yml)
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: Every relative link in the docs must resolve
+        run: python3 scripts/check-links.py
+
+      - name: The consumer workflow must keep its three cost brakes
+        run: python3 scripts/check-workflow-caps.py
+
+      - name: No secrets committed
+        run: |
+          set -euo pipefail
+          # Cheap, specific tripwire for the two credential shapes this project
+          # handles. Not a substitute for secret scanning.
+          if grep -rInE 'sk-ant-[A-Za-z0-9_-]{20,}|github_pat_[A-Za-z0-9_]{20,}|ghp_[A-Za-z0-9]{36}' \
+               --exclude-dir=.git --exclude-dir=.lintcheck . ; then
+            echo "::error::A credential-shaped string is committed. Remove it and rotate the credential."
+            exit 1
+          fi
+          echo "no credential-shaped strings found"

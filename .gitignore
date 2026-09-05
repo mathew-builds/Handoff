@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+._*
+
+# Editors
+.idea/
+*.swp
+
+# Node (only present if you run the mermaid/link tooling)
+node_modules/
+
+# Never commit credentials. The OAuth token and any GitHub token live in
+# GitHub Secrets or on your own machine — see docs/05-security.md.
+.env
+.env.*
+*.pem
