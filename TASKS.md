@@ -10,7 +10,7 @@ Rules: one task per PR, in order, phases in order. Each task has an acceptance t
 
 ## Phase 1 — The bridge
 
-- [ ] **1.1 Machine account + scoped token** per setup Step 3. **The repo must be org-owned** — a collaborator cannot mint a fine-grained token for a repo they do not own (#46). *Accept:* the token can open an issue on the target repo and is rejected on any other; both `curl` commands and their responses pasted into `docs/07-evidence.md` under "Our runs".
+- [ ] **1.1 A scoped token the bot can use.** Start with a fine-grained token on **your own** account, `Issues: read and write`, one repo — see D5a. A machine account is an upgrade for attribution, not a prerequisite, and it needs an org-owned repo (#46). *Accept:* the token can open an issue on the target repo and is rejected on any other; both `curl` commands and their responses pasted into `docs/07-evidence.md` under "Our runs".
 - [ ] **1.2 Verify the trigger path from the machine account.** *Accept:* issue by the bot account → action runs (write-access check passes) → PR.
 - [ ] **1.3 Coder bot** from `templates/bots/coder.md`, token via secure request. *Accept:* Coder opens a well-formed issue from a one-line ask; `/workspace` on its computer shows no code edits.
 - [ ] **1.4 Investigate Grok Bot's native GitHub connector.** Can it open issues under an identity you control without a stored token? *Accept:* a paragraph in `02-decisions.md` D5 with a dated finding; if yes, update the Coder template with the preferred path.
