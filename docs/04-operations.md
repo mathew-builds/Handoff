@@ -32,6 +32,16 @@ Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet
 | Bot's fine-grained GitHub token | 90 days (your choice) | GitHub UI → paste into Coder via secure request |
 | Grok Bot routines after long inactivity | may auto-pause | Open the routine, re-enable |
 
+## Check the wiring before you debug anything
+
+```bash
+scripts/doctor.sh OWNER/REPO --machine-account BOT-LOGIN --token   # $BOT_TOKEN set
+```
+
+Exits non-zero if anything required is missing, and prints the exact command or click that fixes it. Run this first when something stops working — most of what it checks is invisible until it breaks, and two of them (the workflows being on the default branch, and Actions being allowed to open pull requests) cost us an hour each to discover the hard way.
+
+It cannot confirm the Claude GitHub App is installed — no API exposes that without the app's own credentials — so it tells you to check that one by eye rather than pretending.
+
 ## Failure modes and runbooks
 
 ### R1 — Action doesn't start

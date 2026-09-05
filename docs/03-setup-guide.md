@@ -77,6 +77,12 @@ Watch **Actions** in the repo. Within ~1–2 minutes a run starts. Claude commen
 
 Stop here for a day if you like. You've proven the expensive half.
 
+**Check everything at once, any time:**
+
+```bash
+scripts/doctor.sh OWNER/REPO
+```
+
 ## Step 3 — Machine account for the bot (15 min)
 
 > **The target repo must be owned by an organisation.** GitHub does not let an
