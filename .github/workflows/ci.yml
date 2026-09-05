@@ -39,10 +39,17 @@ jobs:
           set -euo pipefail
           # The templates are the product. Lint them at a real workflow path so
           # actionlint's event- and context-sensitive rules actually run.
+          #
+          # The one suppression: actionlint 1.7.12 does not know the `queue` key
+          # under `concurrency`. GitHub documents it (`single` default, `max` for
+          # up to 100 pending) and we confirmed it parses on real GitHub — run
+          # 33971250162 on claude-bridge-trial succeeded with `queue: max` in the
+          # file. Checked 2026-09-05; drop this flag once actionlint catches up.
+          IGNORE='unexpected key "queue" for "concurrency" section'
           mkdir -p .lintcheck/.github/workflows
           cp templates/*.yml .lintcheck/.github/workflows/
-          ./actionlint .github/workflows/*.yml
-          (cd .lintcheck && ../actionlint .github/workflows/*.yml)
+          ./actionlint -ignore "$IGNORE" .github/workflows/*.yml
+          (cd .lintcheck && ../actionlint -ignore "$IGNORE" .github/workflows/*.yml)
 
       - name: Set up Python
         uses: actions/setup-python@v6
