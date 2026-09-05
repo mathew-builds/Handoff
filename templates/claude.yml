@@ -15,17 +15,21 @@ on:
   pull_request_review_comment:
     types: [created]
   issues:
-    # `assigned` is upstream's default. Note it costs a run: assigning an issue
-    # whose body already contains @claude re-triggers Claude on the same brief.
-    # To trigger on assignment alone instead, set the `assignee_trigger` input.
+    # `assigned` is upstream's default. It starts a runner but never starts
+    # Claude: the action only reads an issue body/title for the trigger phrase
+    # on `opened`, and on `assigned` it needs the `assignee_trigger` input,
+    # which we do not set. Cost is Actions minutes only, never Max spend.
     types: [opened, assigned]
   pull_request_review:
     types: [submitted]
 
-# One run per issue/PR at a time. A second @claude on the same thread waits.
+# One run per issue/PR at a time. `queue: max` matters: without it GitHub keeps
+# only ONE pending run per group, so a third @claude on the same thread silently
+# cancels the second before it starts.
 concurrency:
   group: claude-${{ github.event.issue.number || github.event.pull_request.number }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   claude:
@@ -60,14 +64,37 @@ jobs:
           # Bound every run. Raise --max-turns only for a specific repo that needs it.
           # The action always includes its own base GitHub tools (read/edit/commit
           # files, read-only git, comment management), so --allowedTools only needs
-          # to name the extra Bash commands this repo's tests need.
+          # to name the extra Bash commands this repo's tests need. Read-only git
+          # (status/diff/log) is already built in — don't re-list it.
           #
-          # Keep each rule narrow. `Bash(python *)` would allow `python -c '<anything>'`
-          # and `Bash(git *)` would allow `git -c core.fsmonitor=<script> ...` — either
-          # one is arbitrary code execution, which makes the allow-list decorative.
-          # Add the specific commands your repo needs; don't widen these.
+          # ── READ THIS BEFORE WIDENING THE LIST ────────────────────────────────
+          # Two separate traps.
+          #
+          # 1. A wildcard before the subcommand grants everything after it.
+          #    `Bash(python *)` allows `python -c '<anything>'`. `Bash(git *)`
+          #    allows `git -c core.fsmonitor=<script> ...`. Both are arbitrary
+          #    code execution, which makes the whole list decorative.
+          #
+          # 2. On PR-triggered runs the allow-list CANNOT make this safe, however
+          #    narrow you make it. This workflow triggers on comments and reviews
+          #    on pull requests, and on those runs `package.json`, lockfiles and
+          #    `Makefile` stay at the PR head. So `npm test` runs the PR author's
+          #    scripts, and `pytest` imports the PR author's `conftest.py`.
+          #    Running a repo's tests means executing that repo's code. There is
+          #    no allow-list that avoids it.
+          #
+          #    What actually contains it: the runner is ephemeral and holds no
+          #    production credentials, the repo is private, and only accounts with
+          #    write access can trigger a run. If that is not enough for your repo,
+          #    remove the pull-request triggers above and run issue-only.
+          #
+          #    Deliberately NOT in the default list: `npm ci` / `npm install`
+          #    (execute PR-authored preinstall/postinstall scripts) and
+          #    `npm run *` (executes any PR-authored script). Add them only if
+          #    your tests genuinely cannot run without them.
+          # ──────────────────────────────────────────────────────────────────────
           claude_args: >-
             --max-turns 25
-            --allowedTools "Bash(npm ci),Bash(npm install),Bash(npm test *),Bash(npm run *),Bash(pytest *),Bash(python -m pytest *),Bash(make test *),Bash(make lint *),Bash(git status *),Bash(git diff *),Bash(git log *)"
+            --allowedTools "Bash(npm test),Bash(pytest *),Bash(python -m pytest *),Bash(make test)"
           # Optional: pin the model instead of taking the Claude Code default.
           #   --model claude-sonnet-5
