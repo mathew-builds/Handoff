@@ -21,7 +21,9 @@ gantt
 
 Goal: a PR billed to Claude Max, triggered by an issue, with no Grok Bot involved.
 
-**Acceptance:** PR opened by the Claude app; zero API spend in Anthropic Console; your Claude usage shows the run.
+**Acceptance:** a pull request exists from an `@claude` issue — opened by `github-actions` via the companion workflow, **not** by the Claude app, which has no such tool; zero API spend in the Anthropic Console.
+
+**Result, 2026-09-05: passed.** $0.00 metered spend, 63s, 10 of 25 turns. See `07-evidence.md`.
 
 **Kill criterion:** the OAuth path won't work on your account after two attempts and the upstream issue has no fix. Then the project's economics change — pause and reassess (API billing may still beat Grok Bot overage, but measure it).
 
@@ -51,6 +53,7 @@ Goal: someone else can set this up from the README in under two hours.
 **Acceptance:**
 - `scripts/setup.sh` does Step 1 of the setup guide end to end.
 - A weekly scheduled run posts cost-per-merged-PR as an issue comment.
+- `scripts/doctor.sh` exits non-zero on each missing prerequisite (task 3.2).
 - A stranger (or a fresh Claude Code session with only the README) completes setup on a new repo.
 - Tagged `v1.0.0`, MIT licence, `CONTRIBUTING.md`.
 
@@ -73,4 +76,3 @@ The full v3 design (two Hetzner nodes, gateway, channels, relay, the eleven-gap 
 - Discord as a second inbox via the official Claude Code Discord channel — a fallback if Grok Bot is down.
 - Cross-model review: a read-only Grok review step on Claude's PRs, for a second opinion from a model with different blind spots.
 - Cost report as a GitHub Pages dashboard, no server.
-- A `bridge doctor` script that checks: secret present, workflow on default branch, machine account has write, token not expired.

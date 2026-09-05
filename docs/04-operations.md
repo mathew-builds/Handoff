@@ -33,16 +33,29 @@ Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet
 ## Failure modes and runbooks
 
 ### R1 — Action doesn't start
-- Is the comment from an account with **write** access? Read-only accounts are ignored by design.
-- Is the workflow on the default branch? Is it `@claude`, not `/claude`?
-- Check Actions tab for a skipped run and its reason.
+
+Two different causes with two different symptoms. Check which one you have **first**, or you will hunt the wrong thing:
+
+| Symptom in the Actions tab | Cause |
+|---|---|
+| Run **skipped** | The text has no `@claude`, so the job's `if:` was false. Check it is `@claude` as a whole word, not `/claude` or `@claude-bot`. |
+| Run **failed**, red X | The triggering account lacks **write** access, or is a bot. The action fails the run rather than ignoring it: *"the run fails when either check rejects it."* |
+| **No run at all** | The workflow is not on the **default branch**. Issue events only trigger workflows from there. |
+
+Read-only accounts are **not** silently ignored — that used to be written here and it is wrong. You get a failed run and a red mark on the thread.
 
 ### R2 — "Could not resolve authentication credentials"
 - Regenerate: `claude setup-token`, update the secret, re-run.
-- Did you change plans (Pro→Max) recently? Known upstream issue. Temporary fallback: `anthropic_api_key` with a console key while it's investigated. Switch back.
+- **Do not stop debugging if you never changed plans.** This was written as a Pro→Max upgrade issue. Upstream (`anthropics/claude-code-action#1281`, still open as of 2026-08-19) includes reports from accounts that were **never on Pro**, so the trigger is broader than an upgrade.
+- Temporary fallback: `anthropic_api_key` with a Console key. **This moves your CI off the subscription and onto metered spend** — the exact thing this project exists to avoid. Treat it as a stopgap and switch back.
 
-### R3 — Claude's PR doesn't trigger your CI
-- Expected: pushes made with the default `GITHUB_TOKEN` don't trigger workflows. Either have Claude run the tests inside its turn (default in the template) or use a GitHub App token per the official docs.
+### R3 — CI doesn't run on Claude's work
+
+Check which half is failing before changing anything.
+
+- **Claude's own commits do trigger CI.** The template deliberately does *not* pass `github_token`, so the action authenticates as the Claude GitHub App. This runbook used to say the opposite and sent you fixing a problem you don't have.
+- **The pull request opened by `claude-open-pr` does not trigger CI.** That workflow uses the default `GITHUB_TOKEN`, and GitHub does not start workflow runs from it. Webhooks still fire, which is what the Grok Bot return-path routine needs. If you need CI on those pull requests specifically, pass a GitHub App token to that workflow — and accept that you are then storing another credential.
+- Claude runs your tests inside its own turn regardless (see `CLAUDE.md.template`).
 
 ### R4 — Grok Bot allowance at 100% mid-week
 - Look for bot-to-bot loops (channel history) and short-interval routines first. Staff-confirmed: every bot-to-bot message is a metered turn, and "please stay quiet" is only a hint.
