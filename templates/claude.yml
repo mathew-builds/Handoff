@@ -1,6 +1,11 @@
 # grokbot-claude-bridge — consumer repo workflow
 # Copy to .github/workflows/claude.yml in the repo Claude should work on.
 # Verify inputs against https://code.claude.com/docs/en/github-actions before editing.
+#
+# Triggers, the `if:` expression and the permissions block below are kept
+# identical to the upstream reference file so this template tracks it:
+# https://github.com/anthropics/claude-code-action/blob/main/examples/claude.yml
+# Last verified against upstream and the official docs: 2026-09-05 (see D10).
 
 name: Claude Code
 
@@ -10,6 +15,9 @@ on:
   pull_request_review_comment:
     types: [created]
   issues:
+    # `assigned` is upstream's default. Note it costs a run: assigning an issue
+    # whose body already contains @claude re-triggers Claude on the same brief.
+    # To trigger on assignment alone instead, set the `assignee_trigger` input.
     types: [opened, assigned]
   pull_request_review:
     types: [submitted]
@@ -34,9 +42,10 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
-      id-token: write
+      id-token: write     # required for the action's default GitHub App authentication
+      actions: read       # required for Claude to read CI results on PRs
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
@@ -45,7 +54,20 @@ jobs:
         with:
           # Subscription billing (Pro/Max/Team/Enterprise). Generate with: claude setup-token
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Do NOT pass github_token here: without it the action authenticates as the
+          # Claude GitHub App, which is what lets your CI run on Claude's commits.
+          #
           # Bound every run. Raise --max-turns only for a specific repo that needs it.
+          # The action always includes its own base GitHub tools (read/edit/commit
+          # files, read-only git, comment management), so --allowedTools only needs
+          # to name the extra Bash commands this repo's tests need.
+          #
+          # Keep each rule narrow. `Bash(python *)` would allow `python -c '<anything>'`
+          # and `Bash(git *)` would allow `git -c core.fsmonitor=<script> ...` — either
+          # one is arbitrary code execution, which makes the allow-list decorative.
+          # Add the specific commands your repo needs; don't widen these.
           claude_args: >-
             --max-turns 25
-            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(git *),Bash(npm *),Bash(pytest *),Bash(python *),Bash(make *)"
+            --allowedTools "Bash(npm ci),Bash(npm install),Bash(npm test *),Bash(npm run *),Bash(pytest *),Bash(python -m pytest *),Bash(make test *),Bash(make lint *),Bash(git status *),Bash(git diff *),Bash(git log *)"
+          # Optional: pin the model instead of taking the Claude Code default.
+          #   --model claude-sonnet-5
