@@ -23,7 +23,8 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 **Date:** 2026-09-05
 **Decision:** Trigger on `@claude` mentions in issues and comments.
 **Beat:** Agent mode with a fixed `prompt:` on `repository_dispatch` / `workflow_dispatch`.
-**Why:** The issue thread becomes the conversation and the audit trail; follow-ups are just more comments; the built-in write-access check is the injection defence. Agent mode needs an extra API call from the bot and loses the thread.
+**Why:** The issue thread becomes the conversation and the audit trail; follow-ups are just more comments. Agent mode needs an extra API call from the bot and loses the thread.
+**Correction, 2026-09-05:** this entry used to say "the built-in write-access check is the injection defence". **It is not.** The check gates who can *start* a run, not what text Claude *reads* — every comment on the thread reaches Claude regardless of author. Tag mode's real cost is that it widens the injection surface to everyone who can comment. Kept anyway, because agent mode does not fix that either (it also reads the thread) and it loses the audit trail. See `05-security.md`.
 **Reverses if:** you need structured inputs the bot can't express in prose, or batch runs on a schedule (then add a second workflow in agent mode — don't replace this one).
 
 ### D4 — The Coder bot never writes code
@@ -35,12 +36,20 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 
 ### D5 — A GitHub machine account for the Coder bot
 **Date:** 2026-09-05
-**Decision:** Create a dedicated GitHub account for the bot; give it write access to the target repo; issue it a fine-grained token scoped to that repo's issues.
+**Decision:** Create a dedicated GitHub account for the bot; make it a member of the **organisation** that owns the target repo; give it write access to that repo; issue it a fine-grained token scoped to that repo's issues.
 **Beat:** Using your personal token.
-**Why:** The token sits on Grok Bot's shared computer. Scoped to one repo's issues, its theft costs you spam issues, not your account. Write access is required because the action only responds to write-access accounts.
-**Reverses if:** Grok Bot's GitHub connector can open issues under an identity you control without storing a token on the computer. Prefer that path when confirmed.
+**Why:** The token sits on Grok Bot's shared computer. A dedicated identity keeps your own account out of it, and one repo limits reach. Write access is required because the action only responds to write-access accounts.
 
-### D6 — The PR is the approval; no permission relay
+**Correction, 2026-09-05 — two things in the original entry were wrong.**
+
+1. **The repo must be org-owned.** GitHub does not let an outside or repository collaborator create a fine-grained token for a repo they do not own. On a personally-owned repo the only working credential is a *classic* PAT with the full `repo` scope — read/write to all your code, on a machine you are told to assume is compromised. This changes the setup guide's prerequisites, not just its wording.
+2. **"Its theft costs you spam issues, not your account" was false.** The action calls `getCollaboratorPermissionLevel` on the *actor*, authenticated with the Claude App token — the machine account's token scope is structurally invisible to that check. So the narrow scope is a **spam control, not a privilege control**: whoever holds the token can start a full Claude run with `contents: write`, on a prompt they wrote. Note also that a private personal repo cannot grant a collaborator less than write, so this is not something you can tighten.
+
+**What actually contains it:** the runner is ephemeral and holds no production credentials, the tool allow-list is narrow, the repo is private, and you are the merge gate. Say that, rather than implying the token scope is doing the work.
+
+**Reverses if:** Grok Bot's GitHub connector can open issues **as the machine account** without storing a token. If it acts as a GitHub App the action rejects it; if it acts as *you*, it re-introduces your personal identity and is a regression. Only the machine-account shape is an improvement — see task 1.4.
+
+### D6 — Your merge is the approval; no permission relay
 **Date:** 2026-09-05
 **Decision:** Claude runs with a fixed allow-list of tools inside the runner; nothing reaches production until you merge.
 **Beat:** Relaying Claude's permission prompts into Grok Bot chat.
