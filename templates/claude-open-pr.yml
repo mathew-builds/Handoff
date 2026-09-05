@@ -71,13 +71,21 @@ jobs:
           # issue number so the PR closes it; tolerate any other branch shape.
           issue="$(printf '%s' "$BRANCH" | sed -n 's|^claude/issue-\([0-9][0-9]*\)-.*|\1|p')"
 
-          title="$(git log -1 --pretty=%s)"
+          # Take the last NON-MERGE commit in the range. If the branch has been
+          # refreshed from the base, the tip is a merge commit whose subject is
+          # "Merge remote-tracking branch ..." and whose body is empty — which is
+          # exactly the useless PR title we shipped on the first real run.
+          range="origin/$BASE..HEAD"
+          title="$(git log --no-merges -1 --pretty=%s "$range")"
           [ -n "$title" ] || title="Claude: changes on $BRANCH"
 
           # Built with printf rather than a heredoc: heredoc bodies must start at
           # column 0, which would break out of this YAML block scalar.
           {
-            git log -1 --pretty=%b
+            # Trailers belong on the commit, not in the PR body. sed always
+            # exits 0, so this is safe under `set -e`; grep -v would not be.
+            git log --no-merges -1 --pretty=%b "$range" \
+              | sed -E '/^(Co-authored-by|Signed-off-by|Claude-Session|Co-Authored-By):/d'
             printf '\n---\n\n'
             printf 'Opened automatically from %s, %s commit(s) ahead of %s.\n' \
               "$BRANCH" "$ahead" "$BASE"
