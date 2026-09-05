@@ -2,7 +2,7 @@
 
 ## Why this exists
 
-Grok Bot (xAI + Cursor, public beta since 11 Aug 2026) is a good command centre: a persistent cloud computer, a chief-of-staff pattern, channels, routines, browser reach. It is a poor place to *do* engineering:
+Grok Bot (xAI + Cursor, public beta since 11 Aug 2026) is a good command centre: a persistent cloud computer, a chief-of-staff pattern, group chats, routines, browser reach. It is a poor place to *do* engineering:
 
 - Usage is a **weekly** allowance whose size is unpublished.
 - There is **no model picker** — the router can serve expensive models for simple work.

@@ -10,7 +10,7 @@ gantt
     section Phase 1 · Bridge
     Machine account, Coder bot, return path    :p1, after p0, 5d
     section Phase 2 · Team
-    Chief of Staff, channel, guardrails, briefs :p2, after p1, 7d
+    Chief of Staff, group chat, guardrails, briefs :p2, after p1, 7d
     section Phase 3 · Polish + publish
     Setup script, weekly report, docs, release  :p3, after p2, 7d
     section Parked
@@ -21,7 +21,7 @@ gantt
 
 Goal: a PR billed to Claude Max, triggered by an issue, with no Grok Bot involved.
 
-**Acceptance:** a pull request exists from an `@claude` issue — opened by `github-actions` via the companion workflow, **not** by the Claude app, which has no such tool; zero API spend in the Anthropic Console.
+**Acceptance:** a pull request exists from an `@claude` issue — opened by `github-actions` via the PR step inside `claude.yml`, **not** by the Claude app, which has no such tool; zero API spend in the Anthropic Console.
 
 **Result, 2026-09-05: passed.** $0.00 metered spend, 63s, 10 of 25 turns. See `07-evidence.md`.
 
@@ -32,7 +32,7 @@ Goal: a PR billed to Claude Max, triggered by an issue, with no Grok Bot involve
 Goal: a Grok Bot Coder can open the issue; the Chief of Staff hears about the PR.
 
 **Acceptance:**
-- Issue authored by the machine account → action runs → PR → routine reports in channel.
+- Issue authored by the token's owner → action runs → PR → routine reports in the group chat. (D5a: a separate machine account is an attribution upgrade, not a prerequisite.)
 - Grok Bot meter moves by a handful of turns per task.
 - Coder has never edited a file (check its computer's `/workspace`).
 
