@@ -4,11 +4,13 @@
 
 | Meter | What burns it | Where to look | Brake |
 |---|---|---|---|
-| **Grok Bot weekly allowance** | Chief of Staff turns, Coder writing issues, routines, bot-to-bot chat, browser sessions | Grok Bot usage % in the app; Cursor dashboard usage page | Turn caps in channel charters; hourly routines not quarter-hourly; on-demand limit `$0` |
+| **Grok Bot weekly allowance** | Chief of Staff turns, Coder writing issues, routines, bot-to-bot chat, browser sessions | **Settings → Usage & Billing** in the app (rollout-dependent — *"for eligible accounts"*), otherwise <https://cursor.com/dashboard/usage> | Turn caps in **bot descriptions**; hourly routines not quarter-hourly; on-demand limit `$0` |
 | **Claude Max** | Every action run; longer tasks and more turns cost more | Claude usage page; `/usage` in Claude Code | `--max-turns`, `timeout-minutes`, `concurrency` in the workflow |
 | **GitHub Actions minutes** | Runner time per task | Repo → Settings → Billing | Same three workflow caps |
 
-Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet should sit well under 50% of the weekly allowance by mid-week. If it doesn't, the drain is coordination chatter, not coding — fix the charters, not the bridge.
+Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet should sit well under 50% of the weekly allowance by mid-week. If it doesn't, the drain is coordination chatter, not coding — fix the bot descriptions, not the bridge.
+
+**There is still no Grok Bot-specific spend cap.** Once the weekly pool is exhausted, usage continues on the account's shared on-demand spend, and the dashboard *does not currently split Grok Bot usage from Cursor usage*. Your only brake is the account-wide on-demand limit.
 
 ## Daily (2 minutes)
 
@@ -63,7 +65,7 @@ Check which half is failing before changing anything.
 - Confirm the on-demand limit is `$0` so it can't spill.
 
 ### R5 — Coder bot wrote code itself
-- Its description drifted or was overridden. Re-paste `templates/bots/coder.md`. Add the "never edit code" line to the channel charter too.
+- Its description drifted or was overridden. Re-paste `templates/bots/coder.md` into **Bot actions → Edit Profile**. There is no channel charter to also update — the description is the only durable instruction surface.
 
 ### R6 — Grok Bot shared computer stuck
 - Whole roster is affected; this is a vendor-side single point of failure. Reset from the app; if that fails, forum thread with the bot name and time. Coding is unaffected — issues already opened keep flowing through GitHub.

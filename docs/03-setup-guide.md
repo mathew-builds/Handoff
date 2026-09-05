@@ -12,6 +12,9 @@ Step 2 is the whole thesis test. If a PR comes back billed to your Max plan, eve
 
 ## Prerequisites
 
+> **Before anything Grok Bot related:** accounts on **Legacy Privacy Mode cannot start Grok Bot** — *"Accounts using Legacy Privacy Mode must move to a supported Cursor data setting before Grok Bot can start."* Change it at <https://cursor.com/dashboard/settings?openPrivacy=true>. Grok Bot is a **desktop and mobile app only** — there is no web app, no Slack app, no X surface. Download from <https://x.ai/bot>. Creating and editing routines is **desktop-only**.
+
+
 - A Claude subscription: **Pro, Max, Team or Enterprise all work.** Max is a capacity recommendation, not a requirement.
 - A GitHub repo you want Claude to work on (private recommended). The `gh` CLI logged in, with **admin** on that repo.
 - **For Phase 1 only:** that repo must be **owned by a GitHub organisation**, not by your personal account. Step 3's machine-account token cannot be created otherwise — see the warning in Step 3. Steps 1 and 2 work fine on a personal repo.
@@ -143,7 +146,7 @@ Must be `write` or `admin`.
 
 1. Create a routine on the **Chief of Staff** bot from `templates/routines/pr-ready.md`.
 2. Trigger: GitHub event, pull request opened, on the target repo.
-3. Action: post one line in the project channel with the PR link and CI status.
+3. Action: post one line in the project group chat with the PR link and CI status.
 
 **Check:** open a throwaway PR by hand; the Chief of Staff reports it within a couple of minutes.
 
@@ -151,13 +154,15 @@ Must be `write` or `admin`.
 
 1. In Grok Bot → Auto Review, add the rules from `templates/auto-review-rules.md`.
 2. Set the Cursor account **on-demand limit** to `$0` (or a small number) so the weekly pool can't silently spill.
-3. In every channel charter add: *"At most three rounds of bot-to-bot discussion before reporting to me."*
+3. Add to **every bot's description** (there is no channel charter — see below): *"At most three rounds of bot-to-bot discussion before reporting to me."*
 
 **Check:** ask Ops to "email the client about the PR" — it must stop and ask you.
 
 ## Step 7 — Create the Chief of Staff (10 min)
 
-Paste `templates/bots/chief-of-staff.md`. Pin it. Open one project channel with Chief of Staff, Coder, and you.
+Paste `templates/bots/chief-of-staff.md` into **Bot actions → Edit Profile → description**. Then create a **group chat** (New → select 2–6 bots) containing the Chief of Staff and the Coder.
+
+Note what a group chat is and is not: it holds **bots only, 2–6 of them**, plus you as the message sender. There is no second human, and there is **no charter or instructions field** — standing rules live in each bot's description. Group chats also count against the account cap of **50 bots and group chats combined**.
 
 **Check:** give it a two-step task without saying who does what ("find out which HubSpot fields changed this week, then fix our mapping"). It should research, then delegate to Coder, then report once.
 
