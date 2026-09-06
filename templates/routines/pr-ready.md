@@ -57,6 +57,10 @@ is allowed to do without asking me first.
 
 There is no channel to name — Grok Bot's primitive is a **group chat**, and the routine posts into the one its owning bot is in.
 
+> **Expect `tests pending` almost every time, and that is not a fault.** The routine fires on `pull_request opened`; checks are still queued at that instant. Verified 2026-09-06 — both test passes reported `pending`, and the bot flagged the reason before we ran them: *"since it only fires when the PR opens, CI will often still be `pending` at that moment."*
+>
+> If the CI result is what you actually want, trigger on **check completion** rather than pull-request-opened. That is a different routine and we have **not** tested it. Reporting `pending` promptly and reporting `green` late are different products — pick deliberately.
+
 ## ⚠️ This may not run unattended — check before you trust it
 
 Cursor staff have confirmed that **a webhook delivery is not treated as user intent**, so predeclared outbound actions from a webhook-triggered routine *still raise an approval card*. Standing routine instructions do not count as intent.
