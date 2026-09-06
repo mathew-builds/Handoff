@@ -1,3 +1,14 @@
+<p align="center">
+  <img src="assets/handoff-banner.svg" alt="Handoff — no server, no tunnel, no second meter" width="100%">
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-2C6B4F.svg"></a>
+  <a href="../../actions/workflows/ci.yml"><img alt="CI" src="../../actions/workflows/ci.yml/badge.svg"></a>
+  <a href="AGENTS.md"><img alt="Agent-installable" src="https://img.shields.io/badge/setup-agent--installable-9A6614.svg"></a>
+  <img alt="Servers required" src="https://img.shields.io/badge/servers%20required-0-2C6B4F.svg">
+</p>
+
 # Handoff
 
 **Let your chat agent delegate coding to your coding agent — over GitHub, billed to a subscription instead of per token.**
