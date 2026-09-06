@@ -111,7 +111,7 @@ scripts/doctor.sh OWNER/REPO
 ## Step 4 — Coder bot in Grok Bot (20 min)
 
 1. Create a bot named **Coder**. Paste `templates/bots/coder.md` as its description. Replace `OWNER/REPO`.
-2. Give it the token via Grok Bot's secure secret request (the bot asks; you paste). Never paste a token into chat.
+2. **No second token hand-off is needed here.** Coder reaches GitHub through the connector you configured above, which already holds the token. Grok Bot's **secure secret request** (the bot asks, you paste into a masked field) is the right channel *if a bot ever needs a secret of its own* — but not for this. Either way, never paste a token into chat.
 3. Tell Coder: *"Open an issue asking @claude to add a `docs/HELLO.md` with one sentence."*
 
 **Check:** an issue appears on GitHub authored by the account behind the token, **the action actually runs**, and a pull request comes back. Grok Bot's usage meter moved by a few turns, not a chunk.

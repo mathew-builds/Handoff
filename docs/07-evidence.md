@@ -117,6 +117,21 @@ This is the case that failed twice before. It is the only run in this file that 
 
 **Still not verified:** whether that event is *delivered to a webhook subscriber*. This repository has never had a webhook configured, so nothing was delivered and nothing was observed. D12's "webhooks and API events do fire" is, on the webhook half, still an inference from GitHub's documentation rather than something we have watched happen. Task 1.5 pass 2 settles it.
 
+### 2026-09-06 — task 1.2, the identity check (recovered from the API)
+
+The original terminal output from this check was not kept. It did not need to be: the fields the acceptance test asks for are durable on GitHub and were read back with `gh api` on 2026-09-06.
+
+Both issues Grok Bot opened through its GitHub connector:
+
+| Issue | `user.login` | `user.type` | `performed_via_github_app` |
+|---|---|---|---|
+| [5](https://github.com/mathew-builds/claude-bridge-trial/issues/5) — "bridge test" | `mathew-builds` | `User` | **none** |
+| [6](https://github.com/mathew-builds/claude-bridge-trial/issues/6) — "bridge test 2" | `mathew-builds` | `User` | **none** |
+
+`performed_via_github_app: none` is the load-bearing field. The action rejects bot actors, so a connector acting as a GitHub *App* would have been refused; this shows it acted as a real user account. Combined with run 33983515065 completing and PR #7 opening, **task 1.2's chain is complete**: issue by that account → action runs (write-access check passes) → pull request opened by `github-actions`.
+
+**Task 1.1 is a different matter and is deliberately still unticked.** Its acceptance test asks for two `curl` calls proving the token reaches one repo (`200`) and not another (`404`). That output was not kept, and unlike the fields above it **cannot be recovered** — it depends on the token, which is not ours to replay. Re-running it takes about two minutes. Recorded as missing rather than assumed, because the whole point of the test is what the token *cannot* reach.
+
 ### 2026-09-05 — assignment costs runner time, not subscription usage
 
 **[Run 33971250162](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33971250162)** — assigning an issue whose body contains `@claude` starts a runner but never starts Claude: `No trigger found, skipping remaining steps`, zero turns, 16s, exits green. The action only reads an issue body for the trigger phrase on `opened`.
