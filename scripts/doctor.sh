@@ -63,6 +63,29 @@ fi
 
 if gh api "repos/$REPO/contents/.github/workflows/claude.yml?ref=$BASE" >/dev/null 2>&1; then
   pass "claude.yml is on $BASE"
+  # Existing is not the same as intact. A truncated or hand-edited copy passes a
+  # file-exists check and then fails at run time, or silently drops a cost brake.
+  # Read the installed copy and check the three brakes are still in it (D10).
+  WF="$(gh api "repos/$REPO/contents/.github/workflows/claude.yml?ref=$BASE" --jq .content 2>/dev/null | base64 -d 2>/dev/null || true)"
+  if [ -z "$WF" ]; then
+    warn "could not read claude.yml to check it" "Network or permissions. The file is there; its contents were not verified."
+  else
+    # Ignore comment lines. A commented-out brake is a missing brake, and the
+    # template mentions all three in its own comments — matching those would make
+    # this check unable to fail. Found by commenting one out and watching it pass.
+    UNCOMMENTED="$(printf '%s\n' "$WF" | grep -vE '^[[:space:]]*#')"
+    MISSING=""
+    printf '%s\n' "$UNCOMMENTED" | grep -qE '^[[:space:]]*concurrency:'     || MISSING="$MISSING concurrency-group"
+    printf '%s\n' "$UNCOMMENTED" | grep -qE '^[[:space:]]*timeout-minutes:' || MISSING="$MISSING timeout-minutes"
+    printf '%s\n' "$UNCOMMENTED" | grep -q -- '--max-turns'                 || MISSING="$MISSING --max-turns"
+    printf '%s\n' "$UNCOMMENTED" | grep -q 'Open the pull request'          || MISSING="$MISSING pr-step"
+    if [ -z "$MISSING" ]; then
+      pass "claude.yml still has its three cost brakes and the PR step"
+    else
+      fail "the installed claude.yml is missing:$MISSING" \
+           "This copy has been edited or truncated. Re-copy templates/claude.yml. Without the brakes a runaway run is unbounded; without the PR step no pull request is ever opened."
+    fi
+  fi
 elif gh api "repos/$REPO/contents/.github/workflows/claude.yml" >/dev/null 2>&1; then
   fail "claude.yml exists but is NOT on $BASE" \
        "Actions only triggers issue events from the default branch. Merge it to $BASE."
