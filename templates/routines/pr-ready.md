@@ -5,7 +5,43 @@
 **Trigger:** GitHub event → pull request opened (or ready for review) on `OWNER/REPO`.
 **Schedule:** none (event-driven only). Do not add a polling schedule.
 
-**Routines are created conversationally, not from a form.** Ask the bot that should own the job, in plain language, then confirm: owning bot, trigger, matching rule (repo), expected result, and the approval boundary. Creating and editing routines is **desktop-only** — the mobile app can review, pause and resume, nothing more.
+**Routines are created conversationally, not from a form** — Grok Bot has no routine-creation dialog, so you set one up by *messaging the bot that will own it*. That does **not** mean improvise. Send the message below verbatim. Creating and editing routines is **desktop-only**; the mobile app can review, pause and resume, nothing more.
+
+## The message to send
+
+Paste this to the bot that will own the routine — in Phase 1, **Coder**. Replace `OWNER/REPO`.
+
+```text
+Create a routine for yourself with these settings. Confirm them back to me
+before you save it.
+
+Name: PR ready
+
+Trigger: a pull request is opened on the GitHub repository OWNER/REPO.
+Use your built-in GitHub connection for this trigger, not an inbound
+webhook. If you can only do it with a webhook, stop and tell me before
+setting anything up.
+
+Schedule: none. This is event-driven only. Do not add a polling schedule.
+
+When it fires: read the pull request's title, the linked issue number if
+there is one, and its CI status. Then post exactly one line in this group
+chat, in this format:
+
+PR <number> ready — tests <green|red|pending> — <link>
+
+Never do these:
+- Do not review the code.
+- Do not comment on GitHub.
+- Do not tag other bots.
+- Do not post anything else. One line, once per pull request.
+
+Before saving, tell me back: which bot owns this routine, what triggers
+it, which repository it watches, exactly what it will post, and what it
+is allowed to do without asking me first.
+```
+
+**Check the five things it reads back before you let it save.** If it names a different owner, a webhook trigger, the wrong repository, or claims it may do anything beyond posting that one line, correct it and make it confirm again. The read-back is the only point where a misconfigured routine is cheap to fix.
 
 **Two triggers can carry a GitHub event, and they are different things:**
 
