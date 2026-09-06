@@ -1,6 +1,8 @@
-# grokbot-claude-bridge
+# Handoff
 
-**Turn a GitHub issue into tested, reviewable code — billed to your Claude subscription instead of per-token. No servers. Optionally driven from a chat bot.**
+**Let your chat agent delegate coding to your coding agent — over GitHub, billed to a subscription instead of per token.**
+
+**No server. No tunnel. No second meter.** Every other way of doing this needs at least one of the three.
 
 > **Status: Phase 1 complete.** Both halves proven by running them, not by reading vendor docs. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md) and [TASKS.md](TASKS.md).
 
