@@ -15,6 +15,16 @@ Repo: `mathew-builds/claude-bridge-trial` (private).
 | [33974291123](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33974291123) | push to `claude/**` — **trigger since deleted** | 12s | 0 | Opened [PR #3](https://github.com/mathew-builds/claude-bridge-trial/pull/3). **This run does not prove the shipped design** — the push came from a laptop, and the workflow it exercised never fired for Claude. See D12 and #61. |
 | [33983515065](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33983515065) | issue opened, `@claude` in body | **64s** | **10 / 25** | **The run that proves the shipped design.** `docs/GOODBYE.md` written, branch pushed by `claude[bot]`, then the in-workflow step opened [PR #7](https://github.com/mathew-builds/claude-bridge-trial/pull/7). No human push anywhere in the chain. |
 
+## Runs on the trial repo, 2026-09-06
+
+| Run | Trigger | Wall clock | Claude turns | Outcome |
+|---|---|---:|---:|---|
+| [34023564889](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34023564889) | issue opened by the **Coder bot**, `@claude` in body | **62s** | **9 / 25** | **First run with Grok Bot in the loop.** `docs/HELLO.md` added (`+1/-0`), branch pushed by `claude[bot]`, [PR 9](https://github.com/mathew-builds/claude-bridge-trial/pull/9) opened by the in-workflow step. **61s from issue to pull request.** |
+
+Note the turn count: **9** for a Grok-Bot-briefed task versus **10** for the same shape of task briefed by hand. One data point each, so not a trend — recorded because the difference is the sort of thing a reader will assume is meaningful if it is not labelled.
+
+## Notes on the older rows
+
 The last two `push to claude/**` rows are kept deliberately. That trigger lived in `templates/claude-open-pr.yml`, which PR #62 deleted because **it never fired for Claude** — those runs passed only because a human pushed. They are here as the record of an invalid control, not as evidence. See D12.
 
 ## Cost of one complete task
