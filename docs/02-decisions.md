@@ -126,6 +126,7 @@ So the machine-account credential is visible to **every bot you own**, not just 
 **Decision:** Every run is bounded three ways.
 **Beat:** Trusting the model to stop.
 **Why:** Loops don't get bored. These three lines are the entire cost brake on the Claude side.
+**Verified against the official docs, 2026-09-06:** `concurrency` accepts `group`, `cancel-in-progress` and `queue`. `queue` takes `single` (the default — *"At most one job or workflow run can be `pending`"*) or `max` (*"Up to 100"*), and **`queue: max` with `cancel-in-progress: true` is a validation error** — which is why the template pairs `queue: max` with `cancel-in-progress: false`. Source: <https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#concurrency>. `actionlint` still rejects `queue` as an unexpected key, which is why `ci.yml` carries a dated `-ignore` for it; drop that flag once actionlint learns the key.
 **Reverses if:** never.
 
 **`templates/claude.yml` verified: 2026-09-05** (task 0.1) against
