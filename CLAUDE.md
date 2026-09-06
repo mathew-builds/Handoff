@@ -22,8 +22,13 @@ often wrong in the other.
 | `.github/workflows/ci.yml` | **this** repo | Lints the templates, checks doc links and the cost brakes |
 | `templates/claude.yml` | a **consumer's** repo | The product. Runs Claude on `@claude`, then opens the PR |
 | `templates/CLAUDE.md.template` | a **consumer's** repo | Tells Claude how to work in *their* codebase |
+| `templates/weekly-cost.yml` | a **consumer's** repo | Optional. Weekly cost report. Uses **no model turns** — `gh` and `awk`, not an agent |
 | `templates/bots/*.md`, `templates/routines/*.md` | pasted into **Grok Bot** | Bot descriptions and routine text — prose, not code |
 | `scripts/*` | your machine | Set up or diagnose a consumer repo |
+| `AGENTS.md` | read by an **agent** installing Handoff | The install guide for the "hand your agent the URL" path. Organised around the three steps an agent *cannot* do |
+| `CONTRIBUTING.md` | read by a **contributor** | Conventions, and why. Leads with: a claim is true only if something ran to produce it |
+| `CHANGELOG.md` | read by an **adopter** | Release history, with an explicit "what is *not* proven" section |
+| `assets/*.svg` | rendered on **GitHub** | Banner and social card. Hand-authored SVG, not generated — editable, diffable, owned outright |
 
 **The end-to-end flow**, which takes three docs to reconstruct otherwise:
 
