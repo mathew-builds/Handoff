@@ -39,21 +39,25 @@ else
   ok "owned by a personal account — you can create a fine-grained token for a repo you own (D5a)"
 fi
 
+# The token is a blocker, NOT an early exit. It used to `exit 1` here, before any
+# file operation — which meant an agent setting this up while the human was away
+# could do no local work at all, because only a human can produce the token. Now
+# everything that does not need the token happens first, and this is reported at
+# the end with the other blockers.
 echo "→ Subscription token"
 if gh secret list --repo "$REPO" 2>/dev/null | grep -q '^CLAUDE_CODE_OAUTH_TOKEN'; then
   ok "CLAUDE_CODE_OAUTH_TOKEN already set"
 else
-  cat <<'MSG'
-  Not set. Run these two commands yourself, in this order:
-
-      claude setup-token
-      gh secret set CLAUDE_CODE_OAUTH_TOKEN
-
-  The first opens a browser; approve, then copy the token it prints.
-  The second prompts you to paste it — nothing appears as you paste, which
-  is deliberate. Then re-run this script.
-MSG
-  exit 1
+  block "CLAUDE_CODE_OAUTH_TOKEN is not set — Claude cannot authenticate, so no run will start."
+  warn "  Only you can do this. Two commands, in this order:"
+  warn "      claude setup-token"
+  warn "      gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $REPO"
+  warn "  The first opens a browser; approve, then copy the token it prints."
+  warn "  The second prompts you to paste it — nothing appears as you paste,"
+  warn "  which is deliberate."
+  warn "  If an agent is running this for you: it must NOT run these. The first"
+  warn "  prints a secret, and running it would put that secret in the agent's"
+  warn "  transcript."
 fi
 
 echo "→ Workflows"
