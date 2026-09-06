@@ -36,9 +36,15 @@ often wrong in the other.
 > edits, tests, and **pushes a branch** → a later step in **the same workflow** opens the
 > pull request → the `pull_request` event reaches a Grok Bot routine → a human merges.
 
-Two counter-intuitive facts in that chain, both learned the hard way and both load-bearing:
-the action has **no tool to open a pull request**, and the PR step **cannot** be split into
-a separate `on: push` workflow (see Ground rules).
+**The whole chain has been observed working** (2026-09-06, `docs/07-evidence.md`). Two
+counter-intuitive facts in it, both learned the hard way and both load-bearing: the action has
+**no tool to open a pull request**, and the PR step **cannot** be split into a separate
+`on: push` workflow (see Ground rules).
+
+The last hop has a caveat worth carrying: the routine was verified on Grok Bot's **built-in
+GitHub connection**, and it reported without an approval tap. The **inbound-webhook** trigger
+is untested, and it is the one Cursor staff flagged as not counting as user intent. Do not
+generalise the result to it.
 
 **`docs/02-decisions.md` is the load-bearing document.** Every non-obvious choice is there
 with what it beat and what would reverse it, including corrections where we were wrong.
@@ -55,9 +61,15 @@ you see the constraint behind them.
 - Mermaid diagrams live in the docs next to the text they explain. Update the diagram when the flow changes.
 
 ## Working through TASKS.md
-- Pick the first unchecked task in the current phase. Do not skip phases.
-- Each task has an acceptance test. Do not mark done until it passes.
-- One PR per task. Title: `phase-N: <task>`.
+- Each task has an acceptance test. **Do not tick it until that test has passed**, and record
+  in the task what was verified and what was not. Several ticked tasks carry a "not covered"
+  note; keep doing that.
+- **Phases were meant to run in order, and no longer do.** Phase 2 measures operating Handoff
+  over two weeks of real use; its target repo was dropped on 2026-09-06, so it is **parked**
+  and the work moved to Phase 3. Each Phase 2 issue says so. It becomes actionable the moment
+  a real repository is chosen — do not treat it as abandoned, and do not restart it without one.
+- **One PR per change**, titled by what changed (`fix:`, `docs:`, `feat:`). The old
+  `phase-N: <task>` convention is dead; nothing has used it since Phase 1.
 
 ## Style
 - Plain English, short sentences, no jargon without a one-line definition.
@@ -99,6 +111,18 @@ cannot check (whether the Claude GitHub App is installed).
 
 Before trusting a new check, run it against **deliberately broken** input and confirm it
 goes red. A check that has never failed has not been tested — that is how issue #61 shipped.
+This is not theoretical: a `doctor.sh` check added on 2026-09-06 could not fail, because its
+`grep` matched the template's own comments. Found only by commenting a brake out and watching
+it pass.
+
+**`actionlint` does not check shell inside a `run:` block.** A heredoc in
+`templates/weekly-cost.yml` broke on an apostrophe in the prose and linted clean. If you touch
+shell in a workflow, extract it and check it:
+
+```bash
+python3 -c "import yaml;d=yaml.safe_load(open('templates/weekly-cost.yml'));print(d['jobs']['report']['steps'][0]['run'])" > /tmp/s.sh
+bash -n /tmp/s.sh
+```
 
 ## Diagrams
 Source of truth is the Mermaid in each doc; GitHub renders it natively, so there are
