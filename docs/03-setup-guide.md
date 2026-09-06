@@ -104,7 +104,29 @@ scripts/doctor.sh OWNER/REPO
 4. An **organisation owner must approve the token** before it works. That is GitHub's default policy; budget a step for it.
 5. Copy the token; you'll paste it into the Coder bot in the next step.
 
-**Check:** with the bot's token, `curl` can create a test issue on the target repo and cannot read any other repo.
+**Check the scope, in two calls.** Replace `CONTROL_REPO` with one you own — see the trap below.
+
+```bash
+export BOT_TOKEN=github_pat_...
+
+# expect 200 — the repo you scoped it to
+curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer $BOT_TOKEN" \
+  https://api.github.com/repos/OWNER/REPO/issues
+
+# expect 404 — a repo outside the scope
+curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer $BOT_TOKEN" \
+  https://api.github.com/repos/OWNER/CONTROL_REPO
+```
+
+`404` rather than `403` is correct: GitHub returns "not found" for things you have no access to, so it does not leak the existence of private repos.
+
+> **The trap that makes this test vacuous.** Your control repo **must exist**, be **private**, be **owned by you**, and be **outside the token's scope** — all four. A repo that does not exist returns `404` too, so if you point this at a typo, a renamed repo, or one you deleted, it passes while proving nothing. Confirm the control repo is real first:
+>
+> ```bash
+> gh repo view OWNER/CONTROL_REPO --json name,visibility
+> ```
+>
+> We nearly shipped this test naming a repo that had ceased to exist. A control that cannot fail is not a control.
 
 **Know what this token is and is not.** It is a **spam control**, not a privilege control. The action checks the *account's* write access, not the *token's* scope, so whoever holds this token can start a full Claude run with write access to the repo, on a prompt they wrote. What actually contains the damage: the runner is ephemeral and holds no production credentials, the repo is private, and **you** are the merge gate. See D5.
 
