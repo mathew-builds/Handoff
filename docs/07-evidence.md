@@ -62,11 +62,13 @@ Every one of these is a bridge. All of them need a server, a tunnel, or a second
 
 ## Our runs
 
-Evidence we produced ourselves, rather than collected. Repo: `mathew-builds/claude-bridge-trial`, a throwaway private repo built for this test — a dependency-free Node project with three real tests, so "the tests must pass" exercises something.
+Evidence we produced ourselves, rather than collected. Repo: a throwaway private repo built for this test — a dependency-free Node project with three real tests, so "the tests must pass" exercises something.
+
+**Why the run IDs are not links.** These runs happened on **private** repositories, so the URLs would 404 for every reader — a link that cannot be followed is worse than an identifier that is honest about being one. The account and repository names are omitted deliberately: this is a template for other people, and it should not carry its author's GitHub handle. The run IDs are kept because they are what makes each claim traceable *by us*, and because inventing them would be the one thing this document exists to prevent.
 
 ### 2026-09-05 — the thesis test (task 0.2)
 
-**[Run 33961149264](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33961149264)** — issue mentioning `@claude` → Claude Code on a GitHub-hosted runner.
+**run `33961149264`** — issue mentioning `@claude` → Claude Code on a GitHub-hosted runner.
 
 | | |
 |---|---|
@@ -92,7 +94,7 @@ Recorded as passed on the substance — work delivered, billed to the subscripti
 
 ### 2026-09-05 — the return path, first attempt, and why it did not count
 
-**[Run 33974291123](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33974291123)** — a *separate* `claude-open-pr.yml`, triggered `on: push`, opening the pull request the action does not open. Produced [PR #3](https://github.com/mathew-builds/claude-bridge-trial/pull/3).
+**run `33974291123`** — a *separate* `claude-open-pr.yml`, triggered `on: push`, opening the pull request the action does not open. Produced PR 3.
 
 **That workflow no longer exists.** It was deleted in PR #62 because **it never fired for Claude**: `actions/checkout` persists the workflow `GITHUB_TOKEN`, Claude's push from inside the runner uses it, and GitHub does not start workflow runs from that token. The run above passed only because the push came from a laptop. A control that does not exercise the property the conclusion rests on proves nothing — and this one was accepted twice. See D12 and issue #61.
 
@@ -103,13 +105,13 @@ Two things it cost us to learn, both still true of the current design:
 
 ### 2026-09-05 — the return path, proven on the path that matters
 
-**[Run 33983515065](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33983515065)** — issue 6, "bridge test 2 — does the PR open now?", with the PR step now **inside `claude.yml`**.
+**run `33983515065`** — issue 6, "bridge test 2 — does the PR open now?", with the PR step now **inside `claude.yml`**.
 
 | | |
 |---|---|
 | The push | commit `7070309`, author **and** committer `claude[bot]`, 18:16:42Z — **no human push anywhere in the chain** |
 | The step | "Open the pull request" — `success`, in the same run |
-| The result | [PR #7](https://github.com/mathew-builds/claude-bridge-trial/pull/7), opened 18:16:59Z by `github-actions`, titled from Claude's commit, with `Closes #6` |
+| The result | PR 7, opened 18:16:59Z by `github-actions`, titled from Claude's commit, with `Closes #6` |
 
 This is the case that failed twice before. It is the only run in this file that establishes the current design works.
 
@@ -127,7 +129,7 @@ Two passes, deliberately using different senders:
 
 | Pass | Pull request opened by | Reported line |
 |---|---|---|
-| 1 | `mathew-builds` — a human account | `PR 10 ready — tests pending — …` |
+| 1 | the repo owner, a human account | `PR 10 ready — tests pending — …` |
 | 2 | **`github-actions`** — the workflow token | `PR 12 ready — tests pending — …` |
 
 **Pass 2 is the one that was never guaranteed.** A routine can watch for pull requests from a human and never see the ones the automation opens; that blind spot is exactly what let the first PR-opening design pass "verification" twice (#61). It sees both.
@@ -147,10 +149,10 @@ Pass 2's underlying chain, for the record:
 
 | Link | Evidence | Time (UTC) |
 |---|---|---|
-| Coder writes the brief | [Issue 11](https://github.com/mathew-builds/claude-bridge-trial/issues/11), `login=mathew-builds`, `type=User`, `app=none` | 09:44:45 |
-| Action runs | [Run 34025508553](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34025508553), `success`, 67s, **11 of 25** turns | 09:44:48 |
+| Coder writes the brief | issue 11, `login=<owner>`, `type=User`, `app=none` | 09:44:45 |
+| Action runs | run `34025508553`, `success`, 67s, **11 of 25** turns | 09:44:48 |
 | Claude pushes | `1310225`, author **and** committer `claude[bot]` | 09:45:34 |
-| PR step opens it | [PR 12](https://github.com/mathew-builds/claude-bridge-trial/pull/12) by `github-actions`, diff `+1/-0` | 09:45:51 |
+| PR step opens it | PR 12 by `github-actions`, diff `+1/-0` | 09:45:51 |
 | Coder reports it | One line in the group chat | — |
 
 **66 seconds from issue to pull request**, then the report.
@@ -169,10 +171,10 @@ A one-line ask to the Coder bot — *"Open an issue asking @claude to add a docs
 
 | Link | Evidence | Time (UTC) |
 |---|---|---|
-| Coder writes the brief | [Issue 8](https://github.com/mathew-builds/claude-bridge-trial/issues/8), `login=mathew-builds`, `type=User`, `performed_via_github_app=none` | 09:03:29 |
-| The action accepts it | [Run 34023564889](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34023564889), `success` | 09:03:32 |
+| Coder writes the brief | issue 8, `login=<owner>`, `type=User`, `performed_via_github_app=none` | 09:03:29 |
+| The action accepts it | run `34023564889`, `success` | 09:03:32 |
 | Claude pushes | `bf287af`, author **and** committer `claude[bot]` | 09:04:14 |
-| The PR step opens it | [PR 9](https://github.com/mathew-builds/claude-bridge-trial/pull/9) by `github-actions`, `Closes #8` | 09:04:30 |
+| The PR step opens it | PR 9 by `github-actions`, `Closes #8` | 09:04:30 |
 
 **Run cost:** 62s wall clock, **9 of 25** turns.
 
@@ -192,8 +194,8 @@ Both issues Grok Bot opened through its GitHub connector:
 
 | Issue | `user.login` | `user.type` | `performed_via_github_app` |
 |---|---|---|---|
-| [5](https://github.com/mathew-builds/claude-bridge-trial/issues/5) — "bridge test" | `mathew-builds` | `User` | **none** |
-| [6](https://github.com/mathew-builds/claude-bridge-trial/issues/6) — "bridge test 2" | `mathew-builds` | `User` | **none** |
+| 5 — "bridge test" | `<owner>` | `User` | **none** |
+| 6 — "bridge test 2" | `<owner>` | `User` | **none** |
 
 `performed_via_github_app: none` is the load-bearing field. The action rejects bot actors, so a connector acting as a GitHub *App* would have been refused; this shows it acted as a real user account. Combined with run 33983515065 completing and PR #7 opening, **task 1.2's chain is complete**: issue by that account → action runs (write-access check passes) → pull request opened by `github-actions`.
 
@@ -201,7 +203,7 @@ Both issues Grok Bot opened through its GitHub connector:
 
 ### 2026-09-05 — assignment costs runner time, not subscription usage
 
-**[Run 33971250162](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33971250162)** — assigning an issue whose body contains `@claude` starts a runner but never starts Claude: `No trigger found, skipping remaining steps`, zero turns, 16s, exits green. The action only reads an issue body for the trigger phrase on `opened`.
+**run `33971250162`** — assigning an issue whose body contains `@claude` starts a runner but never starts Claude: `No trigger found, skipping remaining steps`, zero turns, 16s, exits green. The action only reads an issue body for the trigger phrase on `opened`.
 
 ## Caveats
 
