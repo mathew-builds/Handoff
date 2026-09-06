@@ -117,6 +117,50 @@ This is the case that failed twice before. It is the only run in this file that 
 
 **Still not verified:** whether that event is *delivered to a webhook subscriber*. This repository has never had a webhook configured, so nothing was delivered and nothing was observed. D12's "webhooks and API events do fire" is, on the webhook half, still an inference from GitHub's documentation rather than something we have watched happen. Task 1.5 pass 2 settles it.
 
+### 2026-09-06 — the return path runs unattended (task 1.5, and the answer to #57)
+
+**The last unproven link in the chain.** Everything else showed work going *out* to GitHub; this is the first evidence of anything coming *back* without a human going to look for it.
+
+The routine was created by messaging the Coder bot with the block now in `templates/routines/pr-ready.md`. Coder confirmed the trigger as its **built-in GitHub connection** (`trigger.type: github`), not an inbound webhook — which matters, because the webhook path is the one Cursor staff flagged for approval-gating.
+
+Two passes, deliberately using different senders:
+
+| Pass | Pull request opened by | Reported line |
+|---|---|---|
+| 1 | `mathew-builds` — a human account | `PR 10 ready — tests pending — …` |
+| 2 | **`github-actions`** — the workflow token | `PR 12 ready — tests pending — …` |
+
+**Pass 2 is the one that was never guaranteed.** A routine can watch for pull requests from a human and never see the ones the automation opens; that blind spot is exactly what let the first PR-opening design pass "verification" twice (#61). It sees both.
+
+**No approval card appeared for either pass.** The line posted directly into the group chat. Both matched the requested format exactly.
+
+**The transcript contains its own control, which is why this is worth trusting.** Earlier in the same conversation, *saving the routine* did raise an approval card — a distinct "Save the PR ready routine as described? / Save it" prompt that waited for a tap. So the chat demonstrably renders approval cards, and neither report had one. This is a visible contrast in a single screen rather than an inference from silence.
+
+Two things Coder did unprompted, both worth recording because they bear on how much weight its self-reports carry:
+
+- Asked the five confirmation questions, it replied *"Checking the saved routine file so these answers match what's actually stored"* before answering — it read its own configuration rather than recalling it.
+- It raised the CI caveat itself: *"since it only fires when the PR opens, CI will often still be `pending` at that moment."* That is the same limitation recorded below, identified by the bot before we tested.
+
+**#57 is answered: on the built-in GitHub connection trigger, the report-back is not gated.** Cursor staff's warning that "a webhook delivery is not treated as user intent" appears to be specific to the *webhook* trigger. **We have not tested the webhook path** and make no claim about it.
+
+Pass 2's underlying chain, for the record:
+
+| Link | Evidence | Time (UTC) |
+|---|---|---|
+| Coder writes the brief | [Issue 11](https://github.com/mathew-builds/claude-bridge-trial/issues/11), `login=mathew-builds`, `type=User`, `app=none` | 09:44:45 |
+| Action runs | [Run 34025508553](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34025508553), `success`, 67s, **11 of 25** turns | 09:44:48 |
+| Claude pushes | `1310225`, author **and** committer `claude[bot]` | 09:45:34 |
+| PR step opens it | [PR 12](https://github.com/mathew-builds/claude-bridge-trial/pull/12) by `github-actions`, diff `+1/-0` | 09:45:51 |
+| Coder reports it | One line in the group chat | — |
+
+**66 seconds from issue to pull request**, then the report.
+
+**Three things this run does not show, recorded so nobody reads more into it than it proves:**
+
+1. **Delivery latency was not measured.** We know both reports arrived and that neither required approval. We did not record how long either took, and the account owner may have had the app open when they landed — so "arrived promptly" is an impression, not a measurement.
+2. **The routine has only ever emitted `tests pending`.** The trial repo has no CI, so the `green`/`red` branches of its output format have **never been exercised**. Coder itself pointed out a second reason this will keep happening even on a repo that *does* have CI: the routine fires on `pull_request opened`, and checks are usually still queued at that instant. A routine that reports the moment a pull request opens will report `pending` most of the time by design. If the CI status matters to you, trigger on check completion instead — untested, and a change to the template rather than a fix.
+3. **One run each.** Neither pass has been repeated, so nothing here speaks to reliability over time — only to whether the path works at all.
+
 ### 2026-09-06 — the whole bridge, with Grok Bot in the loop (task 1.3)
 
 **The first run in which no part of the chain was simulated, stubbed or performed by hand.** Everything before this proved the GitHub half; this is the first evidence that the Grok Bot half works at all.
