@@ -20,7 +20,6 @@ Repo: the trial repo (private).
 | Run | Trigger | Wall clock | Claude turns | Outcome |
 |---|---|---:|---:|---|
 | `34023564889` | issue opened by the **Coder bot**, `@claude` in body | **62s** | **9 / 25** | **First run with Grok Bot in the loop.** `docs/HELLO.md` added (`+1/-0`), branch pushed by `claude[bot]`, PR 9 opened by the in-workflow step. **61s from issue to pull request.** |
-
 | `34025508553` | issue opened by the **Coder bot**, `@claude` in body | **67s** | **11 / 25** | Step 5 pass 2. `docs/GOODBYE-2.md` added (`+1/-0`), PR 12 opened by the workflow — **and reported back into the group chat unattended.** 66s issue to pull request. |
 
 Turn counts so far, same shape of task each time: **10** briefed by hand, **9** and **11** briefed by the Coder bot. Three data points, no trend — recorded because a reader will otherwise read meaning into the difference.

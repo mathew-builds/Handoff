@@ -79,19 +79,38 @@ So the connector's default shape is (b), "acts as you". The action would **accep
 > Sign the Bot's browser into accounts sized to the task, and sign it out of accounts it no longer needs. **Use scoped service accounts where the source system supports them.**
 > — <https://docs.x.ai/grok-bot/teams-and-enterprises>
 
-There is also a **PAT-flavoured GitHub connector** with a masked credential field:
+There is also a **PAT-flavoured GitHub connector** with a masked credential field. A note taken on
+2026-09-05 records the vendor as saying the key is entered through the connector's secure credential
+field rather than through the conversation, and that the Bot does not receive the raw key.
 
-> enter it through the connector's secure credential field, not through the conversation… **The Bot does not receive the raw key**, and the key does not become part of the transcript or model context.
+**Unverified, and it was previously written here as a block quotation without a source.** On
+2026-09-06 that wording could not be re-located: it is not on
+<https://docs.x.ai/grok-bot/security-faq>, and <https://docs.x.ai/grok-bot/connectors> returns
+HTTP 404. Treat it as unconfirmed until someone links the page.
 
-That is *better* than this project's original design, which assumed the bot would hold the token and use it. Preferred path is now: machine-account fine-grained PAT → the connector's secure credential field.
+If it holds, it is *better* than this project's original design, which assumed the bot would hold
+the token and use it, and the preferred path is: fine-grained PAT → the connector's secure
+credential field. **Do not rest a security decision on it until the source is re-confirmed** — scope
+the token so that it would not matter if the claim were false.
 
 **The sharp edge that does not go away.** The agent computer is one microVM per *user*, and connectors are **account-wide**:
 
-> Files, browser sessions, and command line credentials on that computer are available across your Bot roster. Do not use separate Bots as a security boundary.
+> Each user gets a dedicated computer with hardware-level separation, and one user cannot reach
+> another user's computer. Every computer is a Firecracker microVM with its own kernel, memory,
+> and virtual devices. […] All of that user's Bots share one computer, and Bots isolate
+> personalities and workspaces, not compute. […] Any permitted connector is available to every
+> Bot a member runs.
+>
+> — <https://docs.x.ai/grok-bot/teams-and-enterprises>, read 2026-09-06
 
 So the machine-account credential is visible to **every bot you own**, not just the Coder. You cannot scope it to one bot. This is exactly what D4 assumes and `05-security.md` already tells you to design for — but it means "the Coder's token" is a convenient fiction; it is the account's token.
 
-**Not reproduced.** All of the above is read from vendor documentation. The five-minute experiment that settles it is in `03-setup-guide.md` Step 4.
+**Reproduced, 2026-09-06.** The five-minute experiment in `03-setup-guide.md` Step 4 was run on the
+trial repo. Both issues Grok Bot opened through its GitHub connector returned
+`user.login = <the account owner>`, `user.type = User`, `performed_via_github_app = none` — so the
+connector acted as the signed-in human account, and the action accepted it. See `07-evidence.md`,
+"task 1.2, the identity check". The *machine-account* variant of the connector shape is still
+untested; only the default "acts as you" path has been observed.
 
 ### D6 — Your merge is the approval; no permission relay
 **Date:** 2026-09-05
@@ -170,7 +189,7 @@ Task 0.1 is ticked on the strength of these two runs.
 **Date:** 2026-09-05
 **Decision:** A step **inside `claude.yml`**, immediately after the action, opens the pull request using the action's `branch_name` output.
 **Beat:** (a) granting Claude a `gh pr create` tool; (b) switching to agent mode; (c) leaving the human click in.
-**Why:** The action does not open pull requests in tag mode — confirmed by Anthropic's own docs ("Claude does not create pull requests automatically… The user must click the link and create the PR themselves") and by our run on 2026-09-05, whose log contains zero PR-creation tools. Without this, the `pull_request opened` event never fires, so the return path in `README.md` and task 1.5 is dead. A workflow costs no model turns and cannot fail halfway through a task the way a tool call can.
+**Why:** The action does not open the pull request in tag mode. Anthropic's FAQ says, verbatim: *"Claude doesn't create PRs by default. Instead, it pushes commits to a branch and provides a link to a pre-filled PR submission page. This approach ensures your repository's branch protection rules are still adhered to and gives you final control over PR creation."* (<https://github.com/anthropics/claude-code-action/blob/main/docs/faq.md> §"Why won't Claude create a pull request?", read 2026-09-06.) Our run on 2026-09-05 matches: the log contains no PR-creation tool call. Without this, the `pull_request opened` event never fires, so the return path in `README.md` and task 1.5 is dead. A workflow costs no model turns and cannot fail halfway through a task the way a tool call can.
 **Known limitation:** a PR opened with the default `GITHUB_TOKEN` does not start further Actions workflow runs, so your own CI will not run on it. The **API event does fire** — verified 2026-09-06 on the trial repo's events API, `actor=github-actions[bot]`, `action=opened`. Whether it is **delivered to a webhook subscriber is still unverified**: no webhook has ever been configured there. Task 1.5 pass 2 settles it. Pass an App token if you need CI on these PRs.
 
 **Correction, 2026-09-05 — the first version of this was broken, and our verification was invalid.**
