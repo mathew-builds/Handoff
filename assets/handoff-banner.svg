@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 600" width="1800" height="600" role="img" aria-label="Handoff — no server, no tunnel, no second meter">
+  <title>Handoff</title>
+  <desc>A shard of light in flight between two quiet forms, passing left to right.</desc>
+
+  <defs>
+    <!-- Local glow around the shard, not a wash across the whole banner. -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#E8A33D" stop-opacity="0.50"/>
+      <stop offset="45%"  stop-color="#E8A33D" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#E8A33D" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- The trail: gone at the origin, bright at the shard. -->
+    <linearGradient id="trail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#E8A33D" stop-opacity="0"/>
+      <stop offset="65%"  stop-color="#E8A33D" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#E8A33D" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <!-- Slight warmth in the ground so it is not flat black. -->
+    <radialGradient id="ground" cx="66%" cy="50%" r="72%">
+      <stop offset="0%"   stop-color="#171B21"/>
+      <stop offset="100%" stop-color="#0F1216"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1800" height="600" fill="url(#ground)"/>
+
+  <!-- ── wordmark ────────────────────────────────────────────────────── -->
+  <text x="150" y="318"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="150" font-weight="500" letter-spacing="4"
+        fill="#F2EFE9">Handoff</text>
+
+  <text x="156" y="392"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="40" font-weight="400" letter-spacing="1.5"
+        fill="#98A0AA">No server. No tunnel. No second meter.</text>
+
+  <rect x="156" y="428" width="132" height="2" fill="#3A424B"/>
+
+  <!-- ── the pass ────────────────────────────────────────────────────── -->
+  <!-- origin -->
+  <rect x="1010" y="256" width="88" height="88" rx="25"
+        fill="none" stroke="#39414A" stroke-width="3"/>
+
+  <circle cx="1420" cy="300" r="250" fill="url(#glow)"/>
+  <rect x="1130" y="296" width="292" height="8" rx="4" fill="url(#trail)"/>
+
+  <!-- the shard: the brightest thing in the frame -->
+  <g transform="translate(1420 300) rotate(45)">
+    <rect x="-20" y="-20" width="40" height="40" rx="10" fill="#F6D9A6"/>
+    <rect x="-11" y="-11" width="22" height="22" rx="5" fill="#FFFFFF"/>
+  </g>
+
+  <!-- destination -->
+  <rect x="1560" y="256" width="88" height="88" rx="25"
+        fill="none" stroke="#5C6772" stroke-width="3"/>
+</svg>
