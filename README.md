@@ -19,6 +19,17 @@
 
 > **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the three things it cannot do and must hand back to you, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
 
+## Works with
+
+Named in text, not logos — these are other companies' trademarks, and Handoff is not affiliated with or endorsed by any of them.
+
+| | Chat side | Coding side |
+|---|---|---|
+| **Supported today** | Grok Bot (xAI / Cursor) | Claude Code |
+| **Designed for, not yet built** | any chat agent that can open a GitHub issue | any coding agent with a GitHub Action |
+
+Nothing in the bridge is vendor-specific: it is a GitHub issue in, a pull request out. Adding a coding agent means a different workflow file, not a different design.
+
 ## Two layers. The first one is the product.
 
 **Layer 1 — the bridge.** Open a GitHub issue containing `@claude`. The official Claude Code Action runs on a GitHub-hosted runner, authenticated with your **Claude subscription token** rather than an API key. It reads the issue, edits, runs your tests, pushes a branch, and a later step in the same workflow opens the pull request. You review and merge.
