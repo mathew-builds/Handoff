@@ -2,20 +2,21 @@
 
 ```mermaid
 gantt
-    title Handoff — phases
+    title Handoff — phases, as they actually ran
     dateFormat  YYYY-MM-DD
     axisFormat  %d %b
     section Phase 0 · Prove
-    Claude side + first PR from laptop         :p0, 2026-09-06, 2d
+    First PR billed to a subscription  :done, p0, 2026-09-05, 1d
     section Phase 1 · Bridge
-    Machine account, Coder bot, return path    :p1, after p0, 5d
-    section Phase 2 · Team
-    Chief of Staff, group chat, guardrails, briefs :p2, after p1, 7d
+    Coder bot, return path             :active, p1, 2026-09-05, 2d
     section Phase 3 · Polish + publish
-    Setup script, weekly report, docs, release  :p3, after p2, 7d
-    section Parked
-    v3 server design (only if triggered)        :crit, 2026-10-05, 1d
+    Setup script, doctor, weekly report, docs :active, p3, 2026-09-06, 1d
+    section Phase 2 · Team (parked)
+    Needs a real repository            :crit, p2, 2026-09-06, 1d
 ```
+
+**Phase 2 is parked and Phase 3 was brought forward** — the chart shows what happened, not the
+original plan. Bar lengths after Phase 0 are indicative; the dates are not.
 
 ## Phase 0 — Prove the thesis (weekend)
 
@@ -36,9 +37,16 @@ Goal: a Grok Bot Coder can open the issue; the Chief of Staff hears about the PR
 - Grok Bot meter moves by a handful of turns per task.
 - Coder has never edited a file (check its computer's `/workspace`).
 
-## Phase 2 — The team (week 2)
+**Result, 2026-09-06: partly passed.** Criteria one and three are evidenced — issue → action → PR →
+routine report, both passes, and `/workspace` checked clean (`07-evidence.md`, tasks 1.2, 1.3, 1.5).
+**Criterion two is not met:** the Grok Bot meter has never been read, and `08-measurements.md`
+records it as "not yet measured". Tasks 1.1, 1.4 and 1.6 remain unticked. **Phase 1 is not complete.**
+
+## Phase 2 — The team (week 2) — **PARKED since 2026-09-06**
 
 Goal: you talk only to the Chief of Staff.
+
+**Parked, not abandoned.** Every acceptance test below needs two weeks of real use on a real repository, and the target repository was dropped on 2026-09-06. Phase 3 was brought forward. The trigger to unpark is a chosen repository — nothing else.
 
 **Acceptance:**
 - Two-step task with no routing hints is researched, delegated, reported once.
@@ -56,6 +64,11 @@ Goal: someone else can set this up from the README in under two hours.
 - `scripts/doctor.sh` exits non-zero on each missing prerequisite (task 3.2).
 - A stranger (or a fresh Claude Code session with only the README) completes setup on a new repo.
 - Tagged `v1.0.0`, MIT licence, `CONTRIBUTING.md`.
+
+**Result, 2026-09-06: partly passed.** `setup.sh`, `doctor.sh` and the weekly cost report are done
+and evidenced (tasks 3.1–3.3). **Not done:** nobody outside the project has installed Handoff from
+the README (3.4), and `v1.0.0` is deliberately untagged until the repository moves to an
+organisation and goes public (3.5).
 
 ## What would make us add a server (the parked v3 design)
 

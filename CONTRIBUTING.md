@@ -8,7 +8,7 @@ Thanks for looking. This is a small, opinionated project and the conventions bel
 
 **A claim is true only if something ran to produce it.**
 
-This project shipped seventeen confidently wrong statements about vendor behaviour before anyone checked. Two separate "verifications" of the pull-request step were invalid, both times because the test exercised a human push instead of the automation's. A check was added that could not fail, and passed for exactly that reason.
+This project shipped four load-bearing wrong statements about vendor behaviour before anyone checked — one of them repeated across seventeen places in the docs. Two separate "verifications" of the pull-request step were invalid, both times because the test exercised a human push instead of the automation's. A check was added that could not fail, and passed for exactly that reason.
 
 So:
 
@@ -70,6 +70,35 @@ bash -n /tmp/s.sh
 - **Date anything that can go stale** — prices, limits, vendor behaviour.
 - **Never commit secrets.** Tokens live in GitHub Secrets or on your own machine.
 - **Keep it vendor-neutral where you can.** Grok Bot to Claude Code is the first supported pair, not the only intended one.
+
+### Assets
+
+`assets/*.svg` are hand-authored, not generated — editable, diffable, and free of any generation
+watermark. Edit the SVG; there are no PNG copies checked in to drift out of sync.
+
+One exception you will hit: **GitHub's social-preview uploader rejects SVG**, so the card in
+Settings has to be a PNG. Render it rather than exporting by hand, because the size matters —
+GitHub wants 1280×640 and caps the file at 1 MB:
+
+```
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
+  --hide-scrollbars --force-device-scale-factor=1 --window-size=1280,640 \
+  --screenshot=handoff-social.png file://$PWD/assets/handoff-social.svg
+```
+
+Verified 2026-09-06: produces 1280×640, ~300 KB. macOS `qlmanage` is **not** a substitute — it
+pads the image into a 1280×1280 square.
+
+**Links in this repository cannot be made to open in a new tab.** GitHub sanitises rendered
+markdown and strips the `target` attribute. Asked GitHub's own renderer on 2026-09-06:
+
+```
+in:  <a href="https://claude.com" target="_blank" rel="noopener noreferrer">Claude</a>
+out: <a href="https://claude.com" rel="nofollow">Claude</a>
+```
+
+`target` is dropped and `rel` is replaced with `nofollow`. Do not spend time on it; readers use
+cmd-click or middle-click. This is a platform limit, not an oversight.
 
 ## Style
 

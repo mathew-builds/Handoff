@@ -4,7 +4,7 @@ Each step ends with a check. Don't move on until the check passes.
 
 ```mermaid
 flowchart LR
-    S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Machine account] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
+    S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Scoped token] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
     style S2 fill:#EAF3EE,stroke:#2C6B4F
 ```
 
@@ -17,7 +17,7 @@ Step 2 is the whole thesis test. If a PR comes back billed to your Max plan, eve
 
 - A Claude subscription: **Pro, Max, Team or Enterprise all work.** Max is a capacity recommendation, not a requirement.
 - A GitHub repo you want Claude to work on (private recommended). The `gh` CLI logged in, with **admin** on that repo.
-- **For Phase 1 only:** that repo must be **owned by a GitHub organisation**, not by your personal account. Step 3's machine-account token cannot be created otherwise — see the warning in Step 3. Steps 1 and 2 work fine on a personal repo.
+- **No organisation is required.** Start with a fine-grained token on **your own** account, scoped to `Issues: read and write` on the one target repo (D5a). A dedicated machine account is an attribution upgrade you can add later; it *does* need an org-owned repo (#46), which is why it is not where you start.
 - Grok Bot access via an eligible plan (Cursor Pro or SuperGrok at time of writing — check current bundling).
 - Claude Code installed locally and logged in with that subscription.
 
@@ -82,27 +82,30 @@ Stop here for a day if you like. You've proven the expensive half.
 scripts/doctor.sh OWNER/REPO
 ```
 
-## Step 3 — Machine account for the bot (15 min)
+## Step 3 — A scoped token for the bot (15 min)
 
-> **The target repo must be owned by an organisation.** GitHub does not let an
-> outside or repository collaborator create a fine-grained token for a repo they
-> do not own — *"The major gaps in fine-grained personal access tokens are: …
-> using fine-grained personal access token to contribute to repositories where
-> the user is an outside or repository collaborator."* On a personally-owned
-> repo the only working credential is a **classic** PAT with the full `repo`
-> scope, which grants read/write access to all your code — the opposite of
-> scoped, on a machine you are told to assume is compromised. Move the repo to
-> an org first.
+Mint the token on **your own** account. Skip the machine account for now — it buys attribution,
+not security (D5a), and it needs an org-owned repo you may not have.
 
-1. Create a GitHub account for the bot (e.g. `<yourname>-coder-bot`). Enable 2FA.
-2. Add it to the **organisation** as a member, and give it **write access** to the target repo. The action only responds to write-access accounts — this is deliberate and cannot be tightened.
-3. Logged in as the bot: Settings → Developer settings → Fine-grained tokens → New:
-   - Resource owner: **the organisation**
+1. Settings → Developer settings → Fine-grained tokens → New:
+   - Resource owner: **you**
    - Repository access: **only** the target repo
    - Permissions: **Issues: Read and write**. Nothing else.
    - Expiry: 90 days. Put the date in your calendar.
-4. An **organisation owner must approve the token** before it works. That is GitHub's default policy; budget a step for it.
-5. Copy the token; you'll paste it into the Coder bot in the next step.
+2. Copy the token; you'll paste it into the GitHub connector in the next step.
+
+> **When you later upgrade to a machine account, the repo must be org-owned.** GitHub lists as a
+> current gap: *"using fine-grained personal access token to contribute to repositories where the
+> user is an outside or repository collaborator."*
+> — <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>, read 2026-09-06
+>
+> On a personally-owned repo the only working credential for a *second* account is a **classic**
+> PAT with the full `repo` scope, which grants read/write to all your code — the opposite of
+> scoped, on a machine you are told to assume is compromised. **This does not affect a fine-grained
+> token on your own account for a repo you own**, which is what step 1 above tells you to make.
+>
+> The machine account also needs **write access** to the repo, and an **organisation owner must
+> approve its token** before it works. That is GitHub's default policy; budget a step for it.
 
 **Check the scope, in two calls.** Replace `CONTROL_REPO` with one you own — see the trap below.
 
@@ -144,7 +147,7 @@ Check that the *action ran*, not merely that the issue was created. Those are di
 
 xAI's default is that **bots act as you**: *"Bots act as the signed-in member… every action stays attributable to a named member."* Under **D5a that is what we want** — the action's write-access check tests the *account*, so a token on an account with write access is what makes it pass. A dedicated machine account is an **attribution upgrade, not a prerequisite**: it makes bot-opened issues distinguishable from your own, and it needs an org-owned repo (#46). Start without it.
 
-What still matters is *how* the credential is held. Use the **PAT-flavoured GitHub connector** and paste a **fine-grained token on your own account**, scoped to `Issues: read and write` on the one target repo, into its **secure credential field** — never into chat: *"The Bot does not receive the raw key, and the key does not become part of the transcript or model context."* Prefer this over the "Sign in with GitHub" button, which carries whatever access you already have rather than only what you scoped.
+What still matters is *how* the credential is held. Use the **PAT-flavoured GitHub connector** and paste a **fine-grained token on your own account**, scoped to `Issues: read and write` on the one target repo, into its **secure credential field** — never into chat. A note from 2026-09-05 records the vendor as saying the Bot does not receive the raw key and that it does not enter the transcript or model context, but **that wording could not be re-located on docs.x.ai on 2026-09-06 — treat it as unverified** (see D5). Scope the token so it would not matter if the claim were false. Prefer the connector over the "Sign in with GitHub" button, which carries whatever access you already have rather than only what you scoped.
 
 Be clear-eyed about what that scope buys. Per #47 it is a **spam control, not a privilege control** — whoever holds the token can start a full Claude run on a prompt they wrote. What actually contains the blast radius is that the runner is ephemeral, the tool allow-list is narrow, the repo is private, and you are the merge gate.
 
@@ -169,15 +172,24 @@ gh api repos/OWNER/REPO/collaborators/THAT_LOGIN/permission --jq .permission
 
 Must be `write` or `admin`.
 
-**A limit you cannot engineer around.** Grok Bot gives each *user* one shared computer, and connectors are account-wide: *"Files, browser sessions, and command line credentials on that computer are available across your Bot roster. Do not use separate Bots as a security boundary."* So the machine-account credential is available to **every bot on your account**, not just the Coder. "The Coder's token" is a convenient fiction — it is the account's token. Size its permissions accordingly.
+**A limit you cannot engineer around.** Grok Bot gives each *user* one shared computer, and connectors are account-wide: *"All of that user's Bots share one computer, and Bots isolate personalities and workspaces, not compute"*, and *"Any permitted connector is available to every Bot a member runs"* (<https://docs.x.ai/grok-bot/teams-and-enterprises>, read 2026-09-06). So the machine-account credential is available to **every bot on your account**, not just the Coder. "The Coder's token" is a convenient fiction — it is the account's token. Size its permissions accordingly.
 
 ## Step 5 — Return path (15 min)
 
-1. Create a routine on the **Chief of Staff** bot from `templates/routines/pr-ready.md`.
-2. Trigger: GitHub event, pull request opened, on the target repo.
+1. Create the routine on the **Coder** bot — in Phase 1 it is the only bot that exists. Send it the message block in `templates/routines/pr-ready.md` verbatim. Once you create the Chief of Staff in Step 7, move the routine there; reporting is its job.
+2. Trigger: the bot's **built-in GitHub connection**, pull request opened, on the target repo. Not an inbound webhook — the webhook trigger is the one Cursor staff flagged as not counting as user intent, and we have never tested it.
 3. Action: post one line in the project group chat with the PR link and CI status.
 
-**Check:** open a throwaway PR by hand; the Chief of Staff reports it within a couple of minutes.
+**Check, in two passes — and pass 1 alone does not count.**
+
+| Pass | Open the pull request as | Why |
+|---|---|---|
+| 1 | you, by hand | Cheapest smoke test. Proves the routine fires at all. |
+| 2 | **the bridge** — an `@claude` issue, so `github-actions` opens the PR | The only pass that matters. A routine can watch for pull requests from a human and never see the ones the automation opens; that blind spot is what let the first PR-opening design pass "verification" twice (#61). |
+
+Both passes must post the line in the group chat. **We have not measured how long the report takes
+to arrive** — on our two runs it did arrive and neither needed an approval tap, but the delay was
+never timed. Do not treat any particular latency as expected.
 
 ## Step 6 — Guardrails (10 min)
 

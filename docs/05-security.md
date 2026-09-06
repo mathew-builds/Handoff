@@ -59,7 +59,7 @@ Grok Bot's documentation says plainly: all bots on an account share one computer
    This is why the setup guide has you check `user.type` and `performed_via_github_app` after the first bot-opened issue, and why a login ending in `[bot]` is a stop-and-tell-me condition rather than something to work around. See D5, D5a and task 1.4.
 4. **One token per bot per repo**, org-owned, 90-day expiry. Treat it as a spam control, not a privilege control — see the threat table.
 5. **Every irreversible action asks you.** Merge on GitHub; Auto Review rules on Grok Bot for email, spend, post, production.
-6. **Your subscriptions, your work.** Anthropic's terms do not permit routing other people's requests through your Claude plan. This template is used by each person with their own token. Don't wrap it in a shared service.
+6. **Your subscriptions, your work.** Each person runs this template with **their own** token, on **their own** repositories. Do not wrap it in a shared service that routes other people's requests through one Claude plan. **We have not quoted or linked Anthropic's terms here, so treat this as our operating rule rather than a statement of what the contract says** — if you are considering a shared deployment, read the terms yourself, or ask Anthropic.
 
 ## What this does NOT protect against
 

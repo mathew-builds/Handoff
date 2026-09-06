@@ -24,7 +24,7 @@ No VPS, no tunnel, no MCP connector, no message bus. An issue goes in; a pull re
 - A workflow file for the official Claude Code GitHub Action, authenticated with a subscription OAuth token.
 - A `CLAUDE.md` template for consumer repos.
 - Bot descriptions for Grok Bot (Chief of Staff, Coder) and a routine template for the return path.
-- Auto Review rules so nothing irreversible happens without you.
+- Auto Review rules that add a confirmation step before irreversible actions — written (`templates/auto-review-rules.md`), **not yet exercised** (task 2.2, parked).
 - Docs, runbooks and a task backlog.
 
 ## What it is not
