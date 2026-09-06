@@ -42,7 +42,7 @@
   <!-- ── the pass ────────────────────────────────────────────────────── -->
   <!-- origin -->
   <rect x="1010" y="256" width="88" height="88" rx="25"
-        fill="none" stroke="#39414A" stroke-width="3"/>
+        fill="none" stroke="#8A6B33" stroke-width="3"/>
 
   <circle cx="1420" cy="300" r="250" fill="url(#glow)"/>
   <rect x="1130" y="296" width="292" height="8" rx="4" fill="url(#trail)"/>
@@ -55,5 +55,5 @@
 
   <!-- destination -->
   <rect x="1560" y="256" width="88" height="88" rx="25"
-        fill="none" stroke="#5C6772" stroke-width="3"/>
+        fill="none" stroke="#B8863C" stroke-width="3"/>
 </svg>
