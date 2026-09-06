@@ -120,6 +120,12 @@ cp templates/CLAUDE.md.template CLAUDE.md
 #    later attribution upgrade, not a prerequisite — see D5a.
 ```
 
+## Optional extras
+
+| File | What it adds |
+|---|---|
+| [`templates/weekly-cost.yml`](templates/weekly-cost.yml) | A Monday report on a labelled issue: pull requests merged, how many runs it took, runner time per merged pull request. **Uses no model turns** — it is `gh` and `awk`, not an agent. Copy it next to `claude.yml` if you want it. |
+
 ## Documentation
 
 | Doc | What it answers |
