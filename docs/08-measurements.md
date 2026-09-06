@@ -21,7 +21,11 @@ Repo: `mathew-builds/claude-bridge-trial` (private).
 |---|---|---:|---:|---|
 | [34023564889](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34023564889) | issue opened by the **Coder bot**, `@claude` in body | **62s** | **9 / 25** | **First run with Grok Bot in the loop.** `docs/HELLO.md` added (`+1/-0`), branch pushed by `claude[bot]`, [PR 9](https://github.com/mathew-builds/claude-bridge-trial/pull/9) opened by the in-workflow step. **61s from issue to pull request.** |
 
-Note the turn count: **9** for a Grok-Bot-briefed task versus **10** for the same shape of task briefed by hand. One data point each, so not a trend — recorded because the difference is the sort of thing a reader will assume is meaningful if it is not labelled.
+| [34025508553](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34025508553) | issue opened by the **Coder bot**, `@claude` in body | **67s** | **11 / 25** | Step 5 pass 2. `docs/GOODBYE-2.md` added (`+1/-0`), [PR 12](https://github.com/mathew-builds/claude-bridge-trial/pull/12) opened by the workflow — **and reported back into the group chat unattended.** 66s issue to pull request. |
+
+Turn counts so far, same shape of task each time: **10** briefed by hand, **9** and **11** briefed by the Coder bot. Three data points, no trend — recorded because a reader will otherwise read meaning into the difference.
+
+**Not measured:** how long either step-5 report took to arrive. Both did, and neither needed approval; the delay was not timed and the account owner may have had the app open. Recorded as unmeasured rather than estimated.
 
 ## Notes on the older rows
 
