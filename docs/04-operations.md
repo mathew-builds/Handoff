@@ -29,7 +29,7 @@ Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet
 | Thing | Expires | Renew with |
 |---|---|---|
 | `CLAUDE_CODE_OAUTH_TOKEN` | ~1 year | `claude setup-token` → `gh secret set` |
-| Bot's fine-grained GitHub token | 90 days (your choice) | GitHub UI → paste into Coder via secure request |
+| Bot's fine-grained GitHub token | 90 days (your choice) | GitHub UI → paste into the **GitHub connector's** secure credential field (Settings → Plugins), not into a bot |
 | Grok Bot routines after long inactivity | may auto-pause | Open the routine, re-enable |
 
 ## Check the wiring before you debug anything

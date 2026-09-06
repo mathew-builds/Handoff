@@ -11,8 +11,11 @@ Repo: `mathew-builds/claude-bridge-trial` (private).
 | [33961149264](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33961149264) | issue opened, `@claude` in body | **63s** | **10 / 25** | `CONTRIBUTING.md` written, `npm test` 3/3 green, branch pushed |
 | [33961161338](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33961161338) | issue comment | 47s | 0 | Skipped by the `if:` gate — no runner work, no spend |
 | [33971250162](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33971250162) | issue assigned | 16s | **0** | `No trigger found` — runner minutes only, never subscription usage |
-| [33970850969](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33970850969) | push to `claude/**` | 12s | 0 | Failed, then passed on re-run once the repo setting was enabled |
-| [33974291123](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33974291123) | push to `claude/**` | 12s | 0 | Opened [PR #3](https://github.com/mathew-builds/claude-bridge-trial/pull/3) with the correct title |
+| [33970850969](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33970850969) | push to `claude/**` — **trigger since deleted** | 12s | 0 | Failed, then passed on re-run once the repo setting was enabled |
+| [33974291123](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33974291123) | push to `claude/**` — **trigger since deleted** | 12s | 0 | Opened [PR #3](https://github.com/mathew-builds/claude-bridge-trial/pull/3). **This run does not prove the shipped design** — the push came from a laptop, and the workflow it exercised never fired for Claude. See D12 and #61. |
+| [33983515065](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33983515065) | issue opened, `@claude` in body | **64s** | **10 / 25** | **The run that proves the shipped design.** `docs/GOODBYE.md` written, branch pushed by `claude[bot]`, then the in-workflow step opened [PR #7](https://github.com/mathew-builds/claude-bridge-trial/pull/7). No human push anywhere in the chain. |
+
+The last two `push to claude/**` rows are kept deliberately. That trigger lived in `templates/claude-open-pr.yml`, which PR #62 deleted because **it never fired for Claude** — those runs passed only because a human pushed. They are here as the record of an invalid control, not as evidence. See D12.
 
 ## Cost of one complete task
 
@@ -22,8 +25,12 @@ One issue in, one reviewable pull request out:
 |---|---|---|
 | **Claude Max** | 10 turns, 63s | Well inside `--max-turns 25`. The cap is not the binding constraint on a task this size. |
 | **Anthropic API (pay-as-you-go)** | **$0.00** | Confirmed on the [Console usage page](https://platform.claude.com/usage), 2026-09-05. This is the number the project exists to keep at zero. |
-| **GitHub Actions** | 75s wall clock across two runs (63s + 12s) | The Actions timing API reported `billable_ms: 0` for every run on this repo. Reported as-is rather than converted into a minutes figure we cannot substantiate. |
+| **GitHub Actions** | 64s wall clock, one run | Measured on run [33983515065](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/33983515065), where a single run does the work *and* opens the pull request. The earlier 63s + 12s figure was for the two-workflow design that no longer exists. The Actions timing API reported `billable_ms: 0` for every run on this repo. Reported as-is rather than converted into a minutes figure we cannot substantiate. |
 | **Grok Bot** | not yet measured | Nothing has gone through Grok Bot. Phase 1. |
+
+### Where these numbers come from
+
+Turn counts are the `num_turns` field in the action's `"type": "result"` block, read out of the run log with `gh run view <id> --log`. Wall clock is `run_started_at` → `updated_at` from the runs API, so it includes queue time. Step timings come from the jobs API. On run 33983515065 the split was: Claude 53s, the pull-request step **2s**.
 
 ### What a task costs in turns
 
