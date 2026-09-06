@@ -1,0 +1,139 @@
+# Handoff — weekly cost report (optional)
+#
+# Copy to .github/workflows/weekly-cost.yml in the repo Claude works on.
+#
+# Posts one comment a week saying what the last seven days actually cost:
+# how many pull requests Claude produced, how many runs it took, and how much
+# runner time that consumed.
+#
+# DELIBERATELY NOT AN AGENT RUN. TASKS.md 3.3 originally specified "a second
+# workflow in agent mode". Reading merged pull requests and run durations is
+# deterministic aggregation — asking a model to do it costs subscription turns,
+# can hallucinate a number, and produces a different answer each week from the
+# same data. This is `gh` and `awk`. It uses no model turns at all, which
+# matters because the entire point of Handoff is not spending them carelessly.
+#
+# Last verified against the GitHub REST API: 2026-09-06.
+
+name: Weekly cost report
+
+on:
+  schedule:
+    # 08:00 UTC every Monday. GitHub runs scheduled jobs on a best-effort basis
+    # and delays of several minutes to an hour are normal and documented.
+    - cron: '0 8 * * 1'
+  workflow_dispatch:        # so you can run it on demand without waiting a week
+
+concurrency:
+  group: weekly-cost-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  issues: write             # to post the report
+  actions: read             # to read run durations
+  pull-requests: read       # to count merged PRs
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      LABEL: handoff-cost-report
+    steps:
+      - name: Gather and post
+        run: |
+          set -euo pipefail
+
+          SINCE="$(date -u -d '7 days ago' +%Y-%m-%d)"
+          UNTIL="$(date -u +%Y-%m-%d)"
+
+          # --- merged pull requests in the window -----------------------------
+          MERGED="$(gh pr list --repo "$REPO" --state merged --limit 200 \
+            --json mergedAt,author,number \
+            --jq "[.[] | select(.mergedAt >= \"${SINCE}T00:00:00Z\")]")"
+          MERGED_N="$(printf '%s' "$MERGED" | jq 'length')"
+          # Which of those came from Claude's branches, i.e. from this bridge.
+          BRIDGE_N="$(gh pr list --repo "$REPO" --state merged --limit 200 \
+            --json mergedAt,headRefName \
+            --jq "[.[] | select(.mergedAt >= \"${SINCE}T00:00:00Z\") | select(.headRefName | startswith(\"claude/\"))] | length")"
+
+          # --- Claude workflow runs in the window -----------------------------
+          RUNS="$(gh run list --repo "$REPO" --workflow claude.yml --limit 200 \
+            --json databaseId,conclusion,createdAt,startedAt,updatedAt \
+            --jq "[.[] | select(.createdAt >= \"${SINCE}T00:00:00Z\")]" 2>/dev/null || echo '[]')"
+          # Count only runs that DID work. A run whose `if:` gate does not match is
+          # reported as "skipped": it costs a few seconds of runner start-up and no
+          # model turns at all. Counting those in "runs per PR" made a healthy repo
+          # look four times worse than it was — 14 runs against 1 pull request, when
+          # only 6 had done anything. Found by running this against real data.
+          RUNS_N="$(printf '%s' "$RUNS" | jq '[.[] | select(.conclusion != "skipped")] | length')"
+          SKIPPED_N="$(printf '%s' "$RUNS" | jq '[.[] | select(.conclusion == "skipped")] | length')"
+          OK_N="$(printf '%s' "$RUNS" | jq '[.[] | select(.conclusion=="success")] | length')"
+          FAIL_N="$(printf '%s' "$RUNS" | jq '[.[] | select(.conclusion=="failure")] | length')"
+
+          # Wall clock across the runs that did work, in seconds.
+          SECS="$(printf '%s' "$RUNS" | jq '[.[] | select(.conclusion != "skipped") | (( .updatedAt | fromdateiso8601 ) - ( .startedAt | fromdateiso8601 ))] | add // 0')"
+
+          # Billable milliseconds, summed. Frequently 0 — see the note we print.
+          BILL_MS=0
+          for ID in $(printf '%s' "$RUNS" | jq -r '.[].databaseId'); do
+            MS="$(gh api "repos/$REPO/actions/runs/$ID/timing" --jq '[.billable[]?.total_ms // 0] | add // 0' 2>/dev/null || echo 0)"
+            BILL_MS=$((BILL_MS + MS))
+          done
+
+          # --- derived, guarding against divide-by-zero -----------------------
+          if [ "$BRIDGE_N" -gt 0 ]; then
+            PER_PR="$(awk -v s="$SECS" -v n="$BRIDGE_N" 'BEGIN{printf "%.0fs", s/n}')"
+            RUNS_PER_PR="$(awk -v r="$RUNS_N" -v n="$BRIDGE_N" 'BEGIN{printf "%.1f", r/n}')"
+          else
+            PER_PR="n/a"; RUNS_PER_PR="n/a"
+          fi
+
+          if [ "$BILL_MS" -gt 0 ]; then
+            BILL_LINE="| Billable runner minutes | $(awk -v ms="$BILL_MS" 'BEGIN{printf "%.1f", ms/60000}') |"
+          else
+            BILL_LINE="| Billable runner minutes | **0 reported** — GitHub's timing API returns zero billable time on many repositories, including private ones on included minutes. Reported as-is rather than converted into a figure we cannot substantiate. |"
+          fi
+
+          # Write the body to a file rather than a command substitution. A heredoc
+          # inside $( ) breaks on apostrophes in the prose — "provider's usage page"
+          # was enough to make bash hunt for a closing quote. Found by extracting this
+          # script and running `bash -n` on it.
+          cat > "$RUNNER_TEMP/report.md" <<EOF
+          ## Week of $SINCE → $UNTIL
+
+          | | |
+          |---|---|
+          | Pull requests merged | $MERGED_N |
+          | …of those, opened by this bridge | **$BRIDGE_N** |
+          | Claude runs that did work | $RUNS_N ($OK_N succeeded, $FAIL_N failed) |
+          | Runs skipped by the trigger gate | $SKIPPED_N — seconds of start-up each, no model turns |
+          | Runner wall clock | ${SECS}s |
+          | Runs per merged bridge PR | $RUNS_PER_PR |
+          | Wall clock per merged bridge PR | $PER_PR |
+          $BILL_LINE
+
+          **What this does not tell you.** Model usage is billed to a subscription, so
+          there is no per-run charge to report and this says nothing about how much of
+          your weekly allowance was consumed — check that on your provider's usage page.
+          A high runs-per-PR number usually means briefs are too vague, not that the
+          model is inefficient.
+
+          <sub>Posted by \`weekly-cost.yml\`. No model turns were used to produce this.</sub>
+          EOF
+
+          # Find or create the report issue, then comment on it.
+          NUM="$(gh issue list --repo "$REPO" --label "$LABEL" --state open --limit 1 --json number --jq '.[0].number // empty')"
+          if [ -z "$NUM" ]; then
+            gh label create "$LABEL" --repo "$REPO" --description "Handoff weekly cost reports" --color BFD4F2 2>/dev/null || true
+            # `gh issue create` has no --json flag; it prints the issue URL.
+            URL="$(gh issue create --repo "$REPO" --label "$LABEL" \
+              --title "Handoff — weekly cost report" \
+              --body "Each week a comment lands here with what the last seven days cost. Pin this issue if you want it easy to find. Close it to stop receiving them.")"
+            NUM="${URL##*/}"
+          fi
+          gh issue comment "$NUM" --repo "$REPO" --body-file "$RUNNER_TEMP/report.md"
+          echo "Posted to issue #$NUM"
