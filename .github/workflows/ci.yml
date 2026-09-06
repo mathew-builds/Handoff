@@ -48,7 +48,7 @@ jobs:
           # The one suppression: actionlint 1.7.12 does not know the `queue` key
           # under `concurrency`. GitHub documents it (`single` default, `max` for
           # up to 100 pending) and we confirmed it parses on real GitHub — run
-          # 33971250162 on claude-bridge-trial succeeded with `queue: max` in the
+          # 33971250162 on a private trial repo succeeded with `queue: max` in the
           # file. Checked 2026-09-05; drop this flag once actionlint catches up.
           IGNORE='unexpected key "queue" for "concurrency" section'
           mkdir -p .lintcheck/.github/workflows
@@ -69,6 +69,13 @@ jobs:
 
       - name: The consumer workflow must keep its three cost brakes
         run: python3 scripts/check-workflow-caps.py
+
+      - name: The operator scripts must lint AND run
+        # Nothing checked scripts/ at all until 2026-09-06, which is how a change
+        # that made setup.sh exit 1 on a correctly configured repo reached main.
+        # `bash -n` and shellcheck both passed on that file — only executing it,
+        # against the input it should accept, caught it. Hence: run, don't read.
+        run: bash scripts/test-scripts.sh
 
       - name: No secrets committed
         run: |

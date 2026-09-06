@@ -29,9 +29,16 @@ git rev-parse --git-dir >/dev/null 2>&1 || fail "not inside a git repository"
 ok "gh, git, and a git repo"
 
 REPO="$(gh repo view --json nameWithOwner -q .nameWithOwner)"
-BASE="$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)"
+# REST, not GraphQL — see the comment in doctor.sh. `defaultBranchRef` is empty on a repo with
+# no commits, which printed "default branch: " with a hole in it and carried on regardless.
+BASE="$(gh api "repos/$REPO" --jq .default_branch)"
 OWNER_TYPE="$(gh api "repos/$REPO" --jq .owner.type)"
-echo "→ Target: $REPO (default branch: $BASE, owner type: $OWNER_TYPE)"
+if [ -z "$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null)" ]; then
+  BASE_NOTE="$BASE, no commits yet"
+else
+  BASE_NOTE="$BASE"
+fi
+echo "→ Target: $REPO (default branch: $BASE_NOTE, owner type: $OWNER_TYPE)"
 
 if [ "$OWNER_TYPE" = "Organization" ]; then
   ok "owned by an organisation — also supports the D5 machine-account upgrade"
@@ -75,7 +82,24 @@ if [ -e CLAUDE.md ]; then
   warn "Merge in what you need from $HANDOFF_DIR/templates/CLAUDE.md.template by hand."
 else
   cp "$HANDOFF_DIR/templates/CLAUDE.md.template" CLAUDE.md
-  ok "CLAUDE.md created — edit the <placeholders> before your first task"
+  ok "CLAUDE.md created"
+fi
+# Unfilled placeholders are a blocker, not advice, because scripts/doctor.sh fails on them and
+# these two scripts must not disagree about the same repo — that was issue #36. This script
+# CREATES the state doctor.sh rejects, so exiting 0 here is the specific case that matters:
+# AGENTS.md tells the installing agent to read the exit code, not the output. Same literal
+# tokens as the doctor.sh check, deliberately, so the two cannot drift apart.
+# `|| LEFT=""` is required, not decorative: grep exits 1 when it finds nothing, `pipefail`
+# propagates that, and this script runs under `set -e` (line 13) — so the SUCCESS case, a
+# correctly filled-in CLAUDE.md, would kill the script here and silently skip every check below
+# it. doctor.sh needs no such guard because it runs `set -uo pipefail` without `-e`.
+LEFT="$(grep -oE '<(REPO NAME|test command|\.\.\.|lint, formatting, naming|paths that must not change[^>]*)>' CLAUDE.md 2>/dev/null | sort -u | tr '\n' ' ')" || LEFT=""
+if [ -n "$LEFT" ]; then
+  block "CLAUDE.md still has template placeholders:$LEFT"
+  warn "  Claude reads this file first on every run, so until you fill these in it is"
+  warn "  briefed on the template rather than your repository."
+else
+  ok "CLAUDE.md has no unfilled placeholders"
 fi
 
 echo "→ Actions must be allowed to open pull requests"

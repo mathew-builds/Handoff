@@ -55,7 +55,7 @@ you see the constraint behind them.
 - Never commit secrets. `CLAUDE_CODE_OAUTH_TOKEN`, GitHub tokens and Grok Bot connector secrets live only in GitHub Secrets or the user's local machine.
 - Keep `templates/claude.yml` aligned with the official `anthropics/claude-code-action@v1` inputs. Verify against https://code.claude.com/docs/en/github-actions before changing it.
 - **`claude.yml` both runs Claude and opens the pull request.** The action cannot open one itself (D12). Do not split the PR step into a separate `on: push` workflow — `actions/checkout` persists the workflow `GITHUB_TOKEN`, so Claude's push never triggers one. We shipped that bug; see #61.
-- **Do not claim a vendor behaviour you have not read in their docs or seen in a run.** Four claims in the original scaffold were confidently wrong. When you cannot verify, write "unverified" — it is an acceptable answer.
+- **Do not claim a vendor behaviour you have not read in their docs or seen in a run.** Four load-bearing claims in the original scaffold were confidently wrong; one of them appeared in seventeen places before anyone checked. See the **Correction** entries in `docs/02-decisions.md`. When you cannot verify, write "unverified" — it is an acceptable answer.
 - Every workflow change must keep: `concurrency` group, a `timeout-minutes`, and `--max-turns` in `claude_args`.
 - Prefer boring solutions. If a task can be done with a GitHub feature, do not add a service.
 - Mermaid diagrams live in the docs next to the text they explain. Update the diagram when the flow changes.
@@ -78,8 +78,8 @@ you see the constraint behind them.
 
 ## Commands
 
-There is no build and no test suite — the deliverable is text. These three are what CI
-runs, and running them locally reproduces CI exactly. Each exits non-zero on failure;
+The deliverable is mostly text, but `scripts/` is code and is now tested. These four are what
+CI runs, and running them locally reproduces CI exactly. Each exits non-zero on failure;
 **never add `|| true`**, because a check that reports instead of failing reads as a pass
 (that was issue #36).
 
@@ -89,7 +89,8 @@ pip install pyyaml    # once — check-workflow-caps.py needs it
 actionlint -ignore 'unexpected key "queue" for "concurrency" section' \
   .github/workflows/*.yml templates/*.yml   # lint workflows AND the templates
 python3 scripts/check-links.py              # every relative doc link resolves
-python3 scripts/check-workflow-caps.py      # the three cost brakes survive
+python3 scripts/check-workflow-caps.py      # the three cost brakes survive, in all three workflows
+bash scripts/test-scripts.sh                # scripts/*.sh lint AND run, both directions
 ```
 
 Run any one on its own — they are independent. The `-ignore` flag is dated and

@@ -44,6 +44,23 @@ It cannot confirm the Claude GitHub App is installed — no API exposes that wit
 
 ## Failure modes and runbooks
 
+> **How much of this has been watched happening, as of 2026-09-06.** These entries are not all the
+> same kind of claim, and the difference matters when you are debugging at speed.
+>
+> | Entry | Basis |
+> |---|---|
+> | R1 "no run at all" — workflow not on the default branch | **Observed.** Cost us an hour; it is why `doctor.sh` checks it. |
+> | R1 read-only account fails rather than being ignored | Read in the action's source and docs. **The deliberate trigger is task 1.6 and has not been run.** |
+> | R2 expired credentials | Upstream issue reports, not our run. **Not reproduced here.** |
+> | R3 both halves | **Observed.** Shipped as issue 61 and corrected after watching it. |
+> | R4 allowance exhaustion | Vendor staff statement. Our own meter has **never been read** — see `08-measurements.md`. |
+> | R5, R6 | **Neither has happened to us.** Written from the vendor's behaviour as documented. |
+> | R7 runaway action | `gh run cancel` is standard; the *runaway* it responds to has never occurred here. |
+>
+> Task 1.6 exists to execute three of these deliberately and correct whatever reality disagrees
+> with. Until it is ticked, treat the unobserved rows as the best available expectation rather
+> than as fact.
+
 ### R1 — Action doesn't start
 
 Two different causes with two different symptoms. Check which one you have **first**, or you will hunt the wrong thing:
@@ -51,7 +68,7 @@ Two different causes with two different symptoms. Check which one you have **fir
 | Symptom in the Actions tab | Cause |
 |---|---|
 | Run **skipped** | The text has no `@claude`, so the job's `if:` was false. Check it is `@claude` as a whole word, not `/claude` or `@claude-bot`. |
-| Run **failed**, red X | The triggering account lacks **write** access, or is a bot. The action fails the run rather than ignoring it: *"the run fails when either check rejects it."* |
+| Run **failed**, red X | The triggering account lacks **write** access, or is a bot. The action fails the run rather than ignoring it: *"the run fails when either check rejects it"* (<https://code.claude.com/docs/en/github-actions> §"Who can trigger runs", read 2026-09-06). |
 | **No run at all** | The workflow is not on the **default branch**. Issue events only trigger workflows from there. |
 
 Read-only accounts are **not** silently ignored — that used to be written here and it is wrong. You get a failed run and a red mark on the thread.
@@ -66,7 +83,7 @@ Read-only accounts are **not** silently ignored — that used to be written here
 Check which half is failing before changing anything.
 
 - **Claude's own commits do trigger CI.** The template deliberately does *not* pass `github_token`, so the action authenticates as the Claude GitHub App. This runbook used to say the opposite and sent you fixing a problem you don't have.
-- **The pull request opened by the workflow does not trigger CI.** That step uses the default `GITHUB_TOKEN`, and GitHub does not start workflow runs from it. Webhooks still fire, which is what the Grok Bot return-path routine needs. If you need CI on those pull requests specifically, pass a GitHub App token to that step — and accept that you are then storing another credential.
+- **The pull request opened by the workflow does not trigger CI.** That step uses the default `GITHUB_TOKEN`, and GitHub does not start workflow runs from it. The API event *does* fire — watched on 2026-09-06. Whether it reaches a **webhook** subscriber is **unverified**: no webhook has ever been configured on our repos, so we have not seen one delivered. The return-path routine we tested used the bot's built-in GitHub connection instead. If you need CI on those pull requests specifically, pass a GitHub App token to that step — and accept that you are then storing another credential.
 - **The same rule is why the PR step lives inside `claude.yml`.** `actions/checkout` writes the workflow `GITHUB_TOKEN` into git config, so Claude's own push is made with it and cannot trigger any `on: push` workflow. See #61.
 - Claude runs your tests inside its own turn regardless (see `CLAUDE.md.template`).
 

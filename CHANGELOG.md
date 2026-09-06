@@ -6,11 +6,15 @@ Because this project's whole discipline is not claiming what it has not run, ent
 
 ## [Unreleased]
 
-Nothing yet.
+Nothing since 1.0.0 was assembled.
 
-## [1.0.0] — unreleased
+## [1.0.0] — not yet tagged
 
-First release. The bridge works end to end and every claim on the front page has been watched happening.
+The tag and the GitHub release are deliberately held until the repository moves to an organisation
+and goes public: the tag is the thing people link to, and it should not be cut twice
+(`TASKS.md` 3.5). Everything below is in `main` today.
+
+First release. The bridge has been watched working end to end — issue in, reviewable pull request out, reported back into a chat — on 2026-09-06. Claims below are split into what was observed and what was not; the front page carries the same split.
 
 ### Added
 
@@ -35,6 +39,9 @@ First release. The bridge works end to end and every claim on the front page has
 - **One run per test.** Nothing here speaks to reliability over weeks.
 - **The weekly report has only ever printed `tests pending`** — by design, since it fires when a pull request opens and checks are still queued.
 - **The inbound-webhook trigger is untested.** The unattended result above is for the built-in GitHub connection only.
+- **Nobody outside the project has installed it.** The fresh-eyes setup test (`TASKS.md` 3.4) has not been run. The install path has only ever been walked by the people who wrote it.
+- **The saving has never been measured on the meter it is meant to save.** The Grok Bot weekly allowance has not been read before and after; `docs/08-measurements.md` records it as "not yet measured". The $0.00 figure proves the Claude side is not metered, not that the Grok Bot side got cheaper.
+- **Two weeks of real operating use never happened.** That was Phase 2, and it is parked — its target repository was dropped on 2026-09-06.
 
 ### Decisions worth knowing
 
@@ -47,5 +54,8 @@ First release. The bridge works end to end and every claim on the front page has
 - **"Allow GitHub Actions to create and approve pull requests" is off by default on every repository.** Without it the coding agent does the work, pushes a branch, and no pull request ever appears. This is the single most common silent failure.
 - **The write-access check is not a prompt-injection defence.** It controls who can *start* a run, not what text reaches the agent. Anyone who can comment on a thread — including a read-only collaborator — can put text in front of it.
 
-[Unreleased]: https://github.com/mathew-builds/Handoff/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/mathew-builds/Handoff/releases/tag/v1.0.0
+<!-- Link definitions for [Unreleased] and [1.0.0] belong here once v1.0.0 is actually tagged
+     and the repository is public (TASKS.md 3.5). Until then they would both 404, so the two
+     headings render as plain text on purpose. Restore them as the last step of cutting the tag:
+       [Unreleased]: https://github.com/OWNER/Handoff/compare/v1.0.0...HEAD
+       [1.0.0]: https://github.com/OWNER/Handoff/releases/tag/v1.0.0 -->
