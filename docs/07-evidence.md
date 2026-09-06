@@ -117,6 +117,29 @@ This is the case that failed twice before. It is the only run in this file that 
 
 **Still not verified:** whether that event is *delivered to a webhook subscriber*. This repository has never had a webhook configured, so nothing was delivered and nothing was observed. D12's "webhooks and API events do fire" is, on the webhook half, still an inference from GitHub's documentation rather than something we have watched happen. Task 1.5 pass 2 settles it.
 
+### 2026-09-06 — the whole bridge, with Grok Bot in the loop (task 1.3)
+
+**The first run in which no part of the chain was simulated, stubbed or performed by hand.** Everything before this proved the GitHub half; this is the first evidence that the Grok Bot half works at all.
+
+A one-line ask to the Coder bot — *"Open an issue asking @claude to add a docs/HELLO.md with one sentence in it"* — produced a reviewable pull request in **61 seconds**.
+
+| Link | Evidence | Time (UTC) |
+|---|---|---|
+| Coder writes the brief | [Issue 8](https://github.com/mathew-builds/claude-bridge-trial/issues/8), `login=mathew-builds`, `type=User`, `performed_via_github_app=none` | 09:03:29 |
+| The action accepts it | [Run 34023564889](https://github.com/mathew-builds/claude-bridge-trial/actions/runs/34023564889), `success` | 09:03:32 |
+| Claude pushes | `bf287af`, author **and** committer `claude[bot]` | 09:04:14 |
+| The PR step opens it | [PR 9](https://github.com/mathew-builds/claude-bridge-trial/pull/9) by `github-actions`, `Closes #8` | 09:04:30 |
+
+**Run cost:** 62s wall clock, **9 of 25** turns.
+
+**Coder's brief was well-formed without being told the format twice.** It emitted `@claude` on line one, the file path, a one-sentence why, a "Done means", and a "Do not" — the exact order `templates/bots/coder.md` specifies. It did **not** ask Claude to open a pull request, which the description forbids because Claude cannot and asking wastes a turn.
+
+**Scope discipline held.** The diff is one file, `+1/-0`: `docs/HELLO.md`, containing `Hello from the claude-bridge-trial repository.` — one sentence, as briefed, nothing else touched.
+
+**And Coder wrote no code.** `/workspace` on its computer was checked by the account owner and contained no code changes. That is the half of task 1.3's acceptance test that cannot be seen from GitHub, and it is the half that actually matters: the test is whether Coder *briefs* rather than *builds*.
+
+**Still not proven by this run:** the return path. Nothing reported the pull request back into the group chat — that is task 1.5, and it is the last unobserved link in the chain.
+
 ### 2026-09-06 — task 1.2, the identity check (recovered from the API)
 
 The original terminal output from this check was not kept. It did not need to be: the fields the acceptance test asks for are durable on GitHub and were read back with `gh api` on 2026-09-06.
