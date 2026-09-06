@@ -1,3 +1,14 @@
+<p align="center">
+  <img src="assets/handoff-banner.svg" alt="Handoff — no server, no tunnel, no second meter" width="100%">
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-2C6B4F.svg"></a>
+  <a href="../../actions/workflows/ci.yml"><img alt="CI" src="../../actions/workflows/ci.yml/badge.svg"></a>
+  <a href="AGENTS.md"><img alt="Agent-installable" src="https://img.shields.io/badge/setup-agent--installable-9A6614.svg"></a>
+  <img alt="Servers required" src="https://img.shields.io/badge/servers%20required-0-2C6B4F.svg">
+</p>
+
 # Handoff
 
 **Let your chat agent delegate coding to your coding agent — over GitHub, billed to a subscription instead of per token.**
@@ -7,6 +18,17 @@
 > **Status: Phase 1 complete.** Both halves proven by running them, not by reading vendor docs. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md) and [TASKS.md](TASKS.md).
 
 > **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the three things it cannot do and must hand back to you, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
+
+## Works with
+
+Named in text, not logos — these are other companies' trademarks, and Handoff is not affiliated with or endorsed by any of them.
+
+| | Chat side | Coding side |
+|---|---|---|
+| **Supported today** | Grok Bot (xAI / Cursor) | Claude Code |
+| **Designed for, not yet built** | any chat agent that can open a GitHub issue | any coding agent with a GitHub Action |
+
+Nothing in the bridge is vendor-specific: it is a GitHub issue in, a pull request out. Adding a coding agent means a different workflow file, not a different design.
 
 ## Two layers. The first one is the product.
 
