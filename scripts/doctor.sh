@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# grokbot-claude-bridge — check a consumer repo is actually wired up.
+# Handoff — check a consumer repo is actually wired up.
 #
 # Run from inside the repo, or pass one:  scripts/doctor.sh OWNER/REPO
 #
@@ -38,7 +38,7 @@ fi
 BASE="$(gh repo view "$REPO" --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null)"
 [ -n "$BASE" ] || { echo "Cannot read $REPO — wrong name, or no access."; exit 1; }
 
-printf '\033[1mgrokbot-claude-bridge doctor\033[0m — %s (default branch: %s)\n' "$REPO" "$BASE"
+printf '\033[1mHandoff doctor\033[0m — %s (default branch: %s)\n' "$REPO" "$BASE"
 
 head_ "Repository"
 OWNER_TYPE="$(gh api "repos/$REPO" --jq .owner.type 2>/dev/null)"
