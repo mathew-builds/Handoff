@@ -1,25 +1,39 @@
 # grokbot-claude-bridge
 
-**Run Grok Bot as your command centre. Run every line of code on Claude Code, billed to your Claude subscription. Use GitHub as the bridge. No servers.**
+**Turn a GitHub issue into tested, reviewable code — billed to your Claude subscription instead of per-token. No servers. Optionally driven from a chat bot.**
 
-> Status: design complete, implementation starting. See [TASKS.md](TASKS.md).
+> **Status: Phase 1 complete.** Both halves proven by running them, not by reading vendor docs. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md) and [TASKS.md](TASKS.md).
 
-## The problem in one sentence
+## Two layers. The first one is the product.
 
-Grok Bot bills coding on an unpublished weekly meter with no model choice, no spend cap and silent spillover into paid overage. Claude Max bills coding at a flat rate on a model you choose. This project moves exactly one category of work — code — across that billing boundary, and nothing else.
+**Layer 1 — the bridge.** Open a GitHub issue containing `@claude`. The official Claude Code Action runs on a GitHub-hosted runner, authenticated with your **Claude subscription token** rather than an API key. It reads the issue, edits, runs your tests, pushes a branch, and a later step in the same workflow opens the pull request. You review and merge.
+
+**This needs no chat bot at all.** A Claude subscription, a GitHub repo, and one workflow file.
+
+**Layer 2 — the command centre (optional).** Point [Grok Bot](https://x.ai/bot) at the same repo and a chat message becomes the issue, and the finished pull request reports itself back into your group chat. Useful if you already pay for Grok Bot and want to brief work from your phone. **Skip it and layer 1 still works.**
+
+## Why layer 1 exists
+
+Coding agents that bill per token get expensive in a way you cannot see until the invoice. Grok Bot in particular bills coding on an unpublished weekly meter with no model choice, no spend cap and silent spillover into paid overage. A Claude Pro/Max subscription bills at a flat rate on a model you choose.
+
+This moves exactly one category of work — code — across that billing boundary, and nothing else.
+
+**Measured, not asserted:** one real task — issue in, reviewable pull request out — took **61 seconds** and **9 of 25** allowed turns, with **$0.00** of pay-as-you-go spend confirmed on the Anthropic Console. See [08-measurements.md](docs/08-measurements.md).
+
+## What you need
+
+| | Required? | Why |
+|---|---|---|
+| A **Claude** Pro, Max, Team or Enterprise subscription | **Yes** | Pays for the coding. Generate the token with `claude setup-token`. |
+| A **GitHub** account and a repository | **Yes** | The bridge. Actions minutes are the only other cost, and one task above used ~60s. |
+| A **Grok Bot** (Cursor) subscription | **No** | Layer 2 only. Everything in layer 1 works without it. |
+| A server | **No** | There isn't one. That is the point. |
 
 ## How it works
 
 ```mermaid
 flowchart LR
-    subgraph GB["Grok Bot (xAI / Cursor cloud)"]
-        YOU([You]) --> COS[Chief of Staff]
-        COS --> RES[Researcher]
-        COS --> OPS[Ops]
-        COS --> CODER[Coder<br/><i>never writes code</i>]
-    end
-
-    subgraph GH["GitHub (the bridge)"]
+    subgraph GH["GitHub — layer 1, the bridge"]
         ISSUE[Issue 212<br/>@claude ...]
         ACTION[claude-code-action<br/>on a GitHub-hosted runner]
         BRANCH[branch claude/issue-212]
@@ -28,36 +42,54 @@ flowchart LR
     end
 
     subgraph CC["Claude Code"]
-        MAX[(Claude Max<br/>OAuth token)]
+        MAX[(Claude subscription<br/>OAuth token)]
     end
 
+    subgraph GB["Grok Bot — layer 2, optional"]
+        YOU([You]) --> CODER[Coder<br/><i>never writes code</i>]
+    end
+
+    YOU2([You]) -- "or just open the issue yourself" --> ISSUE
     CODER -- "opens issue" --> ISSUE
     ACTION -. "authenticates with" .-> MAX
-    PR -- "PR event → routine" --> COS
-    YOU -- "review + merge" --> PR
+    PR -- "PR event, routine reports it" --> CODER
+    YOU2 -- "review + merge" --> PR
 ```
 
-1. You ask the Chief of Staff for something that needs engineering.
-2. It delegates to the **Coder** bot, whose only job is to open a GitHub issue with `@claude` and a clear brief.
-3. The official [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions) runs on a GitHub-hosted runner, authenticated with your **Claude subscription OAuth token** — not an API key.
-4. Claude Code reads the issue, edits, runs tests, and **pushes a branch**. It does not open the pull request — the action has no tool for that. A later step in the *same* workflow opens it, which costs no model turns and makes the `pull_request opened` event fire.
-5. A Grok Bot **routine** catches that event and the Chief of Staff tells you it's ready.
-6. You review and merge. **The merge is the approval.**
+**Layer 1, which is all you need:**
+
+1. Open an issue containing `@claude` and a clear brief. Yourself, from GitHub.
+2. The official [Claude Code GitHub Action](https://code.claude.com/docs/en/github-actions) runs on a GitHub-hosted runner, authenticated with your **Claude subscription OAuth token** — not an API key.
+3. Claude Code reads the issue, edits, runs tests, and **pushes a branch**. It does not open the pull request — the action has no tool for that. A later step in the *same* workflow opens it, which costs no model turns and makes the `pull_request opened` event fire.
+4. You review and merge. **The merge is the approval.**
+
+**Layer 2, if you want it:**
+
+5. A **Coder** bot writes step 1's issue from a one-line ask, and never writes code itself.
+6. A Grok Bot **routine** catches the pull-request event and reports it back into your group chat, unprompted.
+
+Both layer 2 steps are proven — see the runs in [07-evidence.md](docs/07-evidence.md) — but they are additions, not prerequisites.
 
 ## What you get
 
 | | |
 |---|---|
 | Servers to run | **0** |
-| Meters Grok Bot pays for | coordination only |
-| Meters Claude Max pays for | all code |
+| Who pays for the code | your Claude subscription — **$0.00** metered spend, confirmed on the Console |
 | Approval gate | your merge |
 | Who can trigger a run | only accounts with repo write access |
-| Time to first PR | ~2 hours |
+| Measured task time | **61s** issue to pull request, 9 of 25 turns |
 
 **On prompt injection:** the write-access check is *not* an injection defence, and this project used to claim it was. It controls who can start a run; it does not control what text reaches Claude. A comment from someone with no write access is still in the prompt when someone with write access says `@claude`. See [05-security.md](docs/05-security.md) for what actually contains it.
 
-**Measured, not asserted:** one real task — issue in, reviewable pull request out — took 63 seconds and 10 of 25 allowed turns, with **$0.00** of pay-as-you-go spend. See [07-evidence.md](docs/07-evidence.md) and [08-measurements.md](docs/08-measurements.md).
+## Honest limits
+
+This project's history is confident claims that turned out to be false — seventeen of them, removed after being checked. So:
+
+- **Never run against a large or complex codebase.** Every measurement here comes from a small trial repo. A real project will look different and we have not measured one.
+- **The report-back in layer 2 usually says `tests pending`** — by design. It fires when the pull request opens, while checks are still queued.
+- **One run per test.** Nothing here speaks to reliability over weeks.
+- Anything not verified by a run says so, in [07-evidence.md](docs/07-evidence.md).
 
 ## Quick start
 
