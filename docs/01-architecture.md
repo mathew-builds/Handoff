@@ -150,8 +150,8 @@ flowchart LR
 
 - The Grok Bot computer is shared by every bot on the account. It holds a GitHub token for one repo. **That token is a spam control, not a privilege control** — the action checks the *account's* write access, not the *token's* scope, so anyone holding it can start a full run. See D5 and `05-security.md`.
 - The Claude OAuth token exists only in GitHub Secrets and the ephemeral runner.
-- **The runner holds more than the Claude token.** It also gets a GitHub App installation token and the workflow's own `GITHUB_TOKEN`, which this template grants `contents: write`, `pull-requests: write` and `issues: write`. So a successful injection can push code, not merely spend quota.
-- The action only runs when the **triggering account has write access**. That stops strangers *spending your quota*. It does **not** stop prompt injection: every comment on the thread reaches Claude regardless of who wrote it, so a read-only account can plant text that Claude reads the next time someone with write access says `@claude`. See `05-security.md`.
+- **The runner holds more than the Claude token.** It also gets a GitHub App installation token and the workflow's own `GITHUB_TOKEN`, which this template grants `contents: write`, `pull-requests: write`, `issues: write`, `id-token: write` and `actions: read` (`templates/claude.yml`). So a successful injection can push code, not merely spend quota.
+- The action runs **two** checks on the triggering actor and **fails the run** when either rejects it: the account must have **write access**, and it must not be a bot (<https://code.claude.com/docs/en/github-actions> §"Who can trigger runs", read 2026-09-06). That stops strangers *spending your quota*. It does **not** stop prompt injection: every comment on the thread reaches Claude regardless of who wrote it, so a read-only account can plant text that Claude reads the next time someone with write access says `@claude`. See `05-security.md`.
 
 See `05-security.md` for the full threat model.
 

@@ -82,7 +82,20 @@ if [ -e CLAUDE.md ]; then
   warn "Merge in what you need from $HANDOFF_DIR/templates/CLAUDE.md.template by hand."
 else
   cp "$HANDOFF_DIR/templates/CLAUDE.md.template" CLAUDE.md
-  ok "CLAUDE.md created — edit the <placeholders> before your first task"
+  ok "CLAUDE.md created"
+fi
+# Unfilled placeholders are a blocker, not advice, because scripts/doctor.sh fails on them and
+# these two scripts must not disagree about the same repo — that was issue #36. This script
+# CREATES the state doctor.sh rejects, so exiting 0 here is the specific case that matters:
+# AGENTS.md tells the installing agent to read the exit code, not the output. Same literal
+# tokens as the doctor.sh check, deliberately, so the two cannot drift apart.
+LEFT="$(grep -oE '<(REPO NAME|test command|\.\.\.|lint, formatting, naming|paths that must not change[^>]*)>' CLAUDE.md 2>/dev/null | sort -u | tr '\n' ' ')"
+if [ -n "$LEFT" ]; then
+  block "CLAUDE.md still has template placeholders:$LEFT"
+  warn "  Claude reads this file first on every run, so until you fill these in it is"
+  warn "  briefed on the template rather than your repository."
+else
+  ok "CLAUDE.md has no unfilled placeholders"
 fi
 
 echo "→ Actions must be allowed to open pull requests"

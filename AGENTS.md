@@ -27,13 +27,13 @@ Optionally, a chat bot writes the issue and reports the pull request back. That 
 
 ## The rule that matters most
 
-**Three steps in this setup cannot be done by you.** They need a browser and a human. Do not attempt them, do not simulate them, and do not mark the setup complete without them.
+**Two steps in this setup cannot be done by you, and one you must not do without asking.** Do not attempt the first two, do not simulate them, and do not mark the setup complete without them.
 
-| Step | Why you cannot do it |
-|---|---|
-| Getting the subscription token | `claude setup-token` opens a browser for the human to approve. |
-| Installing the coding agent's GitHub App | A GitHub permissions screen. |
-| Allowing Actions to open pull requests | A repository setting. You *may* be able to change it — see step 5 — but **ask first**. |
+| Step | You | Why |
+|---|---|---|
+| Getting the subscription token | **cannot** | `claude setup-token` opens a browser for the human to approve, and prints a secret. |
+| Installing the coding agent's GitHub App | **cannot** | A GitHub permissions screen. |
+| Allowing Actions to open pull requests | **can — ask first** | One `gh api` call, and you have admin. But it also narrows `default_workflow_permissions`, so it is the human's call. See step 5. |
 
 > **Never run `claude setup-token` yourself.** It prints a secret. If you run it, that secret enters your context and your transcript, and it is the credential that pays for every future run. The human runs it in their own terminal and pipes it straight to `gh secret set`. Relay the commands; do not execute them.
 
@@ -66,12 +66,13 @@ git rev-parse --git-dir
 gh repo view --json nameWithOwner
 test -n "$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)" \
   || { echo "NO DEFAULT BRANCH — this repository has no commits. Push one first."; false; }
-gh api repos/OWNER/REPO --jq .permissions.admin
+[ "$(gh api repos/OWNER/REPO --jq .permissions.admin)" = "true" ] \
+  || { echo "NOT ADMIN — you cannot set secrets, so the setup cannot be completed."; false; }
 ```
 
 You need: `gh` logged in, a git repository, **admin** on it, and a default branch that exists. Without admin you cannot set secrets, and the setup cannot be completed.
 
-> The fourth check is written to *fail* rather than to report, deliberately. `gh repo view --json defaultBranchRef` on a commitless repository prints `{"name":""}` and exits **0** — the problem is in the output, not the exit code, so a check that only prints it reads as a pass.
+> The last two checks are written to *fail* rather than to report, deliberately, and the reason is the same both times: **the problem is in the output, not the exit code.** `gh repo view --json defaultBranchRef` on a commitless repository prints `{"name":""}` and exits 0. `gh api … --jq .permissions.admin` prints `false` and exits 0. A check that only prints either one reads as a pass — which is issue 36, the mistake this project keeps having to re-learn.
 
 ---
 
