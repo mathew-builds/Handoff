@@ -2,7 +2,7 @@
 
 ```mermaid
 gantt
-    title grokbot-claude-bridge — phases
+    title Handoff — phases
     dateFormat  YYYY-MM-DD
     axisFormat  %d %b
     section Phase 0 · Prove
