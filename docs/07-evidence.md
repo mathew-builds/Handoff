@@ -117,7 +117,7 @@ This is the case that failed twice before. It is the only run in this file that 
 
 **Verified 2026-09-06:** that PR generated a `pull_request` event — `actor=github-actions[bot]`, `action=opened` — observed directly on the repository's events API. So a PR opened with the default `GITHUB_TOKEN` does produce the event, even though GitHub suppresses *workflow runs* from that token.
 
-**Still not verified:** whether that event is *delivered to a webhook subscriber*. This repository has never had a webhook configured, so nothing was delivered and nothing was observed. D12's "webhooks and API events do fire" is, on the webhook half, still an inference from GitHub's documentation rather than something we have watched happen. Task 1.5 pass 2 settles it.
+**Still not verified:** whether that event is *delivered to a webhook subscriber*. This repository has never had a webhook configured, so nothing was delivered and nothing was observed. D12's "webhooks and API events do fire" is, on the webhook half, still an inference from GitHub's documentation rather than something we have watched happen. **Task 1.5 pass 2 ran on 2026-09-06 and did not settle it** — that run used the bot's built-in GitHub connection, not a webhook. The question is still open, and settling it needs a webhook actually configured on a repo.
 
 ### 2026-09-06 — the return path runs unattended (task 1.5, and the answer to #57)
 

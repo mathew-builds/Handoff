@@ -78,8 +78,8 @@ you see the constraint behind them.
 
 ## Commands
 
-There is no build and no test suite — the deliverable is text. These three are what CI
-runs, and running them locally reproduces CI exactly. Each exits non-zero on failure;
+The deliverable is mostly text, but `scripts/` is code and is now tested. These four are what
+CI runs, and running them locally reproduces CI exactly. Each exits non-zero on failure;
 **never add `|| true`**, because a check that reports instead of failing reads as a pass
 (that was issue #36).
 
@@ -89,7 +89,8 @@ pip install pyyaml    # once — check-workflow-caps.py needs it
 actionlint -ignore 'unexpected key "queue" for "concurrency" section' \
   .github/workflows/*.yml templates/*.yml   # lint workflows AND the templates
 python3 scripts/check-links.py              # every relative doc link resolves
-python3 scripts/check-workflow-caps.py      # the three cost brakes survive
+python3 scripts/check-workflow-caps.py      # the three cost brakes survive, in all three workflows
+bash scripts/test-scripts.sh                # scripts/*.sh lint AND run, both directions
 ```
 
 Run any one on its own — they are independent. The `-ignore` flag is dated and
