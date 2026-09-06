@@ -44,6 +44,23 @@ It cannot confirm the Claude GitHub App is installed — no API exposes that wit
 
 ## Failure modes and runbooks
 
+> **How much of this has been watched happening, as of 2026-09-06.** These entries are not all the
+> same kind of claim, and the difference matters when you are debugging at speed.
+>
+> | Entry | Basis |
+> |---|---|
+> | R1 "no run at all" — workflow not on the default branch | **Observed.** Cost us an hour; it is why `doctor.sh` checks it. |
+> | R1 read-only account fails rather than being ignored | Read in the action's source and docs. **The deliberate trigger is task 1.6 and has not been run.** |
+> | R2 expired credentials | Upstream issue reports, not our run. **Not reproduced here.** |
+> | R3 both halves | **Observed.** Shipped as issue 61 and corrected after watching it. |
+> | R4 allowance exhaustion | Vendor staff statement. Our own meter has **never been read** — see `08-measurements.md`. |
+> | R5, R6 | **Neither has happened to us.** Written from the vendor's behaviour as documented. |
+> | R7 runaway action | `gh run cancel` is standard; the *runaway* it responds to has never occurred here. |
+>
+> Task 1.6 exists to execute three of these deliberately and correct whatever reality disagrees
+> with. Until it is ticked, treat the unobserved rows as the best available expectation rather
+> than as fact.
+
 ### R1 — Action doesn't start
 
 Two different causes with two different symptoms. Check which one you have **first**, or you will hunt the wrong thing:

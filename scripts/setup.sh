@@ -29,9 +29,16 @@ git rev-parse --git-dir >/dev/null 2>&1 || fail "not inside a git repository"
 ok "gh, git, and a git repo"
 
 REPO="$(gh repo view --json nameWithOwner -q .nameWithOwner)"
-BASE="$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)"
+# REST, not GraphQL — see the comment in doctor.sh. `defaultBranchRef` is empty on a repo with
+# no commits, which printed "default branch: " with a hole in it and carried on regardless.
+BASE="$(gh api "repos/$REPO" --jq .default_branch)"
 OWNER_TYPE="$(gh api "repos/$REPO" --jq .owner.type)"
-echo "→ Target: $REPO (default branch: $BASE, owner type: $OWNER_TYPE)"
+if [ -z "$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null)" ]; then
+  BASE_NOTE="$BASE, no commits yet"
+else
+  BASE_NOTE="$BASE"
+fi
+echo "→ Target: $REPO (default branch: $BASE_NOTE, owner type: $OWNER_TYPE)"
 
 if [ "$OWNER_TYPE" = "Organization" ]; then
   ok "owned by an organisation — also supports the D5 machine-account upgrade"

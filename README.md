@@ -15,7 +15,7 @@
 
 **No server. No tunnel. No second meter.** Every other way of doing this needs at least one of the three.
 
-> **Status: Phase 1 complete.** Both halves proven by running them, not by reading vendor docs. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md) and [TASKS.md](TASKS.md).
+> **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md), including the token-scope control test and a fresh-eyes install. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
 
 > **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the three things it cannot do and must hand back to you, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
 
@@ -110,7 +110,7 @@ Both layer 2 steps are proven — see the runs in [07-evidence.md](docs/07-evide
 
 ## Honest limits
 
-This project's history is confident claims that turned out to be false — seventeen of them, removed after being checked. So:
+This project's history is confident claims that turned out to be false — four load-bearing ones, one of them repeated across seventeen places in the docs, all rewritten rather than patched after being checked. The record is the **Correction** entries in [02-decisions.md](docs/02-decisions.md) and `git log --grep=correct`. So:
 
 - **Never run against a large or complex codebase.** Every measurement here comes from a small trial repo. A real project will look different and we have not measured one.
 - **The report-back in layer 2 usually says `tests pending`** — by design. It fires when the pull request opens, while checks are still queued.
@@ -119,9 +119,14 @@ This project's history is confident claims that turned out to be false — seven
 
 ## Quick start
 
+> Doing this by hand? You are in the right place. Handing it to an agent? → **[AGENTS.md](AGENTS.md)**. Same install, two audiences.
+
 See [docs/03-setup-guide.md](docs/03-setup-guide.md) — it has the checks at each step. Short version:
 
 ```bash
+# 0. Get Handoff itself. The copies below read from it.
+git clone <this repository's URL> ~/handoff
+
 # 1. In the repo you want Claude to work on.
 #    setup-token opens a browser; copy what it prints, then paste at the prompt.
 #    Do NOT wrap it in $(...) — that swallows the browser flow.
@@ -129,9 +134,12 @@ claude setup-token
 gh secret set CLAUDE_CODE_OAUTH_TOKEN
 
 mkdir -p .github/workflows
-cp templates/claude.yml .github/workflows/claude.yml
+cp ~/handoff/templates/claude.yml .github/workflows/claude.yml
 # Only if the repo has no CLAUDE.md yet — this OVERWRITES:
-cp templates/CLAUDE.md.template CLAUDE.md
+cp ~/handoff/templates/CLAUDE.md.template CLAUDE.md
+
+# …or skip the two copies and let the script do them:
+bash ~/handoff/scripts/setup.sh
 
 # 2. Install the Claude GitHub App: https://github.com/apps/claude
 # 3. Settings -> Actions -> General -> tick

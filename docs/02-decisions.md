@@ -156,6 +156,16 @@ Also confirmed, and load-bearing for the rest of the design:
 - **The action rejects bot actors by default**, `allowed_bots` is empty, and allowed bots are *not* permission-checked. A GitHub *user* account (D5's machine account) is unaffected; a GitHub *App* — which is the likely shape of Grok Bot's native connector — would be rejected. This is a precondition for D5 and task 1.4, not a detail.
 - **Do not pass `github_token`.** Left unset, the action authenticates as the Claude GitHub App, which is what lets your CI trigger on Claude's commits.
 
+**Re-verified 2026-09-06** against the same page, independently of the run above. Everything in the
+table still holds. Two things worth adding, both read on the live page that day:
+
+- **`id-token: write` is required**, not optional — it is what the action's default GitHub App
+  authentication uses. The template has it; do not prune it as unused.
+- **`--allowed-tools` is a documented alias** for `--allowedTools`. Either spelling works, so a
+  check that greps for one exact spelling would be fragile.
+
+Task 0.1 is ticked on the strength of these two runs.
+
 ### D12 — A step inside `claude.yml` opens the pull request; Claude does not
 **Date:** 2026-09-05
 **Decision:** A step **inside `claude.yml`**, immediately after the action, opens the pull request using the action's `branch_name` output.

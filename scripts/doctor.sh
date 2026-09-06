@@ -35,8 +35,22 @@ if [ -z "$REPO" ]; then
   REPO="$(gh repo view --json nameWithOwner -q .nameWithOwner 2>/dev/null)" \
     || { echo "Not in a git repo and no OWNER/REPO given."; exit 1; }
 fi
-BASE="$(gh repo view "$REPO" --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null)"
-[ -n "$BASE" ] || { echo "Cannot read $REPO — wrong name, or no access."; exit 1; }
+# Read the default branch over REST, not GraphQL. `defaultBranchRef` resolves an actual ref,
+# so it is empty on a repo that exists but has no commits yet — and reporting that as "no access"
+# sends the reader off to debug the repo name and their auth, neither of which is wrong.
+# REST's `default_branch` is populated from creation. Verified 2026-09-06 on a fresh org repo:
+# REST said "main" while defaultBranchRef said "".
+# Key off gh's exit status, not the output: on a 404 `gh api` still prints the error JSON to
+# stdout, so testing for emptiness alone reports a missing repo as an empty one.
+if ! BASE="$(gh api "repos/$REPO" --jq .default_branch 2>/dev/null)" || [ -z "$BASE" ]; then
+  echo "Cannot read $REPO — wrong name, or no access."; exit 1
+fi
+if [ -z "$(gh repo view "$REPO" --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null)" ]; then
+  echo "$REPO exists but has no commits yet."
+  echo "  Push one to $BASE first — every check below reads files from that branch."
+  echo "  Fix: gh repo create is not enough; use --add-readme, or push an initial commit."
+  exit 1
+fi
 
 printf '\033[1mHandoff doctor\033[0m — %s (default branch: %s)\n' "$REPO" "$BASE"
 
@@ -91,6 +105,23 @@ elif gh api "repos/$REPO/contents/.github/workflows/claude.yml" >/dev/null 2>&1;
        "Actions only triggers issue events from the default branch. Merge it to $BASE."
 else
   fail "claude.yml is missing" "cp templates/claude.yml .github/workflows/ then commit and push to $BASE"
+fi
+
+# The workflow can be perfect and the run still useless: Claude reads CLAUDE.md first on every
+# run, so an unfilled template means it is briefed on a placeholder repository rather than this
+# one. AGENTS.md already names this as the cause of "the agent edited files it was told not to",
+# but nothing checked it until now. Match the literal placeholder tokens shipped in
+# templates/CLAUDE.md.template — not "any <angle brackets>", which would hit ordinary prose.
+if CM="$(gh api "repos/$REPO/contents/CLAUDE.md?ref=$BASE" --jq .content 2>/dev/null | base64 -d 2>/dev/null)" && [ -n "$CM" ]; then
+  LEFT="$(printf '%s\n' "$CM" | grep -oE '<(REPO NAME|test command|\.\.\.|lint, formatting, naming|paths that must not change[^>]*)>' | sort -u | tr '\n' ' ')"
+  if [ -z "$LEFT" ]; then
+    pass "CLAUDE.md has no unfilled placeholders"
+  else
+    fail "CLAUDE.md still contains template placeholders: $LEFT" \
+         "Claude reads this file first on every run, so it is currently briefed on the template rather than your repository. Fill them in — AGENTS.md step 4."
+  fi
+else
+  warn "no CLAUDE.md on $BASE" "Claude will run without repository-specific instructions. Copy templates/CLAUDE.md.template and fill it in."
 fi
 
 head_ "Pull requests"
