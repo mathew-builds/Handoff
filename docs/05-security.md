@@ -47,9 +47,19 @@ Grok Bot's documentation says plainly: all bots on an account share one computer
 
 1. **Untrusted text and real credentials never share a machine.** True of the Grok Bot computer. **Not true of the runner** — the runner reads the issue thread, which is untrusted text, while holding the Claude token *and* a GitHub token with `contents: write`. That is inherent to the design; the containment is that the runner is destroyed after each run and holds nothing from production.
 2. **Allow-lists, not block-lists.** Tools in the workflow are named. Trigger accounts are those with write access. But note the limit: **running a repo's tests means executing that repo's code**, and on pull-request runs that code comes from the pull request. No allow-list avoids that. If you cannot accept it, drop the pull-request triggers and run issue-only.
-3. **One token per bot per repo**, org-owned, 90-day expiry. Treat it as a spam control, not a privilege control — see the threat table.
-4. **Every irreversible action asks you.** Merge on GitHub; Auto Review rules on Grok Bot for email, spend, post, production.
-5. **Your subscriptions, your work.** Anthropic's terms do not permit routing other people's requests through your Claude plan. This template is used by each person with their own token. Don't wrap it in a shared service.
+3. **Never populate `allowed_bots`.** The action rejects bot actors by default and `allowed_bots` is empty — leave it that way. Per the action's own security documentation, **allowed bots are not permission-checked**: a bot matching that list needs neither an installation nor write access on the repo. Adding one entry therefore replaces the entire access control with that list, which is a far weaker control than the one it removes.
+
+   What this means in practice:
+
+   | Actor | Outcome |
+   |---|---|
+   | A GitHub **User** account with write access — including a dedicated machine account (D5) | Runs. This is the supported path. |
+   | A GitHub **App** — the likely shape of a native chat-bot connector | **Rejected outright.** No configuration on our side changes this except `allowed_bots`, which you should not use. |
+
+   This is why the setup guide has you check `user.type` and `performed_via_github_app` after the first bot-opened issue, and why a login ending in `[bot]` is a stop-and-tell-me condition rather than something to work around. See D5, D5a and task 1.4.
+4. **One token per bot per repo**, org-owned, 90-day expiry. Treat it as a spam control, not a privilege control — see the threat table.
+5. **Every irreversible action asks you.** Merge on GitHub; Auto Review rules on Grok Bot for email, spend, post, production.
+6. **Your subscriptions, your work.** Anthropic's terms do not permit routing other people's requests through your Claude plan. This template is used by each person with their own token. Don't wrap it in a shared service.
 
 ## What this does NOT protect against
 
