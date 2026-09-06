@@ -105,7 +105,10 @@ if [ "$CHECK_TOKEN" = "1" ]; then
             | tr -d '\r' | awk -F': ' 'tolower($1)=="github-authentication-token-expiration"{print $2}')"
     CODE="$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $BOT_TOKEN" \
             "https://api.github.com/repos/$REPO/issues")"
-    if [ "$CODE" = "200" ]; then pass "token can read issues on $REPO"
+    if [ "$CODE" = "200" ]; then
+      pass "token can read issues on $REPO"
+      warn "reach checked, scope NOT checked" \
+           "This proves the token reaches $REPO. It does not prove it is limited to it — a token scoped to every repo passes this identically. Run the two-call check in docs/03-setup-guide.md against a control repo you own, and read the trap note there before choosing one."
     else fail "token cannot reach $REPO issues (HTTP $CODE)" "Check the resource owner is the ORG, and that an org owner approved the token."; fi
     if [ -n "$EXP" ]; then
       pass "token expires: $EXP"
