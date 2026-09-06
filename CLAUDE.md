@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repo is **Handoff**: a zero-server template that lets a chat agent delegate coding to a subscription-billed coding agent, over GitHub. Grok Bot → Claude Code is the first supported pair, not the only intended one — keep naming vendor-neutral where you can. Read `README.md` first, then `docs/01-architecture.md`, then `TASKS.md`.
 
+> **If you were pointed here to *install* Handoff into someone's repository, you are in the wrong file.** Read `AGENTS.md` instead. This file is about developing Handoff itself; `AGENTS.md` is about installing it. Confusing the two wastes a run.
+
 ## What this repo is
 - A **template** other people copy into their own repos. Keep everything generic; no personal tokens, repo names, or account names anywhere.
 - Documentation-first. If a decision changes, update `docs/02-decisions.md` in the same PR.
