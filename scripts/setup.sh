@@ -13,9 +13,13 @@
 set -euo pipefail
 
 BRIDGE_DIR="${BRIDGE_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
-fail() { printf '\n  ✗ %s\n' "$*" >&2; exit 1; }
-ok()   { printf '  ✓ %s\n' "$*"; }
-warn() { printf '  ! %s\n' "$*"; }
+BLOCKED=0
+fail()  { printf '\n  ✗ %s\n' "$*" >&2; exit 1; }
+ok()    { printf '  ✓ %s\n' "$*"; }
+warn()  { printf '  ! %s\n' "$*"; }
+# A blocker is something that leaves the bridge NON-FUNCTIONAL. It prints like a
+# warning but it decides the exit code, so `setup.sh && echo done` cannot lie.
+block() { printf '  ✗ %s\n' "$*"; BLOCKED=$((BLOCKED + 1)); }
 
 echo "→ Prerequisites"
 command -v gh    >/dev/null || fail "gh CLI not found — https://cli.github.com"
@@ -29,12 +33,10 @@ BASE="$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)"
 OWNER_TYPE="$(gh api "repos/$REPO" --jq .owner.type)"
 echo "→ Target: $REPO (default branch: $BASE, owner type: $OWNER_TYPE)"
 
-if [ "$OWNER_TYPE" != "Organization" ]; then
-  warn "This repo is owned by a personal account."
-  warn "Steps 1 and 2 will work fine. But Phase 1's machine account will NOT:"
-  warn "GitHub does not let a collaborator create a fine-grained token for a"
-  warn "repo they do not own, and the classic-PAT fallback needs full 'repo'"
-  warn "scope. Move this repo to an organisation before Phase 1. (issue #46)"
+if [ "$OWNER_TYPE" = "Organization" ]; then
+  ok "owned by an organisation — also supports the D5 machine-account upgrade"
+else
+  ok "owned by a personal account — you can create a fine-grained token for a repo you own (D5a)"
 fi
 
 echo "→ Subscription token"
@@ -78,11 +80,14 @@ echo "→ Actions must be allowed to open pull requests"
 if gh api "repos/$REPO/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null | grep -q true; then
   ok "already enabled"
 else
-  warn "NOT enabled. Either run:"
+  block "NOT enabled — the PR step will fail and no pull request will ever appear."
+  warn "  Either run this (verified working 2026-09-06):"
   warn "    gh api -X PUT repos/$REPO/actions/permissions/workflow \\"
   warn "      -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true"
   warn "  or tick Settings → Actions → General → Workflow permissions →"
   warn "  'Allow GitHub Actions to create and approve pull requests'."
+  warn "  Not done for you: that call also sets default_workflow_permissions,"
+  warn "  which would silently narrow a repo where you had chosen 'write'."
 fi
 
 echo "→ Are the workflows on the default branch?"
@@ -90,7 +95,7 @@ if git diff --quiet HEAD -- .github/workflows CLAUDE.md 2>/dev/null \
    && git ls-tree -r --name-only "origin/$BASE" 2>/dev/null | grep -q '.github/workflows/claude.yml'; then
   ok "committed and pushed"
 else
-  warn "not yet. Actions only triggers issue events from the default branch:"
+  block "not yet — Actions only triggers issue events from the default branch, so nothing will fire."
   warn "    git add -A && git commit -m 'add claude bridge' && git push"
 fi
 
@@ -99,12 +104,26 @@ cat <<MSG
 Remaining, and only you can do these:
   1. Install the Claude GitHub App on $REPO — https://github.com/apps/claude
      (or run 'claude', then type /install-github-app at the prompt)
-  2. Commit and push, if the check above said otherwise.
-  3. Test it:
+  2. Edit the <placeholders> in CLAUDE.md. Claude reads that file first on
+     every run, so testing before you fill it in tests the template, not
+     your repo.
+  3. Commit and push, if the check above said otherwise.
+  4. Test it:
        gh issue create --title "Add a CONTRIBUTING.md" \\
          --body "@claude Add a short CONTRIBUTING.md describing how to run the tests.
        Done means: the file exists and the tests still pass."
-  4. Confirm: a pull request appears, opened by github-actions (NOT by the
+  5. Confirm: a pull request appears, opened by github-actions (NOT by the
      Claude app — it has no such tool), and https://platform.claude.com/usage
      shows no API spend for the run.
 MSG
+
+# Exit code has to mean something. Warnings are advice; blockers leave the
+# bridge non-functional, and this script used to exit 0 on a repo that
+# scripts/doctor.sh exits 1 on. A check that reports instead of failing reads
+# as a pass — that was issue #36.
+if [ "$BLOCKED" -gt 0 ]; then
+  printf '\n  ✗ %d blocker(s) above. The bridge will NOT work until they are fixed.\n' "$BLOCKED" >&2
+  printf '    Fix them, then re-run this script or: scripts/doctor.sh %s\n\n' "$REPO" >&2
+  exit 1
+fi
+printf '\n  ✓ Nothing blocking on the repo side.\n\n'
