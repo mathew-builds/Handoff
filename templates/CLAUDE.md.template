@@ -1,6 +1,6 @@
 # CLAUDE.md — <REPO NAME>
 
-You are working in this repository via the grokbot-claude-bridge. Tasks arrive as GitHub issues that mention @claude. Your output is a pull request.
+You are working in this repository via Handoff. Tasks arrive as GitHub issues that mention @claude. Your output is a pull request.
 
 ## Always
 - Read the whole issue, including comments, before changing anything.

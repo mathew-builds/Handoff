@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# grokbot-claude-bridge — Step 1 of the setup guide, automated.
+# Handoff — Step 1 of the setup guide, automated.
 #
 # Run from inside the consumer repo. Requires `gh` (logged in, admin on the repo)
 # and `claude` (logged in with your Pro/Max/Team/Enterprise subscription).
@@ -12,7 +12,7 @@
 #     instructions in testing. (issue #25)
 set -euo pipefail
 
-BRIDGE_DIR="${BRIDGE_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
+HANDOFF_DIR="${HANDOFF_DIR:-${BRIDGE_DIR:-$(cd "$(dirname "$0")/.." && pwd)}}"
 BLOCKED=0
 fail()  { printf '\n  ✗ %s\n' "$*" >&2; exit 1; }
 ok()    { printf '  ✓ %s\n' "$*"; }
@@ -61,16 +61,16 @@ mkdir -p .github/workflows
 if [ -e ".github/workflows/claude.yml" ]; then
   ok "claude.yml already present, left alone"
 else
-  cp "$BRIDGE_DIR/templates/claude.yml" ".github/workflows/claude.yml"
+  cp "$HANDOFF_DIR/templates/claude.yml" ".github/workflows/claude.yml"
   ok "claude.yml installed"
 fi
 
 echo "→ Repo instructions"
 if [ -e CLAUDE.md ]; then
   warn "CLAUDE.md exists — NOT overwriting it."
-  warn "Merge in what you need from $BRIDGE_DIR/templates/CLAUDE.md.template by hand."
+  warn "Merge in what you need from $HANDOFF_DIR/templates/CLAUDE.md.template by hand."
 else
-  cp "$BRIDGE_DIR/templates/CLAUDE.md.template" CLAUDE.md
+  cp "$HANDOFF_DIR/templates/CLAUDE.md.template" CLAUDE.md
   ok "CLAUDE.md created — edit the <placeholders> before your first task"
 fi
 

@@ -1,4 +1,4 @@
-# grokbot-claude-bridge — consumer repo workflow
+# Handoff — consumer repo workflow
 # Copy to .github/workflows/claude.yml in the repo Claude should work on.
 # Verify inputs against https://code.claude.com/docs/en/github-actions before editing.
 #
