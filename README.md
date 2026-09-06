@@ -162,6 +162,8 @@ cp templates/CLAUDE.md.template CLAUDE.md
 | [07-evidence](docs/07-evidence.md) | The research behind the pain point, and our own runs |
 | [08-measurements](docs/08-measurements.md) | What a real task actually cost |
 
+**Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md) · **Release history:** [CHANGELOG.md](CHANGELOG.md) · **Installing with an agent:** [AGENTS.md](AGENTS.md)
+
 ## Licence
 
 MIT. This is a template: every user runs it with their own tokens in their own repos. Nothing here routes anyone else's requests through your subscription.
