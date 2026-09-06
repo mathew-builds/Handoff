@@ -39,9 +39,17 @@ Optionally, a chat bot writes the issue and reports the pull request back. That 
 
 ---
 
-## Before you start
+## Step 0 — Get a working copy of the target repository
 
-Confirm all four. If any fails, tell the human what is missing and stop.
+**Do this first.** Everything below runs from inside the repository you are configuring, and you may only have been given its URL.
+
+```
+git clone <the target repository URL> ~/target && cd ~/target
+```
+
+If the human already has a checkout open, use that instead and skip the clone. Substitute your own path for `~/target` throughout — the paths in this file are examples, not requirements.
+
+Then confirm all four from inside it. If any fails, tell the human what is missing and stop.
 
 ```
 gh auth status
@@ -59,15 +67,18 @@ You need: `gh` logged in, a git repository, and **admin** on it. Without admin y
 Clone it somewhere outside the target repository. Do not clone it *into* the repository you are configuring.
 
 ```
-git clone <the Handoff repository URL you were given> ~/handoff
+HANDOFF=~/handoff
+git clone <the Handoff repository URL you were given> "$HANDOFF"
 ```
+
+**Set `HANDOFF` to wherever you actually cloned it and use `$HANDOFF` everywhere below.** The rest of this file assumes that variable, so if you clone elsewhere nothing breaks.
 
 **If you were given a local path instead of a URL, use that path and do not clone.** A local checkout may be on a branch with work that is not published yet; cloning would silently give you different files. Observed in testing: an agent told to use a local checkout cloned from GitHub anyway and ended up with an older version, then followed instructions that were missing the step it needed.
 
 Confirm you have the right thing before continuing — this file should exist in it:
 
 ```
-ls ~/handoff/AGENTS.md
+ls "$HANDOFF/AGENTS.md"
 ```
 
 If it does not, you have an older copy. Stop and tell the human.
@@ -95,6 +106,8 @@ gh secret list --repo OWNER/REPO
 
 `CLAUDE_CODE_OAUTH_TOKEN` must be listed. You cannot read its value, and you should not try.
 
+**Do not wait here.** If the human is away, record the request and carry straight on to step 3. Everything from step 3 to step 4 works without the token; only steps 8 and 9 need it. Waiting produces the worst outcome — the human comes back to a setup where nothing happened.
+
 ---
 
 ## Step 3 — Run the setup script
@@ -102,14 +115,16 @@ gh secret list --repo OWNER/REPO
 From **inside the target repository**:
 
 ```
-bash ~/handoff/scripts/setup.sh
+bash "$HANDOFF/scripts/setup.sh"
 ```
 
 It copies the workflow in, creates a `CLAUDE.md` if there isn't one, and checks the repository settings.
 
+**It does all of that even when the human has not given you the token yet.** The token is reported as a blocker at the end rather than stopping the script, precisely so an agent working while the human is away can still finish the mechanical work. Earlier versions exited before touching any file; if you meet one that does, you have an old copy.
+
 **Read its exit code, not just its output.** It exits non-zero when something leaves the bridge non-functional. Warnings are advice; blockers are not.
 
-It will not overwrite an existing `CLAUDE.md`. If the repository already has one, merge in what you need from `~/handoff/templates/CLAUDE.md.template` by hand — that file tells the coding agent how to behave in this repository, and it matters more than it looks.
+It will not overwrite an existing `CLAUDE.md`. If the repository already has one, merge in what you need from `$HANDOFF/templates/CLAUDE.md.template` by hand — that file tells the coding agent how to behave in this repository, and it matters more than it looks.
 
 ---
 
@@ -118,6 +133,8 @@ It will not overwrite an existing `CLAUDE.md`. If the repository already has one
 If the script created `CLAUDE.md`, it contains `<placeholders>`. **Fill them in before any test run.** The coding agent reads that file first on every run, so testing with placeholders still in it tests the template rather than the repository.
 
 You can do this yourself: read the repository, work out its test command and its never-touch paths, and write them in. Then show the human what you wrote and ask them to correct it.
+
+**If the repository has no tests, write that it has no tests.** Do not invent a plausible command. A `CLAUDE.md` claiming `npm test` in a repository with no `package.json` will make every future run fail in a confusing way, and the failure will look like the coding agent's fault rather than yours. "This repository has no test suite; verify changes by reading the diff" is a correct and useful thing to write. Say so in your report so the human can correct it if they are about to add tests.
 
 ---
 
@@ -161,7 +178,7 @@ git push
 ## Step 8 — Verify
 
 ```
-bash ~/handoff/scripts/doctor.sh OWNER/REPO
+bash "$HANDOFF/scripts/doctor.sh" OWNER/REPO
 ```
 
 **Exit code 0 means the repository side is correctly wired.** Non-zero means it is not — read the failures, they each name the fix.
