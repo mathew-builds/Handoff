@@ -89,7 +89,11 @@ fi
 # CREATES the state doctor.sh rejects, so exiting 0 here is the specific case that matters:
 # AGENTS.md tells the installing agent to read the exit code, not the output. Same literal
 # tokens as the doctor.sh check, deliberately, so the two cannot drift apart.
-LEFT="$(grep -oE '<(REPO NAME|test command|\.\.\.|lint, formatting, naming|paths that must not change[^>]*)>' CLAUDE.md 2>/dev/null | sort -u | tr '\n' ' ')"
+# `|| LEFT=""` is required, not decorative: grep exits 1 when it finds nothing, `pipefail`
+# propagates that, and this script runs under `set -e` (line 13) — so the SUCCESS case, a
+# correctly filled-in CLAUDE.md, would kill the script here and silently skip every check below
+# it. doctor.sh needs no such guard because it runs `set -uo pipefail` without `-e`.
+LEFT="$(grep -oE '<(REPO NAME|test command|\.\.\.|lint, formatting, naming|paths that must not change[^>]*)>' CLAUDE.md 2>/dev/null | sort -u | tr '\n' ' ')" || LEFT=""
 if [ -n "$LEFT" ]; then
   block "CLAUDE.md still has template placeholders:$LEFT"
   warn "  Claude reads this file first on every run, so until you fill these in it is"

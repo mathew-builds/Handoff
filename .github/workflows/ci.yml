@@ -70,6 +70,13 @@ jobs:
       - name: The consumer workflow must keep its three cost brakes
         run: python3 scripts/check-workflow-caps.py
 
+      - name: The operator scripts must lint AND run
+        # Nothing checked scripts/ at all until 2026-09-06, which is how a change
+        # that made setup.sh exit 1 on a correctly configured repo reached main.
+        # `bash -n` and shellcheck both passed on that file — only executing it,
+        # against the input it should accept, caught it. Hence: run, don't read.
+        run: bash scripts/test-scripts.sh
+
       - name: No secrets committed
         run: |
           set -euo pipefail

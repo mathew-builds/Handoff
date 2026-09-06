@@ -4,7 +4,7 @@ Each step ends with a check. Don't move on until the check passes.
 
 ```mermaid
 flowchart LR
-    S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Machine account] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
+    S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Scoped token] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
     style S2 fill:#EAF3EE,stroke:#2C6B4F
 ```
 
@@ -82,27 +82,30 @@ Stop here for a day if you like. You've proven the expensive half.
 scripts/doctor.sh OWNER/REPO
 ```
 
-## Step 3 — Machine account for the bot (15 min)
+## Step 3 — A scoped token for the bot (15 min)
 
-> **The target repo must be owned by an organisation.** GitHub does not let an
-> outside or repository collaborator create a fine-grained token for a repo they
-> do not own — *"The major gaps in fine-grained personal access tokens are: …
-> using fine-grained personal access token to contribute to repositories where
-> the user is an outside or repository collaborator."* On a personally-owned
-> repo the only working credential is a **classic** PAT with the full `repo`
-> scope, which grants read/write access to all your code — the opposite of
-> scoped, on a machine you are told to assume is compromised. Move the repo to
-> an org first.
+Mint the token on **your own** account. Skip the machine account for now — it buys attribution,
+not security (D5a), and it needs an org-owned repo you may not have.
 
-1. Create a GitHub account for the bot (e.g. `<yourname>-coder-bot`). Enable 2FA.
-2. Add it to the **organisation** as a member, and give it **write access** to the target repo. The action only responds to write-access accounts — this is deliberate and cannot be tightened.
-3. Logged in as the bot: Settings → Developer settings → Fine-grained tokens → New:
-   - Resource owner: **the organisation**
+1. Settings → Developer settings → Fine-grained tokens → New:
+   - Resource owner: **you**
    - Repository access: **only** the target repo
    - Permissions: **Issues: Read and write**. Nothing else.
    - Expiry: 90 days. Put the date in your calendar.
-4. An **organisation owner must approve the token** before it works. That is GitHub's default policy; budget a step for it.
-5. Copy the token; you'll paste it into the Coder bot in the next step.
+2. Copy the token; you'll paste it into the GitHub connector in the next step.
+
+> **When you later upgrade to a machine account, the repo must be org-owned.** GitHub lists as a
+> current gap: *"using fine-grained personal access token to contribute to repositories where the
+> user is an outside or repository collaborator."*
+> — <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>, read 2026-09-06
+>
+> On a personally-owned repo the only working credential for a *second* account is a **classic**
+> PAT with the full `repo` scope, which grants read/write to all your code — the opposite of
+> scoped, on a machine you are told to assume is compromised. **This does not affect a fine-grained
+> token on your own account for a repo you own**, which is what step 1 above tells you to make.
+>
+> The machine account also needs **write access** to the repo, and an **organisation owner must
+> approve its token** before it works. That is GitHub's default policy; budget a step for it.
 
 **Check the scope, in two calls.** Replace `CONTROL_REPO` with one you own — see the trap below.
 
