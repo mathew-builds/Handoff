@@ -180,7 +180,7 @@ A one-line ask to the Coder bot — *"Open an issue asking @claude to add a docs
 
 **Coder's brief was well-formed without being told the format twice.** It emitted `@claude` on line one, the file path, a one-sentence why, a "Done means", and a "Do not" — the exact order `templates/bots/coder.md` specifies. It did **not** ask Claude to open a pull request, which the description forbids because Claude cannot and asking wastes a turn.
 
-**Scope discipline held.** The diff is one file, `+1/-0`: `docs/HELLO.md`, containing `Hello from the claude-bridge-trial repository.` — one sentence, as briefed, nothing else touched.
+**Scope discipline held.** The diff is one file, `+1/-0`: `docs/HELLO.md`, containing `Hello from the [trial repo] repository.` — one sentence, as briefed, nothing else touched. (Square brackets mark a redacted repository name, per the note at the top of this file; the file itself said the real one.)
 
 **And Coder wrote no code.** `/workspace` on its computer was checked by the account owner and contained no code changes. That is the half of task 1.3's acceptance test that cannot be seen from GitHub, and it is the half that actually matters: the test is whether Coder *briefs* rather than *builds*.
 

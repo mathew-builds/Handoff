@@ -47,18 +47,31 @@ Optionally, a chat bot writes the issue and reports the pull request back. That 
 git clone <the target repository URL> ~/target && cd ~/target
 ```
 
+**If there is no repository yet** — the human asked for Handoff on a *new* repo — create it *with a first commit*:
+
+```
+gh repo create OWNER/NAME --private --add-readme
+git clone https://github.com/OWNER/NAME ~/target && cd ~/target
+```
+
+`--add-readme` is not cosmetic. A repository with no commits has no default branch ref, every step below reads files from that branch, and `doctor.sh` cannot check anything without it.
+
 If the human already has a checkout open, use that instead and skip the clone. Substitute your own path for `~/target` throughout — the paths in this file are examples, not requirements.
 
-Then confirm all four from inside it. If any fails, tell the human what is missing and stop.
+Then confirm all five from inside it. **Each one exits non-zero when it fails** — do not read the output and move on. If any fails, tell the human what is missing and stop.
 
 ```
 gh auth status
-gh repo view --json nameWithOwner,defaultBranchRef
 git rev-parse --git-dir
+gh repo view --json nameWithOwner
+test -n "$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)" \
+  || { echo "NO DEFAULT BRANCH — this repository has no commits. Push one first."; false; }
 gh api repos/OWNER/REPO --jq .permissions.admin
 ```
 
-You need: `gh` logged in, a git repository, and **admin** on it. Without admin you cannot set secrets, and the setup cannot be completed.
+You need: `gh` logged in, a git repository, **admin** on it, and a default branch that exists. Without admin you cannot set secrets, and the setup cannot be completed.
+
+> The fourth check is written to *fail* rather than to report, deliberately. `gh repo view --json defaultBranchRef` on a commitless repository prints `{"name":""}` and exits **0** — the problem is in the output, not the exit code, so a check that only prints it reads as a pass.
 
 ---
 

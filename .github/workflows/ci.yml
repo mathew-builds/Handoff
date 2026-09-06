@@ -48,7 +48,7 @@ jobs:
           # The one suppression: actionlint 1.7.12 does not know the `queue` key
           # under `concurrency`. GitHub documents it (`single` default, `max` for
           # up to 100 pending) and we confirmed it parses on real GitHub — run
-          # 33971250162 on claude-bridge-trial succeeded with `queue: max` in the
+          # 33971250162 on a private trial repo succeeded with `queue: max` in the
           # file. Checked 2026-09-05; drop this flag once actionlint catches up.
           IGNORE='unexpected key "queue" for "concurrency" section'
           mkdir -p .lintcheck/.github/workflows
