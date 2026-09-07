@@ -70,6 +70,14 @@ jobs:
           ISSUE: ${{ github.event.issue.number }}
           IS_NEW_ISSUE: ${{ github.event_name == 'issues' }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Required, not decorative. `gh` resolves which repository to act on
+          # from the checked-out git remote — and this step deliberately runs
+          # BEFORE actions/checkout, so there is no remote. Without this, every
+          # `gh issue comment` below fails with "fatal: not a git repository"
+          # and the refusal is silent: the step still exits 1 and still blocks
+          # the run, but the human never learns why. Shipped broken; the tests
+          # missed it because the stub `gh` ignored its arguments.
+          GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
 
