@@ -12,7 +12,7 @@ flowchart TB
         ISSUES["Issues on the target repo"]
         SEC["Repo Secrets — trusted<br/>CLAUDE_CODE_OAUTH_TOKEN"]
     end
-    subgraph RUN["Ephemeral runner — trusted, short-lived"]
+    subgraph RUN["Ephemeral runner — destroyed each run,<br/>but reads untrusted text while holding live tokens"]
         T4["Repo checkout + Claude Code<br/>+ a GitHub token with contents:write"]
     end
     subgraph NO["Never on the bot computer"]
@@ -24,10 +24,10 @@ flowchart TB
     T1 -- "open / comment issue" --> ISSUES
     ISSUES -- "triggers workflow<br/>(write-access check)" --> T4
     SEC -. "injected at run time" .-> T4
-    style GB fill:#FBECEA,stroke:#A02B20
-    style GH fill:#F5F3EF,stroke:#5C626B
-    style RUN fill:#EAF3EE,stroke:#2C6B4F
-    style NO fill:#F5F3EF,stroke:#5C626B,stroke-dasharray: 4 3
+    style GB stroke:#A02B20
+    style GH stroke:#5C626B
+    style RUN stroke:#2C6B4F
+    style NO stroke:#5C626B,stroke-dasharray: 4 3
 ```
 
 Grok Bot's documentation says plainly: all bots on an account share one computer, and separate bots must not be treated as a security boundary. Design for that. The only thing that computer needs to talk to GitHub is a token that can open issues on one repo.

@@ -7,7 +7,7 @@ Why we believe the pain point is real and structural. Compiled 5 Sep 2026 from x
 | Fact | Source |
 |---|---|
 | Usage resets **weekly**; the allowance size is not published per plan | Cursor plans doc; xAI Grok Bot docs |
-| "There is no Grok Bot-specific spend cap yet" | Cursor teams/billing doc |
+| **"A separate Grok Bot spend cap is not available today. Account-level on-demand controls apply, and the per-product split is on the dashboard usage page."** | <https://docs.x.ai/grok-bot/teams-and-enterprises>, FAQ "Can I set a Grok Bot spend cap?", read 2026-09-07 |
 | No model picker; billing follows the actual serving model | Cursor Grok Bot doc |
 | When the weekly pool is exhausted, usage continues on shared on-demand spend if enabled | Cursor plans doc |
 | All bots share one computer; separate bots are not a security boundary | xAI Grok Bot FAQ |
@@ -46,7 +46,50 @@ Coding is not the *only* drain, but it is the one that (a) is the most token-hun
 - Cursor's own path: Grok Bot delegating to **Cursor Cloud Agents**, which bill to the Cursor pool rather than the Grok Bot pool.
 - xAI's own staff describe an engineering-manager bot that "does not code" and delegates.
 
-Every one of these is a bridge. All of them need a server, a tunnel, or a second metered pool. This project is the version that needs none.
+Every one of these is a bridge. All of them need **a server, a tunnel, a second billing pool, or your coding credential on the bot's shared computer.** This project is the version that needs none of the four.
+
+> **Corrected 2026-09-07, and the correction matters.** This paragraph previously said "a server, a
+> tunnel, or a second metered pool" — three axes. The second bullet above falsifies that: installing
+> the coding CLI on the bot's own computer needs no server you provision, no tunnel, and — signed in
+> to your own subscription — no second pool. On the three axes as written it beat us.
+>
+> The fourth axis is what it actually costs, and this project already documents it as unacceptable:
+> `05-security.md` says to assume that computer is compromised and lists a coding login under
+> **Never on the bot computer**, the vendor states that all a user's bots share one computer and that
+> any permitted connector is available to every bot they run, and the bullet above records that
+> installed packages are wiped on image updates.
+>
+> "Second **billing** pool", not "metered pool": we can evidence that Cursor Cloud Agents bill to a
+> *different* pool; we have not evidenced that that pool is metered per token.
+
+### The same thing as a table
+
+**Scored from our own notes on other people's products. We have run none of them.** Every
+`unknown` below is a cell we could not substantiate, not one we lost interest in. `unknown` is
+deliberately not written as "no". Corrections welcome — open an issue.
+
+| Approach | A server you run | A tunnel or inbound endpoint | A second billing pool | Your coding login on the shared bot computer | Survives the bot computer's image updates | Run end to end by us |
+|---|---|---|---|---|---|---|
+| **Handoff** | No | No | No — `$0.00` measured | No — the bot holds an issues-only GitHub token | n/a — nothing is installed there | **Yes** — run `34023564889` |
+| Coding CLI on the bot's own computer | No | No | No, if signed in to your own subscription | **Yes** | **No** — *"installed packages are wiped on image updates"* | No |
+| Locum — MCP tunnel to a local agent | **Yes** — a machine you run | **Yes** — an MCP tunnel | No — its stated purpose is to stop burning Grok Bot usage | `unknown` | `unknown` | No |
+| Cursor Cloud Agents | No — hosted by the vendor | No | **Yes** — *"bill to the Cursor pool rather than the Grok Bot pool"* | No | n/a | No |
+| A persistent session on a VPS | **Yes** — a VPS | `unknown` | `unknown` — probably the same subscription, but we cite no source | `unknown` | n/a | No |
+
+Also named in our decision record: a Jenkins/webhook bridge, and driving a remote box over SSH.
+**We hold too little on either to score them honestly**, so they are not in the table.
+
+### What Handoff needs instead
+
+A matrix with only the other side's costs in it is a sales sheet. These are ours:
+
+| | |
+|---|---|
+| **GitHub Actions minutes** | About 62s per task. The timing API reported `billable_ms: 0` for every run on this repo, and whether that is a free-tier allowance or an unpopulated field is **unresolved**. Count it as a real, small, unpriced cost. |
+| **A repository setting** | Settings → Actions → General → *"Allow GitHub Actions to create and approve pull requests"*. **Off by default on every repository**, and the single most common silent failure. |
+| **Your own CI will not run on the pull request** | A PR opened with the default `GITHUB_TOKEN` starts no further workflow runs. Pass a GitHub App token if you need it — and then you are storing another credential. |
+| **No memory across tasks** | Each task starts fresh. The repository and the issue thread are the memory. |
+| **Proven once per link, not repeatedly** | *"One run each… nothing here speaks to reliability over time."* |
 
 ## What people like
 

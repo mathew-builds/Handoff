@@ -10,7 +10,9 @@
 
 Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet should sit well under 50% of the weekly allowance by mid-week. If it doesn't, the drain is coordination chatter, not coding — fix the bot descriptions, not the bridge.
 
-**There is still no Grok Bot-specific spend cap.** Once the weekly pool is exhausted, usage continues on the account's shared on-demand spend, and the dashboard *does not currently split Grok Bot usage from Cursor usage*. Your only brake is the account-wide on-demand limit.
+**There is still no Grok Bot-specific spend cap.** Once the weekly pool is exhausted, usage continues on the account's shared on-demand spend. Your only brake is the account-wide on-demand limit, which is why the setup guide tells you to set it to `$0`.
+
+> **Corrected 2026-09-07.** This paragraph previously said the dashboard *"does not currently split Grok Bot usage from Cursor usage"*. The vendor's own FAQ now says the opposite — *"the per-product split is on the dashboard usage page"* (<https://docs.x.ai/grok-bot/teams-and-enterprises>, read 2026-09-07). Either it shipped after this was written on 5 Sep, or we were wrong then. **We have not logged in to look**, so treat "there is a per-product split" as the vendor's claim rather than as something we have seen.
 
 ## Daily (2 minutes)
 

@@ -13,7 +13,24 @@
 
 **Let your chat agent delegate coding to your coding agent — over GitHub, billed to a subscription instead of per token.**
 
-**No server. No tunnel. No second meter.** Every other way of doing this needs at least one of the three.
+**No server. No tunnel. No second billing pool. No coding login on a shared computer.** Every other way we found needs at least one of the four.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/handoff-chains-dark.svg">
+  <img src="assets/handoff-chains-light.svg" width="660" alt="Five ways to delegate coding from a chat agent to a coding agent. Locum and MCP connectors need a tunnel to a machine of yours. SSH or a VPS session needs a server you maintain. Cursor Cloud Agents needs a second billing pool. Installing the coding CLI on the bot's own computer puts your login on a shared machine. Handoff needs only a GitHub issue.">
+</picture>
+
+Everybody builds the same chain. **The argument is only ever about the middle box.**
+
+The fourth row is why this list says *four* and not three. Installing the coding CLI straight onto
+the bot's computer needs no server, no tunnel and no second pool — it beats the other three on every
+axis. What it costs is putting your coding credential on a machine [05-security.md](docs/05-security.md)
+tells you to assume is compromised and shared with every other bot on the account, and packages
+installed there are wiped on image updates. We would rather state the axis than quietly omit the
+approach that dodges the other three.
+
+Named alternatives, what each one actually requires, and the cost Handoff *does* add — GitHub
+Actions minutes, which we cannot yet price — are in [07-evidence.md](docs/07-evidence.md).
 
 > **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md), including the token-scope control test and a fresh-eyes install. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
 
@@ -40,7 +57,9 @@ Nothing in the bridge is vendor-specific: it is a GitHub issue in, a pull reques
 
 ## Why layer 1 exists
 
-Coding agents that bill per token get expensive in a way you cannot see until the invoice. Grok Bot in particular bills coding on an unpublished weekly meter with no model choice, no spend cap and silent spillover into paid overage. A Claude Pro/Max subscription bills at a flat rate on a model you choose.
+Coding agents that bill per token get expensive in a way you cannot see until the invoice. Grok Bot in particular meters coding on a **weekly** allowance whose size is not published per plan, with **no model picker** — billing follows whichever model the router serves — and **no Grok Bot-specific spend cap**. When the weekly pool is exhausted, usage continues on shared on-demand spend *if you have that enabled*; you can set the account-wide on-demand limit to `$0`, and [the setup guide](docs/03-setup-guide.md) tells you to. A Claude Pro/Max subscription bills at a flat rate on a model you choose.
+
+Each of those is a vendor-documented fact with a source in [07-evidence.md](docs/07-evidence.md) — **not** a measurement. We have never measured a Grok Bot allowance, and this project does not claim to.
 
 This moves exactly one category of work — code — across that billing boundary, and nothing else.
 
@@ -72,15 +91,25 @@ flowchart LR
     end
 
     subgraph GB["Grok Bot — layer 2, optional"]
-        YOU([You]) --> CODER[Coder<br/><i>never writes code</i>]
+        YOU(["You — in chat"]) --> CODER[Coder<br/><i>never writes code</i>]
     end
 
-    YOU2([You]) -- "or just open the issue yourself" --> ISSUE
+    YOU2(["You — on GitHub"]) -- "or just open the issue yourself" --> ISSUE
     CODER -- "opens issue" --> ISSUE
     ACTION -. "authenticates with" .-> MAX
     PR -- "PR event, routine reports it" --> CODER
     YOU2 -- "review + merge" --> PR
 ```
+
+Both `You` boxes are the same person — Mermaid puts a node in one subgraph only, so briefing from
+chat and reviewing on GitHub have to be drawn separately.
+
+<!-- Deliberately no classDef / style / %%{init}%% in this diagram. GitHub picks Mermaid's theme
+     from the reader's colour mode; hard-coded hex is fixed paint in BOTH modes, so a light fill
+     gets dark-mode's light text on top of it. Colour-free Mermaid is theme-correct for free.
+     Verified 2026-09-07 against GitHub's deployed mermaidMarkdown bundle. -->
+
+
 
 **Layer 1, which is all you need:**
 

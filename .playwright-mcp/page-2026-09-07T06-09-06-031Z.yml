@@ -1,0 +1,1074 @@
+- generic [active] [ref=f88e1]:
+  - generic [ref=f88e2]:
+    - generic [ref=f88e3]:
+      - link "Skip to content" [ref=f88e4] [cursor=pointer]:
+        - /url: "#start-of-content"
+      - banner [ref=f88e9]:
+        - heading "Navigation Menu" [level=2] [ref=f88e10]
+        - generic [ref=f88e11]:
+          - link "Homepage" [ref=f88e13] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f88e16]:
+            - navigation "Global" [ref=f88e17]:
+              - list [ref=f88e18]:
+                - listitem [ref=f88e19]:
+                  - button "Platform" [ref=f88e21] [cursor=pointer]
+                - listitem [ref=f88e24]:
+                  - button "Solutions" [ref=f88e26] [cursor=pointer]
+                - listitem [ref=f88e29]:
+                  - button "Resources" [ref=f88e31] [cursor=pointer]
+                - listitem [ref=f88e34]:
+                  - button "Open Source" [ref=f88e36] [cursor=pointer]
+                - listitem [ref=f88e39]:
+                  - button "Enterprise" [ref=f88e41] [cursor=pointer]
+                - listitem [ref=f88e44]:
+                  - link "Pricing" [ref=f88e45] [cursor=pointer]:
+                    - /url: https://github.com/pricing
+            - generic [ref=f88e46]:
+              - button "Search or jump to, type / to search" [ref=f88e48] [cursor=pointer]
+              - link "Sign in" [ref=f88e55] [cursor=pointer]:
+                - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fmermaid-js%2Fmermaid%2Fblob%2Fdevelop%2Fdocs%2Fsyntax%2FxyChart.md
+              - link "Sign up" [ref=f88e58] [cursor=pointer]:
+                - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fblob%2Fshow&source=header-repo&source_repo=mermaid-js%2Fmermaid
+              - button "Appearance settings" [ref=f88e61] [cursor=pointer]
+    - main [ref=f88e68]:
+      - generic [ref=f88e69]:
+        - generic [ref=f88e70]:
+          - generic [ref=f88e72]:
+            - link "mermaid-js" [ref=f88e76] [cursor=pointer]:
+              - /url: /mermaid-js
+            - generic [ref=f88e77]: /
+            - strong [ref=f88e78]:
+              - link "mermaid" [ref=f88e79] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid
+            - generic [ref=f88e80]: Public
+          - generic [ref=f88e81]:
+            - list:
+              - listitem [ref=f88e82]:
+                - button "Sponsor mermaid-js/mermaid" [ref=f88e84] [cursor=pointer]:
+                  - generic [ref=f88e85]: Sponsor
+              - listitem [ref=f88e89]:
+                - link "You must be signed in to change notification settings" [ref=f88e90] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Notifications
+              - listitem [ref=f88e93]:
+                - link "Fork 9.2k" [ref=f88e94] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Fork
+                  - generic "9,233" [ref=f88e97]: 9.2k
+              - listitem [ref=f88e98]:
+                - link "You must be signed in to star a repository" [ref=f88e100] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Star
+                  - generic "90136 users starred this repository" [ref=f88e103]: 90.1k
+        - navigation "Repository" [ref=f88e104]:
+          - list [ref=f88e105]:
+            - listitem [ref=f88e106]:
+              - link "Code" [ref=f88e107] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid
+            - listitem [ref=f88e111]:
+              - link "Issues 1.5k" [ref=f88e112] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/issues
+                - generic [ref=f88e116]: Issues
+                - generic "1,471" [ref=f88e117]: 1.5k
+            - listitem [ref=f88e118]:
+              - link "Pull requests 299" [ref=f88e119] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/pulls
+                - generic [ref=f88e122]: Pull requests
+                - generic "299" [ref=f88e123]
+            - listitem [ref=f88e124]:
+              - link "Discussions" [ref=f88e125] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/discussions
+            - listitem [ref=f88e129]:
+              - link "Actions" [ref=f88e130] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/actions
+            - listitem [ref=f88e134]:
+              - link "Projects" [ref=f88e135] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/projects
+            - listitem [ref=f88e139]:
+              - link "Wiki" [ref=f88e140] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/wiki
+            - listitem [ref=f88e144]:
+              - link "Security and quality 14" [ref=f88e145] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/security
+                - generic [ref=f88e148]: Security and quality
+                - generic "14" [ref=f88e149]
+            - listitem [ref=f88e150]
+          - button "Additional navigation options" [ref=f88e154] [cursor=pointer]
+      - generic [ref=f88e162]:
+        - generic [ref=f88e164]:
+          - generic [ref=f88e167]:
+            - generic [ref=f88e168]:
+              - generic [ref=f88e169]:
+                - heading "Collapse file tree" [level=2] [ref=f88e170]:
+                  - button "Collapse file tree" [expanded] [ref=f88e171] [cursor=pointer]
+                - heading "Files" [level=2] [ref=f88e175]
+              - generic [ref=f88e176]:
+                - button "develop branch" [ref=f88e178] [cursor=pointer]:
+                  - generic [ref=f88e179]: develop
+                - button "Search this repository (forward slash)" [ref=f88e184] [cursor=pointer]
+            - combobox "Go to file" [ref=f88e192]
+            - navigation "File Tree Navigation" [ref=f88e198]:
+              - tree "Files" [ref=f88e200]:
+                - treeitem ".build" [level=1] [ref=f88e201]
+                - treeitem ".changeset" [level=1] [ref=f88e213]
+                - treeitem ".cspell" [level=1] [ref=f88e225]
+                - treeitem ".esbuild" [level=1] [ref=f88e237]
+                - treeitem ".github" [level=1] [ref=f88e249]
+                - treeitem ".husky" [level=1] [ref=f88e261]
+                - treeitem ".vite" [level=1] [ref=f88e273]
+                - treeitem ".vscode" [level=1] [ref=f88e285]
+                - treeitem "demos" [level=1] [ref=f88e297]
+                - treeitem "docs" [expanded] [level=1] [ref=f88e309]:
+                  - group "docs" [ref=f88e321]:
+                    - treeitem "community" [level=2] [ref=f88e322]
+                    - treeitem "config" [level=2] [ref=f88e337]
+                    - treeitem "diagrams" [level=2] [ref=f88e352]
+                    - treeitem "ecosystem" [level=2] [ref=f88e367]
+                    - treeitem "img" [level=2] [ref=f88e382]
+                    - treeitem "intro" [level=2] [ref=f88e397]
+                    - treeitem "news" [level=2] [ref=f88e412]
+                    - treeitem "public" [level=2] [ref=f88e427]
+                    - treeitem "syntax" [expanded] [level=2] [ref=f88e442]:
+                      - group "syntax" [ref=f88e457]:
+                        - treeitem "img" [level=3] [ref=f88e458]
+                        - treeitem "agentflow.md" [level=3] [ref=f88e474]
+                        - treeitem "architecture.md" [level=3] [ref=f88e486]
+                        - treeitem "block.md" [level=3] [ref=f88e498]
+                        - treeitem "c4.md" [level=3] [ref=f88e510]
+                        - treeitem "classDiagram.md" [level=3] [ref=f88e522]
+                        - treeitem "cynefin.md" [level=3] [ref=f88e534]
+                        - treeitem "entityRelationshipDiagram.md" [level=3] [ref=f88e546]
+                        - treeitem "eventmodeling.md" [level=3] [ref=f88e558]
+                        - treeitem "examples.md" [level=3] [ref=f88e570]
+                        - treeitem "flowchart.md" [level=3] [ref=f88e582]
+                        - treeitem "gantt.md" [level=3] [ref=f88e594]
+                        - treeitem "gitgraph.md" [level=3] [ref=f88e606]
+                        - treeitem "ishikawa.md" [level=3] [ref=f88e618]
+                        - treeitem "kanban.md" [level=3] [ref=f88e630]
+                        - treeitem "mindmap.md" [level=3] [ref=f88e642]
+                        - treeitem "packet.md" [level=3] [ref=f88e654]
+                        - treeitem "pie.md" [level=3] [ref=f88e666]
+                        - treeitem "quadrantChart.md" [level=3] [ref=f88e678]
+                        - treeitem "radar.md" [level=3] [ref=f88e690]
+                        - treeitem "railroad.md" [level=3] [ref=f88e702]
+                        - treeitem "requirementDiagram.md" [level=3] [ref=f88e714]
+                        - treeitem "sankey.md" [level=3] [ref=f88e726]
+                        - treeitem "sequenceDiagram.md" [level=3] [ref=f88e738]
+                        - treeitem "stateDiagram.md" [level=3] [ref=f88e750]
+                        - treeitem "swimlanes.md" [level=3] [ref=f88e762]
+                        - treeitem "timeline.md" [level=3] [ref=f88e774]
+                        - treeitem "treeView.md" [level=3] [ref=f88e786]
+                        - treeitem "treemap.md" [level=3] [ref=f88e798]
+                        - treeitem "usecase.md" [level=3] [ref=f88e810]
+                        - treeitem "userJourney.md" [level=3] [ref=f88e822]
+                        - treeitem "venn.md" [level=3] [ref=f88e834]
+                        - treeitem "wardley.md" [level=3] [ref=f88e846]
+                        - treeitem "xyChart.md" [level=3] [ref=f88e858]
+                        - treeitem "zenuml.md" [level=3] [ref=f88e870]
+                    - treeitem "adding-new-shape.md" [level=2] [ref=f88e882]
+                - treeitem "e2e" [level=1] [ref=f88e893]
+                - treeitem "img" [level=1] [ref=f88e905]
+                - treeitem "packages" [level=1] [ref=f88e917]
+                - treeitem "patches" [level=1] [ref=f88e929]
+                - treeitem "scripts" [level=1] [ref=f88e941]
+                - treeitem "tests" [level=1] [ref=f88e953]
+                - treeitem ".ackrc" [level=1] [ref=f88e965]
+                - treeitem ".editorconfig" [level=1] [ref=f88e973]
+                - treeitem ".fallowrc.json" [level=1] [ref=f88e981]
+                - treeitem ".gitattributes" [level=1] [ref=f88e989]
+                - treeitem ".gitignore" [level=1] [ref=f88e997]
+                - treeitem ".hadolint.yaml" [level=1] [ref=f88e1005]
+                - treeitem ".lintstagedrc.mjs" [level=1] [ref=f88e1013]
+                - treeitem ".node-version" [level=1] [ref=f88e1021]
+                - treeitem ".npmrc" [level=1] [ref=f88e1029]
+                - treeitem ".prettierignore" [level=1] [ref=f88e1037]
+                - treeitem ".prettierrc.json" [level=1] [ref=f88e1045]
+                - treeitem "CHANGELOG.md" [level=1] [ref=f88e1053]
+                - treeitem "CITATION.cff" [level=1] [ref=f88e1061]
+                - treeitem "CODE_OF_CONDUCT.md" [level=1] [ref=f88e1069]
+                - treeitem "CONTRIBUTING.md" [level=1] [ref=f88e1077]
+                - treeitem "Dockerfile" [level=1] [ref=f88e1085]
+                - treeitem "FUNDING.json" [level=1] [ref=f88e1093]
+                - treeitem "LICENSE" [level=1] [ref=f88e1101]
+                - treeitem "README.md" [level=1] [ref=f88e1109]
+                - treeitem "README.zh-CN.md" [level=1] [ref=f88e1117]
+                - treeitem "cspell.config.yaml" [level=1] [ref=f88e1125]
+                - treeitem "docker-compose.yml" [level=1] [ref=f88e1133]
+                - treeitem "eslint.config.js" [level=1] [ref=f88e1141]
+                - treeitem "netlify.toml" [level=1] [ref=f88e1149]
+                - treeitem "package.json" [level=1] [ref=f88e1157]
+                - treeitem "playwright.config.ts" [level=1] [ref=f88e1165]
+                - treeitem "pnpm-lock.yaml" [level=1] [ref=f88e1173]
+                - treeitem "pnpm-workspace.yaml" [level=1] [ref=f88e1181]
+                - treeitem "renovate.json" [level=1] [ref=f88e1189]
+                - treeitem "run" [level=1] [ref=f88e1197]
+                - treeitem "tsconfig.eslint.json" [level=1] [ref=f88e1205]
+                - treeitem "tsconfig.json" [level=1] [ref=f88e1213]
+                - treeitem "vite.config.ts" [level=1] [ref=f88e1221]
+                - treeitem "vitest.workspace.js" [level=1] [ref=f88e1229]
+          - slider "Draggable pane splitter" [ref=f88e1238]
+        - generic [ref=f88e1241]:
+          - generic [ref=f88e1245]:
+            - generic [ref=f88e1247]:
+              - navigation [ref=f88e1248]:
+                - heading "Breadcrumbs" [level=2] [ref=f88e1249]
+                - list [ref=f88e1250]:
+                  - listitem [ref=f88e1251]:
+                    - link "mermaid" [ref=f88e1252] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop
+                  - listitem [ref=f88e1253]:
+                    - text: /
+                    - link "docs" [ref=f88e1254] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop/docs
+                  - listitem [ref=f88e1255]:
+                    - text: /
+                    - link "syntax" [ref=f88e1256] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop/docs/syntax
+              - generic [ref=f88e1257]:
+                - text: /
+                - heading "xyChart.md" [level=1] [ref=f88e1258]
+              - button "Copy path" [ref=f88e1259] [cursor=pointer]
+            - button "More file actions" [ref=f88e1266] [cursor=pointer]
+          - generic [ref=f88e1269]:
+            - generic [ref=f88e1271]:
+              - heading "Latest commit" [level=2] [ref=f88e1272]
+              - generic [ref=f88e1273]:
+                - generic [ref=f88e1275]:
+                  - link [ref=f88e1276] [cursor=pointer]:
+                    - /url: /apps/github-actions
+                    - img "github-actions[bot]" [ref=f88e1277]
+                  - link "commits by github-actions[bot]" [ref=f88e1278] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commits?author=github-actions%5Bbot%5D
+                    - text: github-actions[bot]
+                - generic [ref=f88e1279]:
+                  - link "Version Packages" [ref=f88e1282] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commit/f484a3676264a30d14353f49bd63511a518642c7
+                  - button "success" [ref=f88e1283] [cursor=pointer]
+              - generic [ref=f88e1286]:
+                - generic [ref=f88e1288]:
+                  - link "Commit f484a36" [ref=f88e1289] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commit/f484a3676264a30d14353f49bd63511a518642c7
+                    - text: f484a36
+                  - text: ·
+                  - generic "Aug 19, 2026, 2:04 PM GMT+5:30" [ref=f88e1290]: Aug 19, 20263 weeks ago
+                - generic [ref=f88e1291]:
+                  - heading "History" [level=2] [ref=f88e1292]
+                  - link "History" [ref=f88e1293] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commits/develop/docs/syntax/xyChart.md
+            - generic [ref=f88e1297]:
+              - generic [ref=f88e1299]:
+                - heading "File metadata and controls" [level=2] [ref=f88e1300]
+                - generic [ref=f88e1301]:
+                  - list "File view" [ref=f88e1302]:
+                    - listitem [ref=f88e1303]:
+                      - button "Preview" [pressed] [ref=f88e1304] [cursor=pointer]
+                    - listitem [ref=f88e1307]:
+                      - button "Code" [ref=f88e1308] [cursor=pointer]
+                    - listitem [ref=f88e1311]:
+                      - button "Blame" [ref=f88e1312] [cursor=pointer]
+                  - generic "13.8 KB" [ref=f88e1317]: 386 lines (315 loc) · 13.8 KB
+                - generic [ref=f88e1318]:
+                  - generic [ref=f88e1319]:
+                    - generic [ref=f88e1320]:
+                      - link "Raw" [ref=f88e1322] [cursor=pointer]:
+                        - /url: https://github.com/mermaid-js/mermaid/raw/refs/heads/develop/docs/syntax/xyChart.md
+                      - button "Copy raw file" [ref=f88e1326] [cursor=pointer]
+                      - button "Download raw file" [ref=f88e1331] [cursor=pointer]
+                    - generic [ref=f88e1335]:
+                      - button "You must be signed in to make or propose changes" [disabled] [ref=f88e1337]
+                      - button "More edit options" [ref=f88e1341] [cursor=pointer]
+                  - button "Outline" [ref=f88e1344] [cursor=pointer]
+              - region "xyChart.md" [ref=f88e1348]:
+                - article [ref=f88e1350]:
+                  - blockquote [ref=f88e1351]:
+                    - paragraph [ref=f88e1352]:
+                      - strong [ref=f88e1353]: Warning
+                    - generic [ref=f88e1354]:
+                      - heading "THIS IS AN AUTOGENERATED FILE. DO NOT EDIT." [level=2] [ref=f88e1355]
+                      - 'link "Permalink: THIS IS AN AUTOGENERATED FILE. DO NOT EDIT." [ref=f88e1356] [cursor=pointer]':
+                        - /url: "#this-is-an-autogenerated-file-do-not-edit"
+                    - generic [ref=f88e1359]:
+                      - heading [level=2] [ref=f88e1360]:
+                        - text: Please edit the corresponding file in
+                        - link "/packages/mermaid/src/docs/syntax/xyChart.md" [ref=f88e1361] [cursor=pointer]:
+                          - /url: /mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/xyChart.md
+                        - text: .
+                      - 'link "Permalink: Please edit the corresponding file in /packages/mermaid/src/docs/syntax/xyChart.md." [ref=f88e1362] [cursor=pointer]':
+                        - /url: "#please-edit-the-corresponding-file-in-packagesmermaidsrcdocssyntaxxychartmd"
+                  - generic [ref=f88e1365]:
+                    - heading "XY Chart" [level=1] [ref=f88e1366]
+                    - 'link "Permalink: XY Chart" [ref=f88e1367] [cursor=pointer]':
+                      - /url: "#xy-chart"
+                  - blockquote [ref=f88e1370]:
+                    - paragraph [ref=f88e1371]: "In the context of mermaid-js, the XY chart is a comprehensive charting module that encompasses various types of charts that utilize both x-axis and y-axis for data representation. Presently, it includes two fundamental chart types: the bar chart and the line chart. These charts are designed to visually display and analyze data that involve two numerical variables."
+                  - blockquote [ref=f88e1372]:
+                    - paragraph [ref=f88e1373]: It's important to note that while the current implementation of mermaid-js includes these two chart types, the framework is designed to be dynamic and adaptable. Therefore, it has the capacity for expansion and the inclusion of additional chart types in the future. This means that users can expect an evolving suite of charting options within the XY chart module, catering to various data visualization needs as new chart types are introduced over time.
+                  - generic [ref=f88e1374]:
+                    - heading "Example" [level=2] [ref=f88e1375]
+                    - 'link "Permalink: Example" [ref=f88e1376] [cursor=pointer]':
+                      - /url: "#example"
+                  - generic [ref=f88e1379]:
+                    - code [ref=f88e1381]: xychart title "Sales Revenue" x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec] y-axis "Revenue (in $)" 4000 --> 11000 bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000] line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+                    - button "Copy code to clipboard" [ref=f88e1383] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1387]:
+                    - generic [ref=f88e1388]:
+                      - generic [ref=f88e1389]:
+                        - group [ref=f88e1390]:
+                          - button "Open dialog" [ref=f88e1391] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1394] [cursor=pointer]
+                      - iframe [ref=f88e1399]:
+                        - generic [ref=f89e1]:
+                          - document [ref=f89e5]:
+                            - generic [ref=f89e6]:
+                              - generic [ref=f89e8]: Sales Revenue
+                              - generic [ref=f89e27]:
+                                - generic [ref=f89e28]: jan
+                                - generic [ref=f89e29]: feb
+                                - generic [ref=f89e30]: mar
+                                - generic [ref=f89e31]: apr
+                                - generic [ref=f89e32]: may
+                                - generic [ref=f89e33]: jun
+                                - generic [ref=f89e34]: jul
+                                - generic [ref=f89e35]: aug
+                                - generic [ref=f89e36]: sep
+                                - generic [ref=f89e37]: oct
+                                - generic [ref=f89e38]: nov
+                                - generic [ref=f89e39]: dec
+                              - generic [ref=f89e41]:
+                                - generic [ref=f89e42]:
+                                  - generic [ref=f89e43]: "11000"
+                                  - generic [ref=f89e44]: "10500"
+                                  - generic [ref=f89e45]: "10000"
+                                  - generic [ref=f89e46]: "9500"
+                                  - generic [ref=f89e47]: "9000"
+                                  - generic [ref=f89e48]: "8500"
+                                  - generic [ref=f89e49]: "8000"
+                                  - generic [ref=f89e50]: "7500"
+                                  - generic [ref=f89e51]: "7000"
+                                  - generic [ref=f89e52]: "6500"
+                                  - generic [ref=f89e53]: "6000"
+                                  - generic [ref=f89e54]: "5500"
+                                  - generic [ref=f89e55]: "5000"
+                                  - generic [ref=f89e56]: "4500"
+                                  - generic [ref=f89e57]: "4000"
+                                - generic [ref=f89e59]: Revenue (in $)
+                          - generic [ref=f89e61]:
+                            - button "Zoom in" [ref=f89e62]
+                            - button "Zoom out" [ref=f89e66]
+                            - button "Reset view" [ref=f89e70]
+                            - button "Pan up" [ref=f89e73]
+                            - button "Pan down" [ref=f89e76]
+                            - button "Pan left" [ref=f89e79]
+                            - button "Pan right" [ref=f89e82]
+                  - generic [ref=f88e1400]:
+                    - heading "Syntax" [level=2] [ref=f88e1401]
+                    - 'link "Permalink: Syntax" [ref=f88e1402] [cursor=pointer]':
+                      - /url: "#syntax"
+                  - blockquote [ref=f88e1405]:
+                    - paragraph [ref=f88e1406]:
+                      - strong [ref=f88e1407]: Note
+                      - text: All text values that contain only one word can be written without
+                      - code [ref=f88e1408]: "\""
+                      - text: . If a text value has many words in it, specifically if it contains spaces, enclose the value in
+                      - code [ref=f88e1409]: "\""
+                  - generic [ref=f88e1410]:
+                    - heading "Orientations" [level=3] [ref=f88e1411]
+                    - 'link "Permalink: Orientations" [ref=f88e1412] [cursor=pointer]':
+                      - /url: "#orientations"
+                  - paragraph [ref=f88e1415]: The chart can be drawn horizontal or vertical, default value is vertical.
+                  - generic [ref=f88e1416]:
+                    - code [ref=f88e1418]: xychart horizontal ...
+                    - button "Copy code to clipboard" [ref=f88e1420] [cursor=pointer]
+                  - generic [ref=f88e1424]:
+                    - heading "Title" [level=3] [ref=f88e1425]
+                    - 'link "Permalink: Title" [ref=f88e1426] [cursor=pointer]':
+                      - /url: "#title"
+                  - paragraph [ref=f88e1429]: The title is a short description of the chart and it will always render on top of the chart.
+                  - generic [ref=f88e1430]:
+                    - heading "Example" [level=4] [ref=f88e1431]
+                    - 'link "Permalink: Example" [ref=f88e1432] [cursor=pointer]':
+                      - /url: "#example-1"
+                  - generic [ref=f88e1435]:
+                    - code [ref=f88e1437]: xychart title "This is a simple example" ...
+                    - button "Copy code to clipboard" [ref=f88e1439] [cursor=pointer]
+                  - blockquote [ref=f88e1443]:
+                    - paragraph [ref=f88e1444]:
+                      - strong [ref=f88e1445]: Note
+                      - text: If the title is a single word one no need to use
+                      - code [ref=f88e1446]: "\""
+                      - text: ", but if it has space"
+                      - code [ref=f88e1447]: "\""
+                      - text: is needed
+                  - generic [ref=f88e1448]:
+                    - heading "x-axis" [level=3] [ref=f88e1449]
+                    - 'link "Permalink: x-axis" [ref=f88e1450] [cursor=pointer]':
+                      - /url: "#x-axis"
+                  - paragraph [ref=f88e1453]: The x-axis primarily serves as a categorical value, although it can also function as a numeric range value when needed.
+                  - generic [ref=f88e1454]:
+                    - heading "Example" [level=4] [ref=f88e1455]
+                    - 'link "Permalink: Example" [ref=f88e1456] [cursor=pointer]':
+                      - /url: "#example-2"
+                  - list [ref=f88e1459]:
+                    - listitem [ref=f88e1460]:
+                      - code [ref=f88e1461]: x-axis title min --> max
+                      - text: x-axis will function as numeric with the given range
+                    - listitem [ref=f88e1462]:
+                      - code [ref=f88e1463]: x-axis "title with space" [cat1, "cat2 with space", cat3]
+                      - text: x-axis if categorical, categories are text type
+                  - generic [ref=f88e1464]:
+                    - heading "y-axis" [level=3] [ref=f88e1465]
+                    - 'link "Permalink: y-axis" [ref=f88e1466] [cursor=pointer]':
+                      - /url: "#y-axis"
+                  - paragraph [ref=f88e1469]: The y-axis is employed to represent numerical range values, it cannot have categorical values.
+                  - generic [ref=f88e1470]:
+                    - heading "Example" [level=4] [ref=f88e1471]
+                    - 'link "Permalink: Example" [ref=f88e1472] [cursor=pointer]':
+                      - /url: "#example-3"
+                  - list [ref=f88e1475]:
+                    - listitem [ref=f88e1476]:
+                      - code [ref=f88e1477]: y-axis title min --> max
+                    - listitem [ref=f88e1478]:
+                      - code [ref=f88e1479]: y-axis title
+                      - text: it will only add the title, the range will be auto generated from data.
+                  - blockquote [ref=f88e1480]:
+                    - paragraph [ref=f88e1481]:
+                      - strong [ref=f88e1482]: Note
+                      - text: Both x and y axis are optional if not provided we will try to create the range
+                  - generic [ref=f88e1483]:
+                    - heading "Line chart" [level=3] [ref=f88e1484]
+                    - 'link "Permalink: Line chart" [ref=f88e1485] [cursor=pointer]':
+                      - /url: "#line-chart"
+                  - paragraph [ref=f88e1488]: A line chart offers the capability to graphically depict lines.
+                  - generic [ref=f88e1489]:
+                    - heading "Example" [level=4] [ref=f88e1490]
+                    - 'link "Permalink: Example" [ref=f88e1491] [cursor=pointer]':
+                      - /url: "#example-4"
+                  - list [ref=f88e1494]:
+                    - listitem [ref=f88e1495]:
+                      - code [ref=f88e1496]: line [2.3, 45, .98, -3.4]
+                      - text: it can have all valid numeric values.
+                    - listitem [ref=f88e1497]:
+                      - code [ref=f88e1498]: line "series name" [2.3, 45, .98, -3.4]
+                      - text: adds the line to the legend.
+                  - generic [ref=f88e1499]:
+                    - heading "Bar chart" [level=3] [ref=f88e1500]
+                    - 'link "Permalink: Bar chart" [ref=f88e1501] [cursor=pointer]':
+                      - /url: "#bar-chart"
+                  - paragraph [ref=f88e1504]: A bar chart offers the capability to graphically depict bars.
+                  - generic [ref=f88e1505]:
+                    - heading "Example" [level=4] [ref=f88e1506]
+                    - 'link "Permalink: Example" [ref=f88e1507] [cursor=pointer]':
+                      - /url: "#example-5"
+                  - list [ref=f88e1510]:
+                    - listitem [ref=f88e1511]:
+                      - code [ref=f88e1512]: bar [2.3, 45, .98, -3.4]
+                      - text: it can have all valid numeric values.
+                    - listitem [ref=f88e1513]:
+                      - code [ref=f88e1514]: bar "series name" [2.3, 45, .98, -3.4]
+                      - text: adds the bar to the legend.
+                  - generic [ref=f88e1515]:
+                    - heading "Legend (v11.17.0+)" [level=3] [ref=f88e1516]
+                    - 'link "Permalink: Legend (v11.17.0+)" [ref=f88e1517] [cursor=pointer]':
+                      - /url: "#legend-v11170"
+                  - paragraph [ref=f88e1520]: Named line and bar plots are automatically shown in a legend. Unnamed plots are omitted from the legend.
+                  - generic [ref=f88e1521]:
+                    - code [ref=f88e1523]: xychart-beta title "An Example Chart" x-axis ["90d", "60d", "30d", "7d", "1d", "Current"] y-axis "Seconds" 0 --> 198.2 line "avg" [48.1, 41.5, 45.7, 72.8, 67.7, 59.9] line "p50" [38.2, 36.8, 39.7, 54.5, 49.0, 38.4] line "p95" [112.2, 75.3, 103.0, 177.0, 180.2, 109.4]
+                    - button "Copy code to clipboard" [ref=f88e1525] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1529]:
+                    - generic [ref=f88e1530]:
+                      - generic [ref=f88e1531]:
+                        - group [ref=f88e1532]:
+                          - button "Open dialog" [ref=f88e1533] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1536] [cursor=pointer]
+                      - iframe [ref=f88e1541]:
+                        - generic [ref=f90e1]:
+                          - document [ref=f90e5]:
+                            - generic [ref=f90e6]:
+                              - generic [ref=f90e8]: An Example Chart
+                              - generic [ref=f90e19]:
+                                - generic [ref=f90e20]: avg
+                                - generic [ref=f90e21]: p50
+                                - generic [ref=f90e22]: p95
+                              - generic [ref=f90e24]:
+                                - generic [ref=f90e25]: 90d
+                                - generic [ref=f90e26]: 60d
+                                - generic [ref=f90e27]: 30d
+                                - generic [ref=f90e28]: 7d
+                                - generic [ref=f90e29]: 1d
+                                - generic [ref=f90e30]: Current
+                              - generic [ref=f90e32]:
+                                - generic [ref=f90e33]:
+                                  - generic [ref=f90e34]: "180"
+                                  - generic [ref=f90e35]: "160"
+                                  - generic [ref=f90e36]: "140"
+                                  - generic [ref=f90e37]: "120"
+                                  - generic [ref=f90e38]: "100"
+                                  - generic [ref=f90e39]: "80"
+                                  - generic [ref=f90e40]: "60"
+                                  - generic [ref=f90e41]: "40"
+                                  - generic [ref=f90e42]: "20"
+                                  - generic [ref=f90e43]: "0"
+                                - generic [ref=f90e45]: Seconds
+                          - generic [ref=f90e47]:
+                            - button "Zoom in" [ref=f90e48]
+                            - button "Zoom out" [ref=f90e52]
+                            - button "Reset view" [ref=f90e56]
+                            - button "Pan up" [ref=f90e59]
+                            - button "Pan down" [ref=f90e62]
+                            - button "Pan left" [ref=f90e65]
+                            - button "Pan right" [ref=f90e68]
+                  - generic [ref=f88e1542]:
+                    - heading "Simplest example" [level=4] [ref=f88e1543]
+                    - 'link "Permalink: Simplest example" [ref=f88e1544] [cursor=pointer]':
+                      - /url: "#simplest-example"
+                  - paragraph [ref=f88e1547]:
+                    - text: The only two things required are the chart name (
+                    - code [ref=f88e1548]: xychart
+                    - text: ) and one data set. So you will be able to draw a chart with a simple config like
+                  - generic [ref=f88e1549]:
+                    - code [ref=f88e1551]: xychart line [+1.3, .6, 2.4, -.34]
+                    - button "Copy code to clipboard" [ref=f88e1553] [cursor=pointer]
+                  - generic [ref=f88e1557]:
+                    - heading "Chart Configurations" [level=2] [ref=f88e1558]
+                    - 'link "Permalink: Chart Configurations" [ref=f88e1559] [cursor=pointer]':
+                      - /url: "#chart-configurations"
+                  - table [ref=f88e1563]:
+                    - rowgroup [ref=f88e1564]:
+                      - row [ref=f88e1565]:
+                        - columnheader "Parameter" [ref=f88e1566]
+                        - columnheader "Description" [ref=f88e1567]
+                        - columnheader "Default value" [ref=f88e1568]
+                    - rowgroup [ref=f88e1569]:
+                      - row [ref=f88e1570]:
+                        - cell "width" [ref=f88e1571]
+                        - cell "Width of the chart" [ref=f88e1572]
+                        - cell "700" [ref=f88e1573]
+                      - row [ref=f88e1574]:
+                        - cell "height" [ref=f88e1575]
+                        - cell "Height of the chart" [ref=f88e1576]
+                        - cell "500" [ref=f88e1577]
+                      - row [ref=f88e1578]:
+                        - cell "titlePadding" [ref=f88e1579]
+                        - cell "Top and Bottom padding of the title" [ref=f88e1580]
+                        - cell "10" [ref=f88e1581]
+                      - row [ref=f88e1582]:
+                        - cell "titleFontSize" [ref=f88e1583]
+                        - cell "Title font size" [ref=f88e1584]
+                        - cell "20" [ref=f88e1585]
+                      - row [ref=f88e1586]:
+                        - cell "showTitle" [ref=f88e1587]
+                        - cell "Title to be shown or not" [ref=f88e1588]
+                        - cell "true" [ref=f88e1589]
+                      - row [ref=f88e1590]:
+                        - cell "showLegend" [ref=f88e1591]
+                        - cell "Legend to be shown for named plots or not" [ref=f88e1592]
+                        - cell "true" [ref=f88e1593]
+                      - row [ref=f88e1594]:
+                        - cell "legendFontSize" [ref=f88e1595]
+                        - cell "Legend font size" [ref=f88e1596]
+                        - cell "14" [ref=f88e1597]
+                      - row [ref=f88e1598]:
+                        - cell "legendPadding" [ref=f88e1599]
+                        - cell "Padding around the legend" [ref=f88e1600]
+                        - cell "10" [ref=f88e1601]
+                      - row [ref=f88e1602]:
+                        - cell "xAxis" [ref=f88e1603]
+                        - cell "xAxis configuration" [ref=f88e1604]
+                        - cell "AxisConfig" [ref=f88e1605]
+                      - row [ref=f88e1606]:
+                        - cell "yAxis" [ref=f88e1607]
+                        - cell "yAxis configuration" [ref=f88e1608]
+                        - cell "AxisConfig" [ref=f88e1609]
+                      - row [ref=f88e1610]:
+                        - cell "chartOrientation" [ref=f88e1611]
+                        - cell "'vertical' or 'horizontal'" [ref=f88e1612]
+                        - cell "'vertical'" [ref=f88e1613]
+                      - row [ref=f88e1614]:
+                        - cell "plotReservedSpacePercent" [ref=f88e1615]
+                        - cell "Minimum space plots will take inside the chart" [ref=f88e1616]
+                        - cell "50" [ref=f88e1617]
+                      - row [ref=f88e1618]:
+                        - cell "showDataLabel" [ref=f88e1619]
+                        - cell "Should show the value corresponding to the bar within the bar" [ref=f88e1620]
+                        - cell "false" [ref=f88e1621]
+                      - row [ref=f88e1622]:
+                        - cell "showDataLabelOutsideBar" [ref=f88e1623]
+                        - cell "If showing data label then show it outside the bar." [ref=f88e1624]
+                        - cell "false" [ref=f88e1625]
+                  - generic [ref=f88e1626]:
+                    - heading "AxisConfig" [level=3] [ref=f88e1627]
+                    - 'link "Permalink: AxisConfig" [ref=f88e1628] [cursor=pointer]':
+                      - /url: "#axisconfig"
+                  - table [ref=f88e1632]:
+                    - rowgroup [ref=f88e1633]:
+                      - row [ref=f88e1634]:
+                        - columnheader "Parameter" [ref=f88e1635]
+                        - columnheader "Description" [ref=f88e1636]
+                        - columnheader "Default value" [ref=f88e1637]
+                    - rowgroup [ref=f88e1638]:
+                      - row [ref=f88e1639]:
+                        - cell "showLabel" [ref=f88e1640]
+                        - cell "Show axis labels or tick values" [ref=f88e1641]
+                        - cell "true" [ref=f88e1642]
+                      - row [ref=f88e1643]:
+                        - cell "labelFontSize" [ref=f88e1644]
+                        - cell "Font size of the label to be drawn" [ref=f88e1645]
+                        - cell "14" [ref=f88e1646]
+                      - row [ref=f88e1647]:
+                        - cell "labelPadding" [ref=f88e1648]
+                        - cell "Top and Bottom padding of the label" [ref=f88e1649]
+                        - cell "5" [ref=f88e1650]
+                      - row [ref=f88e1651]:
+                        - cell "showTitle" [ref=f88e1652]
+                        - cell "Axis title to be shown or not" [ref=f88e1653]
+                        - cell "true" [ref=f88e1654]
+                      - row [ref=f88e1655]:
+                        - cell "titleFontSize" [ref=f88e1656]
+                        - cell "Axis title font size" [ref=f88e1657]
+                        - cell "16" [ref=f88e1658]
+                      - row [ref=f88e1659]:
+                        - cell "titlePadding" [ref=f88e1660]
+                        - cell "Top and Bottom padding of Axis title" [ref=f88e1661]
+                        - cell "5" [ref=f88e1662]
+                      - row [ref=f88e1663]:
+                        - cell "showTick" [ref=f88e1664]
+                        - cell "Tick to be shown or not" [ref=f88e1665]
+                        - cell "true" [ref=f88e1666]
+                      - row [ref=f88e1667]:
+                        - cell "tickLength" [ref=f88e1668]
+                        - cell "How long the tick will be" [ref=f88e1669]
+                        - cell "5" [ref=f88e1670]
+                      - row [ref=f88e1671]:
+                        - cell "tickWidth" [ref=f88e1672]
+                        - cell "How width the tick will be" [ref=f88e1673]
+                        - cell "2" [ref=f88e1674]
+                      - row [ref=f88e1675]:
+                        - cell "showAxisLine" [ref=f88e1676]
+                        - cell "Axis line to be shown or not" [ref=f88e1677]
+                        - cell "true" [ref=f88e1678]
+                      - row [ref=f88e1679]:
+                        - cell "axisLineWidth" [ref=f88e1680]
+                        - cell "Thickness of the axis line" [ref=f88e1681]
+                        - cell "2" [ref=f88e1682]
+                      - row [ref=f88e1683]:
+                        - cell "labelRotation" [ref=f88e1684]
+                        - cell "Label rotation in degrees (only applicable on bottom X axis)" [ref=f88e1685]
+                        - cell "0" [ref=f88e1686]
+                  - generic [ref=f88e1687]:
+                    - heading "Chart Theme Variables" [level=2] [ref=f88e1688]
+                    - 'link "Permalink: Chart Theme Variables" [ref=f88e1689] [cursor=pointer]':
+                      - /url: "#chart-theme-variables"
+                  - paragraph [ref=f88e1692]:
+                    - text: Themes for xychart reside inside the
+                    - code [ref=f88e1693]: xychart
+                    - text: "attribute, allowing customization through the following syntax:"
+                  - generic [ref=f88e1694]:
+                    - generic [ref=f88e1695]:
+                      - text: "--- config: themeVariables: xyChart: titleColor:"
+                      - generic [ref=f88e1696]: "'#ff0000'"
+                      - text: "---"
+                    - button "Copy code to clipboard" [ref=f88e1698] [cursor=pointer]
+                  - table [ref=f88e1703]:
+                    - rowgroup [ref=f88e1704]:
+                      - row [ref=f88e1705]:
+                        - columnheader "Parameter" [ref=f88e1706]
+                        - columnheader "Description" [ref=f88e1707]
+                    - rowgroup [ref=f88e1708]:
+                      - row [ref=f88e1709]:
+                        - cell "backgroundColor" [ref=f88e1710]
+                        - cell "Background color of the whole chart" [ref=f88e1711]
+                      - row [ref=f88e1712]:
+                        - cell "titleColor" [ref=f88e1713]
+                        - cell "Color of the Title text" [ref=f88e1714]
+                      - row [ref=f88e1715]:
+                        - cell "dataLabelColor" [ref=f88e1716]
+                        - cell "Color of the Data labels (if shown)" [ref=f88e1717]
+                      - row [ref=f88e1718]:
+                        - cell "legendTextColor" [ref=f88e1719]
+                        - cell "Color of the legend text" [ref=f88e1720]
+                      - row [ref=f88e1721]:
+                        - cell "xAxisLabelColor" [ref=f88e1722]
+                        - cell "Color of the x-axis labels" [ref=f88e1723]
+                      - row [ref=f88e1724]:
+                        - cell "xAxisTitleColor" [ref=f88e1725]
+                        - cell "Color of the x-axis title" [ref=f88e1726]
+                      - row [ref=f88e1727]:
+                        - cell "xAxisTickColor" [ref=f88e1728]
+                        - cell "Color of the x-axis tick" [ref=f88e1729]
+                      - row [ref=f88e1730]:
+                        - cell "xAxisLineColor" [ref=f88e1731]
+                        - cell "Color of the x-axis line" [ref=f88e1732]
+                      - row [ref=f88e1733]:
+                        - cell "yAxisLabelColor" [ref=f88e1734]
+                        - cell "Color of the y-axis labels" [ref=f88e1735]
+                      - row [ref=f88e1736]:
+                        - cell "yAxisTitleColor" [ref=f88e1737]
+                        - cell "Color of the y-axis title" [ref=f88e1738]
+                      - row [ref=f88e1739]:
+                        - cell "yAxisTickColor" [ref=f88e1740]
+                        - cell "Color of the y-axis tick" [ref=f88e1741]
+                      - row [ref=f88e1742]:
+                        - cell "yAxisLineColor" [ref=f88e1743]
+                        - cell "Color of the y-axis line" [ref=f88e1744]
+                      - row [ref=f88e1745]:
+                        - cell "plotColorPalette" [ref=f88e1746]
+                        - 'cell "String of colors separated by comma e.g. \"#f3456, #43445\"" [ref=f88e1747]'
+                  - generic [ref=f88e1748]:
+                    - heading "Setting Colors for Lines and Bars" [level=3] [ref=f88e1749]
+                    - 'link "Permalink: Setting Colors for Lines and Bars" [ref=f88e1750] [cursor=pointer]':
+                      - /url: "#setting-colors-for-lines-and-bars"
+                  - paragraph [ref=f88e1753]:
+                    - text: To set the color for lines and bars, use the
+                    - code [ref=f88e1754]: plotColorPalette
+                    - text: parameter. Colors in the palette will correspond sequentially to the elements in your chart (e.g., first bar/line will use the first color specified in the palette).
+                  - generic [ref=f88e1755]:
+                    - code [ref=f88e1757]: "--- config: themeVariables: xyChart: plotColorPalette: '#000000, #0000FF, #00FF00, #FF0000' --- xychart title \"Different Colors in xyChart\" x-axis \"categoriesX\" [\"Category 1\", \"Category 2\", \"Category 3\", \"Category 4\"] y-axis \"valuesY\" 0 --> 50 %% Black line line [10,20,30,40] %% Blue bar bar [20,30,25,35] %% Green bar bar [15,25,20,30] %% Red line line [5,15,25,35]"
+                    - button "Copy code to clipboard" [ref=f88e1759] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1763]:
+                    - generic [ref=f88e1764]:
+                      - generic [ref=f88e1765]:
+                        - group [ref=f88e1766]:
+                          - button "Open dialog" [ref=f88e1767] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1770] [cursor=pointer]
+                      - iframe [ref=f88e1775]:
+                        - generic [ref=f91e1]:
+                          - document [ref=f91e5]:
+                            - generic [ref=f91e6]:
+                              - generic [ref=f91e8]: Different Colors in xyChart
+                              - generic [ref=f91e25]:
+                                - generic [ref=f91e26]:
+                                  - generic [ref=f91e27]: Category 1
+                                  - generic [ref=f91e28]: Category 2
+                                  - generic [ref=f91e29]: Category 3
+                                  - generic [ref=f91e30]: Category 4
+                                - generic [ref=f91e32]: categoriesX
+                              - generic [ref=f91e34]:
+                                - generic [ref=f91e35]:
+                                  - generic [ref=f91e36]: "50"
+                                  - generic [ref=f91e37]: "45"
+                                  - generic [ref=f91e38]: "40"
+                                  - generic [ref=f91e39]: "35"
+                                  - generic [ref=f91e40]: "30"
+                                  - generic [ref=f91e41]: "25"
+                                  - generic [ref=f91e42]: "20"
+                                  - generic [ref=f91e43]: "15"
+                                  - generic [ref=f91e44]: "10"
+                                  - generic [ref=f91e45]: "5"
+                                  - generic [ref=f91e46]: "0"
+                                - generic [ref=f91e48]: valuesY
+                          - generic [ref=f91e50]:
+                            - button "Zoom in" [ref=f91e51]
+                            - button "Zoom out" [ref=f91e55]
+                            - button "Reset view" [ref=f91e59]
+                            - button "Pan up" [ref=f91e62]
+                            - button "Pan down" [ref=f91e65]
+                            - button "Pan left" [ref=f91e68]
+                            - button "Pan right" [ref=f91e71]
+                  - generic [ref=f88e1776]:
+                    - heading "Displaying individual values on a bar chart (v11.14.0+)" [level=2] [ref=f88e1777]
+                    - 'link "Permalink: Displaying individual values on a bar chart (v11.14.0+)" [ref=f88e1778] [cursor=pointer]':
+                      - /url: "#displaying-individual-values-on-a-bar-chart-v11140"
+                  - paragraph [ref=f88e1781]:
+                    - text: To show the value corresponding to a bar specify
+                    - code [ref=f88e1782]: "showDataLabel: true"
+                    - text: .
+                  - generic [ref=f88e1783]:
+                    - code [ref=f88e1785]: "--- config: xyChart: showDataLabel: true --- xychart title \"Genres in top 100 book survey of 2025\" x-axis [comedy, romance, mystery, crime, \"non fiction\", other] y-axis \"Number of Books\" 0 --> 30 bar [12,2,20,25,17,24]"
+                    - button "Copy code to clipboard" [ref=f88e1787] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1791]:
+                    - generic [ref=f88e1792]:
+                      - generic [ref=f88e1793]:
+                        - group [ref=f88e1794]:
+                          - button "Open dialog" [ref=f88e1795] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1798] [cursor=pointer]
+                      - iframe [ref=f88e1803]:
+                        - generic [ref=f92e1]:
+                          - document [ref=f92e5]:
+                            - generic [ref=f92e6]:
+                              - generic [ref=f92e8]: Genres in top 100 book survey of 2025
+                              - generic [ref=f92e11]:
+                                - generic [ref=f92e18]: "12"
+                                - generic [ref=f92e19]: "2"
+                                - generic [ref=f92e20]: "20"
+                                - generic [ref=f92e21]: "25"
+                                - generic [ref=f92e22]: "17"
+                                - generic [ref=f92e23]: "24"
+                              - generic [ref=f92e25]:
+                                - generic [ref=f92e26]: comedy
+                                - generic [ref=f92e27]: romance
+                                - generic [ref=f92e28]: mystery
+                                - generic [ref=f92e29]: crime
+                                - generic [ref=f92e30]: non fiction
+                                - generic [ref=f92e31]: other
+                              - generic [ref=f92e33]:
+                                - generic [ref=f92e34]:
+                                  - generic [ref=f92e35]: "30"
+                                  - generic [ref=f92e36]: "28"
+                                  - generic [ref=f92e37]: "26"
+                                  - generic [ref=f92e38]: "24"
+                                  - generic [ref=f92e39]: "22"
+                                  - generic [ref=f92e40]: "20"
+                                  - generic [ref=f92e41]: "18"
+                                  - generic [ref=f92e42]: "16"
+                                  - generic [ref=f92e43]: "14"
+                                  - generic [ref=f92e44]: "12"
+                                  - generic [ref=f92e45]: "10"
+                                  - generic [ref=f92e46]: "8"
+                                  - generic [ref=f92e47]: "6"
+                                  - generic [ref=f92e48]: "4"
+                                  - generic [ref=f92e49]: "2"
+                                  - generic [ref=f92e50]: "0"
+                                - generic [ref=f92e52]: Number of Books
+                          - generic [ref=f92e54]:
+                            - button "Zoom in" [ref=f92e55]
+                            - button "Zoom out" [ref=f92e59]
+                            - button "Reset view" [ref=f92e63]
+                            - button "Pan up" [ref=f92e66]
+                            - button "Pan down" [ref=f92e69]
+                            - button "Pan left" [ref=f92e72]
+                            - button "Pan right" [ref=f92e75]
+                  - paragraph [ref=f88e1804]:
+                    - text: Labels are shown within the bar by default. To show the labels outside the bar, specify
+                    - code [ref=f88e1805]: "showDataLabelOutsideBar: true"
+                    - text: .
+                  - generic [ref=f88e1806]:
+                    - code [ref=f88e1808]: "--- config: xyChart: showDataLabel: true showDataLabelOutsideBar: true --- xychart title \"Genres in top 100 book survey of 2025\" x-axis [comedy, romance, mystery, crime, \"non fiction\", other] y-axis \"Number of Books\" 0 --> 30 bar [12,2,20,25,17,24]"
+                    - button "Copy code to clipboard" [ref=f88e1810] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1814]:
+                    - generic [ref=f88e1815]:
+                      - generic [ref=f88e1816]:
+                        - group [ref=f88e1817]:
+                          - button "Open dialog" [ref=f88e1818] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1821] [cursor=pointer]
+                      - iframe [ref=f88e1826]:
+                        - generic [ref=f93e1]:
+                          - document [ref=f93e5]:
+                            - generic [ref=f93e6]:
+                              - generic [ref=f93e8]: Genres in top 100 book survey of 2025
+                              - generic [ref=f93e11]:
+                                - generic [ref=f93e18]: "12"
+                                - generic [ref=f93e19]: "2"
+                                - generic [ref=f93e20]: "20"
+                                - generic [ref=f93e21]: "25"
+                                - generic [ref=f93e22]: "17"
+                                - generic [ref=f93e23]: "24"
+                              - generic [ref=f93e25]:
+                                - generic [ref=f93e26]: comedy
+                                - generic [ref=f93e27]: romance
+                                - generic [ref=f93e28]: mystery
+                                - generic [ref=f93e29]: crime
+                                - generic [ref=f93e30]: non fiction
+                                - generic [ref=f93e31]: other
+                              - generic [ref=f93e33]:
+                                - generic [ref=f93e34]:
+                                  - generic [ref=f93e35]: "30"
+                                  - generic [ref=f93e36]: "28"
+                                  - generic [ref=f93e37]: "26"
+                                  - generic [ref=f93e38]: "24"
+                                  - generic [ref=f93e39]: "22"
+                                  - generic [ref=f93e40]: "20"
+                                  - generic [ref=f93e41]: "18"
+                                  - generic [ref=f93e42]: "16"
+                                  - generic [ref=f93e43]: "14"
+                                  - generic [ref=f93e44]: "12"
+                                  - generic [ref=f93e45]: "10"
+                                  - generic [ref=f93e46]: "8"
+                                  - generic [ref=f93e47]: "6"
+                                  - generic [ref=f93e48]: "4"
+                                  - generic [ref=f93e49]: "2"
+                                  - generic [ref=f93e50]: "0"
+                                - generic [ref=f93e52]: Number of Books
+                          - generic [ref=f93e54]:
+                            - button "Zoom in" [ref=f93e55]
+                            - button "Zoom out" [ref=f93e59]
+                            - button "Reset view" [ref=f93e63]
+                            - button "Pan up" [ref=f93e66]
+                            - button "Pan down" [ref=f93e69]
+                            - button "Pan left" [ref=f93e72]
+                            - button "Pan right" [ref=f93e75]
+                  - generic [ref=f88e1827]:
+                    - heading "Per-point text labels for line charts (v11.16.0+)" [level=2] [ref=f88e1828]
+                    - 'link "Permalink: Per-point text labels for line charts (v11.16.0+)" [ref=f88e1829] [cursor=pointer]':
+                      - /url: "#per-point-text-labels-for-line-charts-v11160"
+                  - paragraph [ref=f88e1832]:
+                    - text: Each data point in a
+                    - code [ref=f88e1833]: line
+                    - text: can optionally include a quoted string label after the numeric value. Labels render above points in vertical orientation, or to the right in horizontal orientation, using the line's stroke color.
+                  - generic [ref=f88e1834]:
+                    - code [ref=f88e1836]: xychart title "Smallest AI models scoring above 60% on MMLU" x-axis "Date" ["Apr 2022", "Feb 2023", "Jul 2023", "Sep 2023", "Apr 2024"] y-axis "Parameters (B)" 0 --> 600 line [540 "PaLM", 65 "LLaMA-65B", 34 "Llama 2 34B", 7 "Mistral 7B", 3.8 "Phi-3-mini"]
+                    - button "Copy code to clipboard" [ref=f88e1838] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1842]:
+                    - generic [ref=f88e1843]:
+                      - generic [ref=f88e1844]:
+                        - group [ref=f88e1845]:
+                          - button "Open dialog" [ref=f88e1846] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1849] [cursor=pointer]
+                      - iframe [ref=f88e1854]:
+                        - generic [ref=f94e1]:
+                          - document [ref=f94e5]:
+                            - generic [ref=f94e6]:
+                              - generic [ref=f94e8]: Smallest AI models scoring above 60% on MMLU
+                              - generic [ref=f94e13]:
+                                - generic [ref=f94e14]: PaLM
+                                - generic [ref=f94e15]: LLaMA-65B
+                                - generic [ref=f94e16]: Llama 2 34B
+                                - generic [ref=f94e17]: Mistral 7B
+                                - generic [ref=f94e18]: Phi-3-mini
+                              - generic [ref=f94e19]:
+                                - generic [ref=f94e20]:
+                                  - generic [ref=f94e21]: Apr 2022
+                                  - generic [ref=f94e22]: Feb 2023
+                                  - generic [ref=f94e23]: Jul 2023
+                                  - generic [ref=f94e24]: Sep 2023
+                                  - generic [ref=f94e25]: Apr 2024
+                                - generic [ref=f94e27]: Date
+                              - generic [ref=f94e29]:
+                                - generic [ref=f94e30]:
+                                  - generic [ref=f94e31]: "600"
+                                  - generic [ref=f94e32]: "550"
+                                  - generic [ref=f94e33]: "500"
+                                  - generic [ref=f94e34]: "450"
+                                  - generic [ref=f94e35]: "400"
+                                  - generic [ref=f94e36]: "350"
+                                  - generic [ref=f94e37]: "300"
+                                  - generic [ref=f94e38]: "250"
+                                  - generic [ref=f94e39]: "200"
+                                  - generic [ref=f94e40]: "150"
+                                  - generic [ref=f94e41]: "100"
+                                  - generic [ref=f94e42]: "50"
+                                  - generic [ref=f94e43]: "0"
+                                - generic [ref=f94e45]: Parameters (B)
+                          - generic [ref=f94e47]:
+                            - button "Zoom in" [ref=f94e48]
+                            - button "Zoom out" [ref=f94e52]
+                            - button "Reset view" [ref=f94e56]
+                            - button "Pan up" [ref=f94e59]
+                            - button "Pan down" [ref=f94e62]
+                            - button "Pan left" [ref=f94e65]
+                            - button "Pan right" [ref=f94e68]
+                  - paragraph [ref=f88e1855]: "Labels are optional per point — you can mix labeled and unlabeled values:"
+                  - generic [ref=f88e1856]:
+                    - code [ref=f88e1858]: xychart title "Quarterly Performance" x-axis [Q1, Q2, Q3, Q4] y-axis "Revenue ($M)" 0 --> 100 line [25 "Launch", 45, 72, 90 "Target Hit"]
+                    - button "Copy code to clipboard" [ref=f88e1860] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1864]:
+                    - generic [ref=f88e1865]:
+                      - generic [ref=f88e1866]:
+                        - group [ref=f88e1867]:
+                          - button "Open dialog" [ref=f88e1868] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1871] [cursor=pointer]
+                      - iframe [ref=f88e1876]:
+                        - generic [ref=f95e1]:
+                          - document [ref=f95e5]:
+                            - generic [ref=f95e6]:
+                              - generic [ref=f95e8]: Quarterly Performance
+                              - generic [ref=f95e13]:
+                                - generic [ref=f95e14]: Launch
+                                - generic [ref=f95e15]: Target Hit
+                              - generic [ref=f95e17]:
+                                - generic [ref=f95e18]: Q1
+                                - generic [ref=f95e19]: Q2
+                                - generic [ref=f95e20]: Q3
+                                - generic [ref=f95e21]: Q4
+                              - generic [ref=f95e23]:
+                                - generic [ref=f95e24]:
+                                  - generic [ref=f95e25]: "100"
+                                  - generic [ref=f95e26]: "90"
+                                  - generic [ref=f95e27]: "80"
+                                  - generic [ref=f95e28]: "70"
+                                  - generic [ref=f95e29]: "60"
+                                  - generic [ref=f95e30]: "50"
+                                  - generic [ref=f95e31]: "40"
+                                  - generic [ref=f95e32]: "30"
+                                  - generic [ref=f95e33]: "20"
+                                  - generic [ref=f95e34]: "10"
+                                  - generic [ref=f95e35]: "0"
+                                - generic [ref=f95e37]: Revenue ($M)
+                          - generic [ref=f95e39]:
+                            - button "Zoom in" [ref=f95e40]
+                            - button "Zoom out" [ref=f95e44]
+                            - button "Reset view" [ref=f95e48]
+                            - button "Pan up" [ref=f95e51]
+                            - button "Pan down" [ref=f95e54]
+                            - button "Pan left" [ref=f95e57]
+                            - button "Pan right" [ref=f95e60]
+                  - paragraph [ref=f88e1877]: Existing syntax without labels continues to work unchanged.
+                  - blockquote [ref=f88e1878]:
+                    - paragraph [ref=f88e1879]:
+                      - strong [ref=f88e1880]: Note
+                      - text: Point labels use a fixed font size of 12px. In vertical charts, labels appear above each point. In horizontal charts, labels appear to the right. Labels are currently supported on
+                      - code [ref=f88e1881]: line
+                      - text: plots only; the syntax is accepted on
+                      - code [ref=f88e1882]: bar
+                      - text: plots but labels are ignored.
+                  - generic [ref=f88e1883]:
+                    - heading "Example on config and theme" [level=2] [ref=f88e1884]
+                    - 'link "Permalink: Example on config and theme" [ref=f88e1885] [cursor=pointer]':
+                      - /url: "#example-on-config-and-theme"
+                  - generic [ref=f88e1888]:
+                    - code [ref=f88e1890]: "--- config: xyChart: width: 900 height: 600 showDataLabel: true themeVariables: xyChart: titleColor: \"#ff0000\" --- xychart title \"Sales Revenue\" x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec] y-axis \"Revenue (in $)\" 4000 --> 11000 bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000] line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]"
+                    - button "Copy code to clipboard" [ref=f88e1892] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f88e1896]:
+                    - generic [ref=f88e1897]:
+                      - generic [ref=f88e1898]:
+                        - group [ref=f88e1899]:
+                          - button "Open dialog" [ref=f88e1900] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f88e1903] [cursor=pointer]
+                      - iframe [ref=f88e1908]:
+                        - generic [ref=f96e1]:
+                          - document [ref=f96e5]:
+                            - generic [ref=f96e6]:
+                              - generic [ref=f96e8]: Sales Revenue
+                              - generic [ref=f96e11]:
+                                - generic [ref=f96e24]: "5000"
+                                - generic [ref=f96e25]: "6000"
+                                - generic [ref=f96e26]: "7500"
+                                - generic [ref=f96e27]: "8200"
+                                - generic [ref=f96e28]: "9500"
+                                - generic [ref=f96e29]: "10500"
+                                - generic [ref=f96e30]: "11000"
+                                - generic [ref=f96e31]: "10200"
+                                - generic [ref=f96e32]: "9200"
+                                - generic [ref=f96e33]: "8500"
+                                - generic [ref=f96e34]: "7000"
+                                - generic [ref=f96e35]: "6000"
+                              - generic [ref=f96e39]:
+                                - generic [ref=f96e40]: jan
+                                - generic [ref=f96e41]: feb
+                                - generic [ref=f96e42]: mar
+                                - generic [ref=f96e43]: apr
+                                - generic [ref=f96e44]: may
+                                - generic [ref=f96e45]: jun
+                                - generic [ref=f96e46]: jul
+                                - generic [ref=f96e47]: aug
+                                - generic [ref=f96e48]: sep
+                                - generic [ref=f96e49]: oct
+                                - generic [ref=f96e50]: nov
+                                - generic [ref=f96e51]: dec
+                              - generic [ref=f96e53]:
+                                - generic [ref=f96e54]:
+                                  - generic [ref=f96e55]: "11000"
+                                  - generic [ref=f96e56]: "10500"
+                                  - generic [ref=f96e57]: "10000"
+                                  - generic [ref=f96e58]: "9500"
+                                  - generic [ref=f96e59]: "9000"
+                                  - generic [ref=f96e60]: "8500"
+                                  - generic [ref=f96e61]: "8000"
+                                  - generic [ref=f96e62]: "7500"
+                                  - generic [ref=f96e63]: "7000"
+                                  - generic [ref=f96e64]: "6500"
+                                  - generic [ref=f96e65]: "6000"
+                                  - generic [ref=f96e66]: "5500"
+                                  - generic [ref=f96e67]: "5000"
+                                  - generic [ref=f96e68]: "4500"
+                                  - generic [ref=f96e69]: "4000"
+                                - generic [ref=f96e71]: Revenue (in $)
+                          - generic [ref=f96e73]:
+                            - button "Zoom in" [ref=f96e74]
+                            - button "Zoom out" [ref=f96e78]
+                            - button "Reset view" [ref=f96e82]
+                            - button "Pan up" [ref=f96e85]
+                            - button "Pan down" [ref=f96e88]
+                            - button "Pan left" [ref=f96e91]
+                            - button "Pan right" [ref=f96e94]
+  - alert [ref=f88e1912]
