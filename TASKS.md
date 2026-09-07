@@ -51,6 +51,20 @@ Parked, not abandoned. Every task here measures Handoff over two weeks of real u
     - **Also verified:** the social preview card GitHub serves is byte-identical to the source PNG, and a sweep of the full published history across all branches found no credential-shaped strings — with a planted fake token proving the sweep can detect one.
     - **Not covered:** the release contains no live run against a real codebase. That gap is unchanged and is stated on the front page and in the changelog. The two Dependabot upgrades merged after the tag are not in `v1.0.0`; they are CI-only and appear under `[Unreleased]`.
 
+## Post-1.0 — work that appeared after the release
+
+**Why this section exists.** Phases 0–3 were a build plan, and the build finished on 2026-09-07.
+Everything found since falls outside all four phases, and outside the `phase-N` issue labels — so
+until 2026-09-08 the two newest defects in the project were invisible to every tracking mechanism it
+had. Numbering here is deliberately not `4.x`: this is not a fifth phase, it is what is open now.
+
+- [ ] **P1 Make the cost-brake checker vendor-aware.** ([#106](https://github.com/mathew-builds/Handoff/issues/106)) `scripts/check-workflow-caps.py` treats a step as running the agent only if its action comes from `anthropics/`, so a second agent's workflow contains no agent step and its turn cap goes unchecked. Reproduced 2026-09-07: an uncapped `templates/codex.yml` using another vendor's action passed at **exit 0**. Subtler than the bug in the checker's own header — that one *asserted* a brake it had not checked; this one stays silent and passes. *Accept:* the same uncapped input **fails**, demonstrated in both directions, and the case joins the mutation suite in `scripts/test-scripts.sh`. **Blocks** the design in `09-second-agent-design.md` (D15), which is why it must land first and separately.
+- [ ] **P2 The pull-request report-back only ever says `tests pending`.** ([#108](https://github.com/mathew-builds/Handoff/issues/108)) The routine fires on `pull_request opened`, when checks are still queued — documented behaviour, not a regression. The worse half: the `green` and `red` branches have **never run anywhere**, because the trial repo has no CI, so two of three output branches are unproven. *Accept:* a passing pull request produces green and a failing one produces red, both observed with run IDs in `07-evidence.md`, replacing the note there that says these branches have never run. Needs a repository that actually has CI — the trial repo does not, which is the root cause.
+- [ ] **P3 Go-to-market: recruit the first installs from outside the project.** Closes the same gap as 3.4 from the other end. *Accept:* at least one person who did not write Handoff installs it from the README and reports what confused them; every point of confusion becomes a documentation fix. **Detail is deliberately not in this repository** — the working material is under `marketing/`, which is gitignored and enforced by a check in `scripts/test-scripts.sh`. This line records that the workstream exists so a fresh reader is not left thinking the project is idle; it does not record its contents.
+
+> **Read the issues, not this list, for current status.** Same reasoning as 3.4 below: a status
+> written into a task record goes stale the moment somebody fixes it.
+
 ## Parked (do not start without a trigger from `06-roadmap.md`)
 
 - Agent-mode maintenance workflow ("every Monday, update deps")
