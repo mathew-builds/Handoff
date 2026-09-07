@@ -82,8 +82,15 @@ MUST_RUN_AGENT = (Path("templates/claude.yml"),)
 # where it used to mean "skip".
 NO_AGENT = (
     Path("templates/weekly-cost.yml"),
+    Path("templates/pr-checks-report.yml"),
     Path(".github/workflows/ci.yml"),
 )
+
+# `pr-checks-report.yml` is the first workflow added after the inversion above,
+# and it was caught by it on the first run — it reads check conclusions with `gh`
+# and uses no model turns, so it belongs here, and the script refused to let it
+# through until somebody said so. Under the previous vendor-matching logic it
+# would have passed in silence. That is the mechanism working, on a real file.
 
 # A step runs the agent if it uses an action published by the vendor. Matching
 # the exact repository name meant any rename, fork or wrapper silently disabled

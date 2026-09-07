@@ -266,7 +266,30 @@ Pass 2's underlying chain, for the record:
 **Three things this run does not show, recorded so nobody reads more into it than it proves:**
 
 1. **Delivery latency was not measured.** We know both reports arrived and that neither required approval. We did not record how long either took, and the account owner may have had the app open when they landed — so "arrived promptly" is an impression, not a measurement.
-2. **The routine has only ever emitted `tests pending`.** The trial repo has no CI, so the `green`/`red` branches of its output format have **never been exercised**. Coder itself pointed out a second reason this will keep happening even on a repo that *does* have CI: the routine fires on `pull_request opened`, and checks are usually still queued at that instant. A routine that reports the moment a pull request opens will report `pending` most of the time by design. If the CI status matters to you, trigger on check completion instead — untested, and a change to the template rather than a fix.
+2. **The routine has only ever emitted `tests pending`.** The trial repo had no CI, so the `green`/`red` branches of its output format were **never exercised**. Coder itself pointed out a second reason this keeps happening even on a repo that *does* have CI: the routine fires on `pull_request opened`, and checks are usually still queued at that instant. A routine that reports the moment a pull request opens will report `pending` most of the time by design. **Addressed 2026-09-08 — see below.**
+
+### 2026-09-08 — a green/red verdict, observed on both branches (issue 108)
+
+The gap above is closed, by a workflow rather than by changing the routine. `templates/pr-checks-report.yml` posts a second comment once the checks settle. It uses `gh` and shell and **no model turns**, and it assumes nothing about any chat vendor's connector.
+
+CI was added to the trial repo — its absence was the root cause — and two pull requests were opened deliberately, one passing and one failing:
+
+| Pull request | CI | Comment posted |
+|---|---|---|
+| 16 | success | `**Checks green** — 1 of 1 passed.` |
+| 17 | failure | `**Checks red** — 1 of 1 failed.` |
+
+Report runs `34156121781`, `34156121772`, `34156104908`. **Both branches of the verdict have now run, on real pull requests with real CI. Neither had ever run before, anywhere.**
+
+**The first design was wrong, and the way it failed is the finding.** It triggered on `check_suite: completed`, which needs no configuration — and it produced **zero runs** while CI went green on one pull request and red on the other. GitHub documents why:
+
+> To prevent recursive workflows, this event does not trigger workflows if the check suite was created by GitHub Actions or if the check suite's head SHA is associated with GitHub Actions.
+>
+> — <https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows>, read 2026-09-08
+
+So `check_suite` can **never** report on CI that itself runs in Actions — which is every consumer of this template. The documented alternative, `workflow_run`, works, and it requires naming the upstream workflow by its `name:` field. That naming is a real cost: get it wrong and the workflow silently never runs, which is the same failure mode it exists to fix. It is flagged in the template's header rather than buried.
+
+**Not covered:** one CI check on a small repository. Nothing here says how the aggregate behaves across several suites, on a fork pull request, or when a check is `neutral` or `skipped` — those paths are coded for and remain unobserved. The `workflow_run` trigger also runs in the default-branch context with access to secrets, so the job deliberately checks out nothing and runs nothing from the pull request.
 3. **One run each.** Neither pass has been repeated, so nothing here speaks to reliability over time — only to whether the path works at all.
 
 ### 2026-09-06 — the whole bridge, with Grok Bot in the loop (task 1.3)

@@ -227,6 +227,7 @@ bash ~/handoff/scripts/setup.sh
 | File | What it adds |
 |---|---|
 | [`templates/weekly-cost.yml`](templates/weekly-cost.yml) | A Monday report on a labelled issue: pull requests merged, how many runs it took, runner time per merged pull request. **Uses no model turns** — it is `gh` and `awk`, not an agent. Copy it next to `claude.yml` if you want it. |
+| [`templates/pr-checks-report.yml`](templates/pr-checks-report.yml) | Comments **green or red on the pull request once its checks finish.** The chat report-back fires when the pull request *opens*, so it says `tests pending` almost every time — this is the part that tells you whether the change is any good. **Uses no model turns.** One line to edit: name your CI workflow. |
 
 ## Documentation
 

@@ -1,0 +1,158 @@
+# Handoff — pull-request checks report (optional)
+#
+# Copy to .github/workflows/pr-checks-report.yml in the repo Claude works on.
+#
+# Fixes a real gap rather than adding a feature. The chat report-back routine
+# fires on `pull_request opened`, and at that instant the pull request's checks
+# have not started — so it says `tests pending` essentially every time. That is
+# documented behaviour, not a bug, but it means the report tells you a pull
+# request EXISTS, which you could already see, rather than whether it is any
+# good. You then open GitHub to find out the thing you actually wanted to know.
+#
+# This posts a second comment once the checks have finished, saying green or
+# red. See issue #108.
+#
+# DELIBERATELY NOT AN AGENT RUN, for the same reason as weekly-cost.yml: reading
+# a conclusion off the checks API is deterministic. A model would cost
+# subscription turns, could hallucinate a verdict, and might answer differently
+# twice from identical data. This is `gh` and shell. It uses no model turns.
+#
+# It also assumes NOTHING about your chat vendor. The known-unverified question
+# in issue #108 is whether a chat bot's GitHub connection can trigger on check
+# completion at all. This sidesteps that: GitHub is doing the waiting, and the
+# result lands as a normal pull-request comment that any connector already sees.
+#
+# ── YOU MUST EDIT ONE LINE ────────────────────────────────────────────────────
+# `workflows:` below has to name YOUR CI workflow, exactly as its `name:` field
+# reads — not its filename. Get it wrong and this never runs, silently, which is
+# the same failure mode it exists to fix.
+#
+# WHY IT CANNOT BE AUTOMATIC, since the obvious design does not work:
+# the first version of this file triggered on `check_suite: completed`, which
+# needs no configuration at all. It never fired once. GitHub documents why:
+#
+#   "To prevent recursive workflows, this event does not trigger workflows if
+#    the check suite was created by GitHub Actions or if the check suite's head
+#    SHA is associated with GitHub Actions."
+#   — docs.github.com, events that trigger workflows, read 2026-09-08
+#
+# So `check_suite` can never report on CI that itself runs in Actions, which is
+# every consumer of this template. `workflow_run` is the documented alternative
+# and it requires naming the upstream workflow. That naming is the cost of the
+# only trigger that works.
+#
+# Observed, not assumed: with the `check_suite` trigger, CI ran green on one
+# pull request and red on another and this workflow produced ZERO runs.
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Last verified against the GitHub REST API and the Actions events docs:
+# 2026-09-08.
+
+name: PR checks report
+
+on:
+  workflow_run:
+    workflows: ["CI"]        # ← EDIT THIS to your CI workflow's `name:`
+    types: [completed]
+
+# One report per commit at a time. Same reasoning as claude.yml: without
+# `queue: max` GitHub keeps only ONE pending run per group, so a third upstream
+# workflow completing would silently cancel the second before it started.
+concurrency:
+  group: pr-checks-report-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    # Deliberately minimal. `workflow_run` runs in the DEFAULT BRANCH context
+    # with access to secrets even when the upstream run came from a fork — which
+    # is why this job checks out nothing, runs nothing from the pull request, and
+    # asks only for what it needs to read a conclusion and leave a comment.
+    permissions:
+      pull-requests: write     # to post the comment
+      checks: read             # to read the conclusions
+      contents: read
+    steps:
+      - name: Report the verdict on the pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # `gh` resolves the repository from the checked-out git remote, and
+          # this job deliberately does not check out — so without this every
+          # `gh` call below fails with "not a git repository". claude.yml
+          # shipped exactly that bug once; the stub `gh` in the tests hid it.
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+
+          # Which pull request is this suite attached to? A suite can exist with
+          # no pull request at all — a push straight to the default branch — and
+          # that is the common case, not an error. Exit quietly.
+          PR="$(gh api "repos/$GH_REPO/commits/$SHA/pulls" \
+                  --jq '[.[] | select(.state == "open")][0].number // empty')"
+          if [ -z "$PR" ]; then
+            echo "No open pull request for $SHA — nothing to report."
+            exit 0
+          fi
+
+          # Wait for the OTHER suites on this commit. This job is itself a check
+          # run, so it can never see every suite finish — hence the bounded wait
+          # and the deliberate exclusion of this workflow's own run below.
+          #
+          # `|| true` on the poll is required, not decorative: a transient API
+          # failure must not kill the report under `set -e`.
+          for _ in $(seq 1 20); do
+            PENDING="$(gh api "repos/$GH_REPO/commits/$SHA/check-runs" \
+              --jq "[.check_runs[]
+                     | select(.name != \"$GITHUB_JOB\")
+                     | select(.status != \"completed\")] | length" 2>/dev/null || echo "unknown")"
+            [ "$PENDING" = "0" ] && break
+            sleep 15
+          done
+
+          # Read the conclusions. `neutral` and `skipped` are NOT failures —
+          # treating them as red is the obvious wrong turn here, because a
+          # skipped job is the normal result of a path filter.
+          read -r TOTAL FAILED < <(gh api "repos/$GH_REPO/commits/$SHA/check-runs" \
+            --jq "[.check_runs[] | select(.name != \"$GITHUB_JOB\")] as \$c
+                  | [(\$c | length),
+                     (\$c | map(select(.conclusion
+                        | . != null and . != \"success\" and . != \"neutral\" and . != \"skipped\"))
+                        | length)]
+                  | @tsv")
+
+          if [ "$TOTAL" = "0" ]; then
+            echo "No checks other than this one — nothing to report."
+            exit 0
+          fi
+
+          if [ "$FAILED" = "0" ]; then
+            VERDICT="**Checks green** — $TOTAL of $TOTAL passed."
+          else
+            VERDICT="**Checks red** — $FAILED of $TOTAL failed."
+          fi
+
+          # The marker is what makes this idempotent across several suites.
+          MARKER='<!-- handoff:pr-checks-report -->'
+
+          {
+            printf '%s\n' "$MARKER"
+            printf '%s\n\n' "$VERDICT"
+            printf 'Reported when the checks finished, not when the pull request opened.\n'
+            printf 'Uses no model turns.\n'
+          } > "$RUNNER_TEMP/verdict.md"
+
+          EXISTING="$(gh api "repos/$GH_REPO/issues/$PR/comments" \
+            --jq "[.[] | select(.body | contains(\"$MARKER\"))][0].id // empty")"
+
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/$GH_REPO/issues/comments/$EXISTING" \
+              -F body=@"$RUNNER_TEMP/verdict.md" > /dev/null
+            echo "Updated the existing report on PR $PR: $VERDICT"
+          else
+            gh pr comment "$PR" --body-file "$RUNNER_TEMP/verdict.md"
+            echo "Posted a report on PR $PR: $VERDICT"
+          fi
