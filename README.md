@@ -153,6 +153,32 @@ Both layer 2 steps are proven — see the runs in [07-evidence.md](docs/07-evide
 
 **On prompt injection:** the write-access check is *not* an injection defence, and this project used to claim it was. It controls who can start a run; it does not control what text reaches Claude. A comment from someone with no write access is still in the prompt when someone with write access says `@claude`. See [05-security.md](docs/05-security.md) for what actually contains it.
 
+## Your subscription, and Anthropic's terms
+
+Handoff runs the **official, first-party** [`anthropics/claude-code-action`](https://github.com/anthropics/claude-code-action) with a subscription OAuth token you generate yourself using `claude setup-token` — the path Anthropic documents for Pro and Max users. **There is no Handoff service, no Handoff app and no Handoff server.** Your token goes into your own repository's secrets and is read by Anthropic's own action inside your own repository. Nothing is routed through anything of ours, because there is nothing of ours to route it through.
+
+That distinction is the one Anthropic's [legal and compliance page](https://code.claude.com/docs/en/legal-and-compliance) draws. Quoted verbatim, read **2026-09-07**:
+
+> **OAuth authentication** is intended exclusively for purchasers of Claude Free, Pro, Max, Team, and Enterprise subscription plans and is designed to support ordinary use of Claude Code and other native Anthropic applications.
+
+> Anthropic does not permit third-party developers to offer Claude.ai login into their own applications, or to route requests through Free, Pro, or Max plan credentials on behalf of their users.
+
+The same page states that this does not "prevent an end user from signing in to the unmodified Claude Code binary with their own Claude subscription". Handoff is a workflow file you copy: you sign in, with your own credentials, in your own repository, and the usage is billed to you.
+
+**Two caveats ship with that, and they are not footnotes.** Both verbatim from the same page:
+
+> Advertised usage limits for Pro and Max plans assume ordinary, individual usage of Claude Code and the Agent SDK.
+
+> Anthropic reserves the right to take measures to enforce these restrictions and may do so without prior notice.
+
+So **do not point this at a 24/7 loop.** The three cost brakes exist for this reason as much as for cost — a `concurrency` group, a `timeout-minutes`, and `--max-turns`, with a check that fails the build if any of them is removed. They are there to keep usage ordinary.
+
+**On the alternatives.** Some tools in this space put a subscription OAuth token into a server of their own. This project describes what each tool does and quotes the vendor; it does not draw legal conclusions about anyone else's product, and it has run none of them — every alternative in [07-evidence.md](docs/07-evidence.md) is scored from its documentation.
+
+**On the name.** Anthropic's terms permit saying plainly that a product runs Claude Code, but not using the Claude or Anthropic names or logos as part of a product's own name or logo. That is why this is called Handoff.
+
+None of the above is legal advice, and none of it is a statement on Anthropic's behalf. It is a description of what Handoff does, with the vendor's own words next to it and the date they were read. Check the page yourself — it can change, and this section carries a date so you can tell when it was last verified.
+
 ## Honest limits
 
 This project's history is confident claims that turned out to be false — four load-bearing ones, one of them repeated across seventeen places in the docs, all rewritten rather than patched after being checked. The record is the **Correction** entries in [02-decisions.md](docs/02-decisions.md) and `git log --grep=correct`. So:
