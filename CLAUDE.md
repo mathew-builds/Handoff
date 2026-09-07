@@ -62,6 +62,15 @@ you see the constraint behind them.
 
 ## Ground rules
 - Never commit secrets. `CLAUDE_CODE_OAUTH_TOKEN`, GitHub tokens and Grok Bot connector secrets live only in GitHub Secrets or the user's local machine.
+- **`marketing/` and `.audit/` are local-only and must never be committed.** This repository is
+  **public**, and `marketing/` holds go-to-market strategy, competitive research and any asset
+  bearing a vendor logo — the logos marketing may use and the repository may not. One accidental
+  commit is a permanent disclosure. Both are gitignored, and `scripts/test-scripts.sh` **fails the
+  build** if anything under either becomes tracked, because a gitignore line cannot stop
+  `git add -f` and does not apply to an already-tracked path. `.playwright-mcp/` is why that check
+  exists: not ignored, committed by accident, 56% of the repository before an audit found it.
+  **Never `git add -f` under those paths, and never move a marketing asset into `assets/`** — that
+  directory is public and holds the README artwork.
 - Keep `templates/claude.yml` aligned with the official `anthropics/claude-code-action@v1` inputs. Verify against https://code.claude.com/docs/en/github-actions before changing it.
 - **`claude.yml` both runs Claude and opens the pull request.** The action cannot open one itself (D12). Do not split the PR step into a separate `on: push` workflow — `actions/checkout` persists the workflow `GITHUB_TOKEN`, so Claude's push never triggers one. We shipped that bug; see #61.
 - **Do not claim a vendor behaviour you have not read in their docs or seen in a run.** Four load-bearing claims in the original scaffold were confidently wrong; one of them appeared in seventeen places before anyone checked. See the **Correction** entries in `docs/02-decisions.md`. When you cannot verify, write "unverified" — it is an acceptable answer.
