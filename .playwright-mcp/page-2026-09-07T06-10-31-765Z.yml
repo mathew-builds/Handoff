@@ -1,0 +1,783 @@
+- generic [active] [ref=f112e1]:
+  - generic [ref=f112e2]:
+    - generic [ref=f112e3]:
+      - link "Skip to content" [ref=f112e4] [cursor=pointer]:
+        - /url: "#start-of-content"
+      - banner [ref=f112e9]:
+        - heading "Navigation Menu" [level=2] [ref=f112e10]
+        - generic [ref=f112e11]:
+          - link "Homepage" [ref=f112e13] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f112e16]:
+            - navigation "Global" [ref=f112e17]:
+              - list [ref=f112e18]:
+                - listitem [ref=f112e19]:
+                  - button "Platform" [ref=f112e21] [cursor=pointer]
+                - listitem [ref=f112e24]:
+                  - button "Solutions" [ref=f112e26] [cursor=pointer]
+                - listitem [ref=f112e29]:
+                  - button "Resources" [ref=f112e31] [cursor=pointer]
+                - listitem [ref=f112e34]:
+                  - button "Open Source" [ref=f112e36] [cursor=pointer]
+                - listitem [ref=f112e39]:
+                  - button "Enterprise" [ref=f112e41] [cursor=pointer]
+                - listitem [ref=f112e44]:
+                  - link "Pricing" [ref=f112e45] [cursor=pointer]:
+                    - /url: https://github.com/pricing
+            - generic [ref=f112e46]:
+              - button "Search or jump to, type / to search" [ref=f112e48] [cursor=pointer]
+              - link "Sign in" [ref=f112e55] [cursor=pointer]:
+                - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fmermaid-js%2Fmermaid%2Fblob%2Fdevelop%2Fdocs%2Fsyntax%2Fmindmap.md
+              - link "Sign up" [ref=f112e58] [cursor=pointer]:
+                - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fblob%2Fshow&source=header-repo&source_repo=mermaid-js%2Fmermaid
+              - button "Appearance settings" [ref=f112e61] [cursor=pointer]
+    - main [ref=f112e68]:
+      - generic [ref=f112e69]:
+        - generic [ref=f112e70]:
+          - generic [ref=f112e72]:
+            - link "mermaid-js" [ref=f112e76] [cursor=pointer]:
+              - /url: /mermaid-js
+            - generic [ref=f112e77]: /
+            - strong [ref=f112e78]:
+              - link "mermaid" [ref=f112e79] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid
+            - generic [ref=f112e80]: Public
+          - generic [ref=f112e81]:
+            - list:
+              - listitem [ref=f112e82]:
+                - button "Sponsor mermaid-js/mermaid" [ref=f112e84] [cursor=pointer]:
+                  - generic [ref=f112e85]: Sponsor
+              - listitem [ref=f112e89]:
+                - link "You must be signed in to change notification settings" [ref=f112e90] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Notifications
+              - listitem [ref=f112e93]:
+                - link "Fork 9.2k" [ref=f112e94] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Fork
+                  - generic "9,233" [ref=f112e97]: 9.2k
+              - listitem [ref=f112e98]:
+                - link "You must be signed in to star a repository" [ref=f112e100] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Star
+                  - generic "90136 users starred this repository" [ref=f112e103]: 90.1k
+        - navigation "Repository" [ref=f112e104]:
+          - list [ref=f112e105]:
+            - listitem [ref=f112e106]:
+              - link "Code" [ref=f112e107] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid
+            - listitem [ref=f112e111]:
+              - link "Issues 1.5k" [ref=f112e112] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/issues
+                - generic [ref=f112e116]: Issues
+                - generic "1,471" [ref=f112e117]: 1.5k
+            - listitem [ref=f112e118]:
+              - link "Pull requests 299" [ref=f112e119] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/pulls
+                - generic [ref=f112e122]: Pull requests
+                - generic "299" [ref=f112e123]
+            - listitem [ref=f112e124]:
+              - link "Discussions" [ref=f112e125] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/discussions
+            - listitem [ref=f112e129]:
+              - link "Actions" [ref=f112e130] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/actions
+            - listitem [ref=f112e134]:
+              - link "Projects" [ref=f112e135] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/projects
+            - listitem [ref=f112e139]:
+              - link "Wiki" [ref=f112e140] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/wiki
+            - listitem [ref=f112e144]:
+              - link "Security and quality 14" [ref=f112e145] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/security
+                - generic [ref=f112e148]: Security and quality
+                - generic "14" [ref=f112e149]
+            - listitem [ref=f112e150]
+          - button "Additional navigation options" [ref=f112e154] [cursor=pointer]
+      - generic [ref=f112e162]:
+        - generic [ref=f112e164]:
+          - generic [ref=f112e167]:
+            - generic [ref=f112e168]:
+              - generic [ref=f112e169]:
+                - heading "Collapse file tree" [level=2] [ref=f112e170]:
+                  - button "Collapse file tree" [expanded] [ref=f112e171] [cursor=pointer]
+                - heading "Files" [level=2] [ref=f112e175]
+              - generic [ref=f112e176]:
+                - button "develop branch" [ref=f112e178] [cursor=pointer]:
+                  - generic [ref=f112e179]: develop
+                - button "Search this repository (forward slash)" [ref=f112e184] [cursor=pointer]
+            - combobox "Go to file" [ref=f112e192]
+            - navigation "File Tree Navigation" [ref=f112e198]:
+              - tree "Files" [ref=f112e200]:
+                - treeitem ".build" [level=1] [ref=f112e201]
+                - treeitem ".changeset" [level=1] [ref=f112e213]
+                - treeitem ".cspell" [level=1] [ref=f112e225]
+                - treeitem ".esbuild" [level=1] [ref=f112e237]
+                - treeitem ".github" [level=1] [ref=f112e249]
+                - treeitem ".husky" [level=1] [ref=f112e261]
+                - treeitem ".vite" [level=1] [ref=f112e273]
+                - treeitem ".vscode" [level=1] [ref=f112e285]
+                - treeitem "demos" [level=1] [ref=f112e297]
+                - treeitem "docs" [expanded] [level=1] [ref=f112e309]:
+                  - group "docs" [ref=f112e321]:
+                    - treeitem "community" [level=2] [ref=f112e322]
+                    - treeitem "config" [level=2] [ref=f112e337]
+                    - treeitem "diagrams" [level=2] [ref=f112e352]
+                    - treeitem "ecosystem" [level=2] [ref=f112e367]
+                    - treeitem "img" [level=2] [ref=f112e382]
+                    - treeitem "intro" [level=2] [ref=f112e397]
+                    - treeitem "news" [level=2] [ref=f112e412]
+                    - treeitem "public" [level=2] [ref=f112e427]
+                    - treeitem "syntax" [expanded] [level=2] [ref=f112e442]:
+                      - group "syntax" [ref=f112e457]:
+                        - treeitem "img" [level=3] [ref=f112e458]
+                        - treeitem "agentflow.md" [level=3] [ref=f112e474]
+                        - treeitem "architecture.md" [level=3] [ref=f112e486]
+                        - treeitem "block.md" [level=3] [ref=f112e498]
+                        - treeitem "c4.md" [level=3] [ref=f112e510]
+                        - treeitem "classDiagram.md" [level=3] [ref=f112e522]
+                        - treeitem "cynefin.md" [level=3] [ref=f112e534]
+                        - treeitem "entityRelationshipDiagram.md" [level=3] [ref=f112e546]
+                        - treeitem "eventmodeling.md" [level=3] [ref=f112e558]
+                        - treeitem "examples.md" [level=3] [ref=f112e570]
+                        - treeitem "flowchart.md" [level=3] [ref=f112e582]
+                        - treeitem "gantt.md" [level=3] [ref=f112e594]
+                        - treeitem "gitgraph.md" [level=3] [ref=f112e606]
+                        - treeitem "ishikawa.md" [level=3] [ref=f112e618]
+                        - treeitem "kanban.md" [level=3] [ref=f112e630]
+                        - treeitem "mindmap.md" [level=3] [ref=f112e642]
+                        - treeitem "packet.md" [level=3] [ref=f112e654]
+                        - treeitem "pie.md" [level=3] [ref=f112e666]
+                        - treeitem "quadrantChart.md" [level=3] [ref=f112e678]
+                        - treeitem "radar.md" [level=3] [ref=f112e690]
+                        - treeitem "railroad.md" [level=3] [ref=f112e702]
+                        - treeitem "requirementDiagram.md" [level=3] [ref=f112e714]
+                        - treeitem "sankey.md" [level=3] [ref=f112e726]
+                        - treeitem "sequenceDiagram.md" [level=3] [ref=f112e738]
+                        - treeitem "stateDiagram.md" [level=3] [ref=f112e750]
+                        - treeitem "swimlanes.md" [level=3] [ref=f112e762]
+                        - treeitem "timeline.md" [level=3] [ref=f112e774]
+                        - treeitem "treeView.md" [level=3] [ref=f112e786]
+                        - treeitem "treemap.md" [level=3] [ref=f112e798]
+                        - treeitem "usecase.md" [level=3] [ref=f112e810]
+                        - treeitem "userJourney.md" [level=3] [ref=f112e822]
+                        - treeitem "venn.md" [level=3] [ref=f112e834]
+                        - treeitem "wardley.md" [level=3] [ref=f112e846]
+                        - treeitem "xyChart.md" [level=3] [ref=f112e858]
+                        - treeitem "zenuml.md" [level=3] [ref=f112e870]
+                    - treeitem "adding-new-shape.md" [level=2] [ref=f112e882]
+                - treeitem "e2e" [level=1] [ref=f112e893]
+                - treeitem "img" [level=1] [ref=f112e905]
+                - treeitem "packages" [level=1] [ref=f112e917]
+                - treeitem "patches" [level=1] [ref=f112e929]
+                - treeitem "scripts" [level=1] [ref=f112e941]
+                - treeitem "tests" [level=1] [ref=f112e953]
+                - treeitem ".ackrc" [level=1] [ref=f112e965]
+                - treeitem ".editorconfig" [level=1] [ref=f112e973]
+                - treeitem ".fallowrc.json" [level=1] [ref=f112e981]
+                - treeitem ".gitattributes" [level=1] [ref=f112e989]
+                - treeitem ".gitignore" [level=1] [ref=f112e997]
+                - treeitem ".hadolint.yaml" [level=1] [ref=f112e1005]
+                - treeitem ".lintstagedrc.mjs" [level=1] [ref=f112e1013]
+                - treeitem ".node-version" [level=1] [ref=f112e1021]
+                - treeitem ".npmrc" [level=1] [ref=f112e1029]
+                - treeitem ".prettierignore" [level=1] [ref=f112e1037]
+                - treeitem ".prettierrc.json" [level=1] [ref=f112e1045]
+                - treeitem "CHANGELOG.md" [level=1] [ref=f112e1053]
+                - treeitem "CITATION.cff" [level=1] [ref=f112e1061]
+                - treeitem "CODE_OF_CONDUCT.md" [level=1] [ref=f112e1069]
+                - treeitem "CONTRIBUTING.md" [level=1] [ref=f112e1077]
+                - treeitem "Dockerfile" [level=1] [ref=f112e1085]
+                - treeitem "FUNDING.json" [level=1] [ref=f112e1093]
+                - treeitem "LICENSE" [level=1] [ref=f112e1101]
+                - treeitem "README.md" [level=1] [ref=f112e1109]
+                - treeitem "README.zh-CN.md" [level=1] [ref=f112e1117]
+                - treeitem "cspell.config.yaml" [level=1] [ref=f112e1125]
+                - treeitem "docker-compose.yml" [level=1] [ref=f112e1133]
+                - treeitem "eslint.config.js" [level=1] [ref=f112e1141]
+                - treeitem "netlify.toml" [level=1] [ref=f112e1149]
+                - treeitem "package.json" [level=1] [ref=f112e1157]
+                - treeitem "playwright.config.ts" [level=1] [ref=f112e1165]
+                - treeitem "pnpm-lock.yaml" [level=1] [ref=f112e1173]
+                - treeitem "pnpm-workspace.yaml" [level=1] [ref=f112e1181]
+                - treeitem "renovate.json" [level=1] [ref=f112e1189]
+                - treeitem "run" [level=1] [ref=f112e1197]
+                - treeitem "tsconfig.eslint.json" [level=1] [ref=f112e1205]
+                - treeitem "tsconfig.json" [level=1] [ref=f112e1213]
+                - treeitem "vite.config.ts" [level=1] [ref=f112e1221]
+                - treeitem "vitest.workspace.js" [level=1] [ref=f112e1229]
+          - slider "Draggable pane splitter" [ref=f112e1238]
+        - generic [ref=f112e1241]:
+          - generic [ref=f112e1245]:
+            - generic [ref=f112e1247]:
+              - navigation [ref=f112e1248]:
+                - heading "Breadcrumbs" [level=2] [ref=f112e1249]
+                - list [ref=f112e1250]:
+                  - listitem [ref=f112e1251]:
+                    - link "mermaid" [ref=f112e1252] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop
+                  - listitem [ref=f112e1253]:
+                    - text: /
+                    - link "docs" [ref=f112e1254] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop/docs
+                  - listitem [ref=f112e1255]:
+                    - text: /
+                    - link "syntax" [ref=f112e1256] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop/docs/syntax
+              - generic [ref=f112e1257]:
+                - text: /
+                - heading "mindmap.md" [level=1] [ref=f112e1258]
+              - button "Copy path" [ref=f112e1259] [cursor=pointer]
+            - button "More file actions" [ref=f112e1266] [cursor=pointer]
+          - generic [ref=f112e1269]:
+            - generic [ref=f112e1271]:
+              - heading "Latest commit" [level=2] [ref=f112e1272]
+              - generic [ref=f112e1273]:
+                - generic [ref=f112e1275]:
+                  - link [ref=f112e1276] [cursor=pointer]:
+                    - /url: /darshanr0107
+                    - img "darshanr0107" [ref=f112e1277]
+                  - link "commits by darshanr0107" [ref=f112e1278] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commits?author=darshanr0107
+                    - text: darshanr0107
+                - generic [ref=f112e1279]:
+                  - 'link "docs: update mindmaps docs and move instructions under configuration …" [ref=f112e1282] [cursor=pointer]':
+                    - /url: /mermaid-js/mermaid/commit/57eadbf6afcb445e8c88319c17625adbbeff2a30
+                  - button "Open commit details" [ref=f112e1283] [cursor=pointer]
+                  - button "failure" [ref=f112e1286] [cursor=pointer]
+              - generic [ref=f112e1289]:
+                - generic [ref=f112e1291]:
+                  - link "Commit 57eadbf" [ref=f112e1292] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commit/57eadbf6afcb445e8c88319c17625adbbeff2a30
+                    - text: 57eadbf
+                  - text: ·
+                  - generic "Aug 13, 2025, 7:31 PM GMT+5:30" [ref=f112e1293]: Aug 13, 2025last year
+                - generic [ref=f112e1294]:
+                  - heading "History" [level=2] [ref=f112e1295]
+                  - link "History" [ref=f112e1296] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commits/develop/docs/syntax/mindmap.md
+            - generic [ref=f112e1300]:
+              - generic [ref=f112e1302]:
+                - heading "File metadata and controls" [level=2] [ref=f112e1303]
+                - generic [ref=f112e1304]:
+                  - list "File view" [ref=f112e1305]:
+                    - listitem [ref=f112e1306]:
+                      - button "Preview" [pressed] [ref=f112e1307] [cursor=pointer]
+                    - listitem [ref=f112e1310]:
+                      - button "Code" [ref=f112e1311] [cursor=pointer]
+                    - listitem [ref=f112e1314]:
+                      - button "Blame" [ref=f112e1315] [cursor=pointer]
+                  - generic "8.89 KB" [ref=f112e1320]: 335 lines (260 loc) · 8.89 KB
+                - generic [ref=f112e1321]:
+                  - generic [ref=f112e1322]:
+                    - generic [ref=f112e1323]:
+                      - link "Raw" [ref=f112e1325] [cursor=pointer]:
+                        - /url: https://github.com/mermaid-js/mermaid/raw/refs/heads/develop/docs/syntax/mindmap.md
+                      - button "Copy raw file" [ref=f112e1329] [cursor=pointer]
+                      - button "Download raw file" [ref=f112e1334] [cursor=pointer]
+                    - generic [ref=f112e1338]:
+                      - button "You must be signed in to make or propose changes" [disabled] [ref=f112e1340]
+                      - button "More edit options" [ref=f112e1344] [cursor=pointer]
+                  - button "Outline" [ref=f112e1347] [cursor=pointer]
+              - region "mindmap.md" [ref=f112e1351]:
+                - article [ref=f112e1353]:
+                  - blockquote [ref=f112e1354]:
+                    - paragraph [ref=f112e1355]:
+                      - strong [ref=f112e1356]: Warning
+                    - generic [ref=f112e1357]:
+                      - heading "THIS IS AN AUTOGENERATED FILE. DO NOT EDIT." [level=2] [ref=f112e1358]
+                      - 'link "Permalink: THIS IS AN AUTOGENERATED FILE. DO NOT EDIT." [ref=f112e1359] [cursor=pointer]':
+                        - /url: "#this-is-an-autogenerated-file-do-not-edit"
+                    - generic [ref=f112e1362]:
+                      - heading [level=2] [ref=f112e1363]:
+                        - text: Please edit the corresponding file in
+                        - link "/packages/mermaid/src/docs/syntax/mindmap.md" [ref=f112e1364] [cursor=pointer]:
+                          - /url: /mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/mindmap.md
+                        - text: .
+                      - 'link "Permalink: Please edit the corresponding file in /packages/mermaid/src/docs/syntax/mindmap.md." [ref=f112e1365] [cursor=pointer]':
+                        - /url: "#please-edit-the-corresponding-file-in-packagesmermaidsrcdocssyntaxmindmapmd"
+                  - generic [ref=f112e1368]:
+                    - heading "Mindmap" [level=1] [ref=f112e1369]
+                    - 'link "Permalink: Mindmap" [ref=f112e1370] [cursor=pointer]':
+                      - /url: "#mindmap"
+                  - blockquote [ref=f112e1373]:
+                    - paragraph [ref=f112e1374]: "Mindmap: This is an experimental diagram for now. The syntax and properties can change in future releases. The syntax is stable except for the icon integration which is the experimental part."
+                  - paragraph [ref=f112e1375]: "\"A mind map is a diagram used to visually organize information into a hierarchy, showing relationships among pieces of the whole. It is often created around a single concept, drawn as an image in the center of a blank page, to which associated representations of ideas such as images, words and parts of words are added. Major ideas are connected directly to the central concept, and other ideas branch out from those major ideas.\" Wikipedia"
+                  - generic [ref=f112e1376]:
+                    - heading "An example of a mindmap." [level=3] [ref=f112e1377]
+                    - 'link "Permalink: An example of a mindmap." [ref=f112e1378] [cursor=pointer]':
+                      - /url: "#an-example-of-a-mindmap"
+                  - generic [ref=f112e1381]:
+                    - code [ref=f112e1383]: mindmap root((mindmap)) Origins Long history ::icon(fa fa-book) Popularisation British popular psychology author Tony Buzan Research On effectiveness<br/>and features On Automatic creation Uses Creative techniques Strategic planning Argument mapping Tools Pen and paper Mermaid
+                    - button "Copy code to clipboard" [ref=f112e1385] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1389]:
+                    - generic [ref=f112e1390]:
+                      - generic [ref=f112e1391]:
+                        - group [ref=f112e1392]:
+                          - button "Open dialog" [ref=f112e1393] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1396] [cursor=pointer]
+                      - iframe [ref=f112e1401]:
+                        - generic [ref=f113e1]:
+                          - document [ref=f113e5]:
+                            - generic [ref=f113e22]:
+                              - paragraph [ref=f113e29]: mindmap
+                              - paragraph [ref=f113e36]: Origins
+                              - paragraph [ref=f113e43]: Long history
+                              - paragraph [ref=f113e50]: Popularisation
+                              - paragraph [ref=f113e57]: British popular psychology author Tony Buzan
+                              - paragraph [ref=f113e64]: Research
+                              - paragraph [ref=f113e71]: On effectivenessand features
+                              - paragraph [ref=f113e78]: On Automatic creation
+                              - paragraph [ref=f113e85]: Uses
+                              - paragraph [ref=f113e92]: Creative techniques
+                              - paragraph [ref=f113e99]: Strategic planning
+                              - paragraph [ref=f113e106]: Argument mapping
+                              - paragraph [ref=f113e113]: Tools
+                              - paragraph [ref=f113e120]: Pen and paper
+                              - paragraph [ref=f113e127]: Mermaid
+                          - generic [ref=f113e128]:
+                            - button "Zoom in" [ref=f113e129]
+                            - button "Zoom out" [ref=f113e133]
+                            - button "Reset view" [ref=f113e137]
+                            - button "Pan up" [ref=f113e140]
+                            - button "Pan down" [ref=f113e143]
+                            - button "Pan left" [ref=f113e146]
+                            - button "Pan right" [ref=f113e149]
+                  - generic [ref=f112e1402]:
+                    - heading "Syntax" [level=2] [ref=f112e1403]
+                    - 'link "Permalink: Syntax" [ref=f112e1404] [cursor=pointer]':
+                      - /url: "#syntax"
+                  - paragraph [ref=f112e1407]: The syntax for creating Mindmaps is simple and relies on indentation for setting the levels in the hierarchy.
+                  - paragraph [ref=f112e1408]: In the following example you can see how there are 3 different levels. One with starting at the left of the text and another level with two rows starting at the same column, defining the node A. At the end there is one more level where the text is indented further than the previous lines defining the nodes B and C.
+                  - generic [ref=f112e1409]:
+                    - code [ref=f112e1411]: mindmap Root A B C
+                    - button "Copy code to clipboard" [ref=f112e1413] [cursor=pointer]
+                  - paragraph [ref=f112e1417]:
+                    - text: In summary is a simple text outline where there is one node at the root level called
+                    - code [ref=f112e1418]: Root
+                    - text: which has one child
+                    - code [ref=f112e1419]: A
+                    - text: .
+                    - code [ref=f112e1420]: A
+                    - text: in turn has two children
+                    - code [ref=f112e1421]: B
+                    - text: and
+                    - code [ref=f112e1422]: C
+                    - text: . In the diagram below we can see this rendered as a mindmap.
+                  - generic [ref=f112e1423]:
+                    - code [ref=f112e1425]: mindmap Root A B C
+                    - button "Copy code to clipboard" [ref=f112e1427] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1431]:
+                    - generic [ref=f112e1432]:
+                      - generic [ref=f112e1433]:
+                        - group [ref=f112e1434]:
+                          - button "Open dialog" [ref=f112e1435] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1438] [cursor=pointer]
+                      - iframe [ref=f112e1443]:
+                        - generic [ref=f114e1]:
+                          - document [ref=f114e5]:
+                            - generic [ref=f114e11]:
+                              - paragraph [ref=f114e18]: Root
+                              - paragraph [ref=f114e25]: A
+                              - paragraph [ref=f114e32]: B
+                              - paragraph [ref=f114e39]: C
+                          - generic [ref=f114e40]:
+                            - button "Zoom in" [ref=f114e41]
+                            - button "Zoom out" [ref=f114e45]
+                            - button "Reset view" [ref=f114e49]
+                            - button "Pan up" [ref=f114e52]
+                            - button "Pan down" [ref=f114e55]
+                            - button "Pan left" [ref=f114e58]
+                            - button "Pan right" [ref=f114e61]
+                  - paragraph [ref=f112e1444]: In this way we can use a text outline to generate a hierarchical mindmap.
+                  - generic [ref=f112e1445]:
+                    - heading "Different shapes" [level=2] [ref=f112e1446]
+                    - 'link "Permalink: Different shapes" [ref=f112e1447] [cursor=pointer]':
+                      - /url: "#different-shapes"
+                  - paragraph [ref=f112e1450]: Mermaid mindmaps can show nodes using different shapes. When specifying a shape for a node the syntax is similar to flowchart nodes, with an id followed by the shape definition and with the text within the shape delimiters. Where possible we try/will try to keep the same shapes as for flowcharts, even though they are not all supported from the start.
+                  - paragraph [ref=f112e1451]: "Mindmap can show the following shapes:"
+                  - generic [ref=f112e1452]:
+                    - heading "Square" [level=3] [ref=f112e1453]
+                    - 'link "Permalink: Square" [ref=f112e1454] [cursor=pointer]':
+                      - /url: "#square"
+                  - generic [ref=f112e1457]:
+                    - code [ref=f112e1459]: mindmap id[I am a square]
+                    - button "Copy code to clipboard" [ref=f112e1461] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1465]:
+                    - generic [ref=f112e1466]:
+                      - generic [ref=f112e1467]:
+                        - group [ref=f112e1468]:
+                          - button "Open dialog" [ref=f112e1469] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1472] [cursor=pointer]
+                      - iframe [ref=f112e1477]:
+                        - generic [ref=f115e1]:
+                          - document [ref=f115e5]:
+                            - paragraph [ref=f115e14]: I am a square
+                          - generic [ref=f115e15]:
+                            - button "Zoom in" [ref=f115e16]
+                            - button "Zoom out" [ref=f115e20]
+                            - button "Reset view" [ref=f115e24]
+                            - button "Pan up" [ref=f115e27]
+                            - button "Pan down" [ref=f115e30]
+                            - button "Pan left" [ref=f115e33]
+                            - button "Pan right" [ref=f115e36]
+                  - generic [ref=f112e1478]:
+                    - heading "Rounded square" [level=3] [ref=f112e1479]
+                    - 'link "Permalink: Rounded square" [ref=f112e1480] [cursor=pointer]':
+                      - /url: "#rounded-square"
+                  - generic [ref=f112e1483]:
+                    - code [ref=f112e1485]: mindmap id(I am a rounded square)
+                    - button "Copy code to clipboard" [ref=f112e1487] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1491]:
+                    - generic [ref=f112e1492]:
+                      - generic [ref=f112e1493]:
+                        - group [ref=f112e1494]:
+                          - button "Open dialog" [ref=f112e1495] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1498] [cursor=pointer]
+                      - iframe [ref=f112e1503]:
+                        - generic [ref=f116e1]:
+                          - document [ref=f116e5]:
+                            - paragraph [ref=f116e14]: I am a rounded square
+                          - generic [ref=f116e15]:
+                            - button "Zoom in" [ref=f116e16]
+                            - button "Zoom out" [ref=f116e20]
+                            - button "Reset view" [ref=f116e24]
+                            - button "Pan up" [ref=f116e27]
+                            - button "Pan down" [ref=f116e30]
+                            - button "Pan left" [ref=f116e33]
+                            - button "Pan right" [ref=f116e36]
+                  - generic [ref=f112e1504]:
+                    - heading "Circle" [level=3] [ref=f112e1505]
+                    - 'link "Permalink: Circle" [ref=f112e1506] [cursor=pointer]':
+                      - /url: "#circle"
+                  - generic [ref=f112e1509]:
+                    - code [ref=f112e1511]: mindmap id((I am a circle))
+                    - button "Copy code to clipboard" [ref=f112e1513] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1517]:
+                    - generic [ref=f112e1518]:
+                      - generic [ref=f112e1519]:
+                        - group [ref=f112e1520]:
+                          - button "Open dialog" [ref=f112e1521] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1524] [cursor=pointer]
+                      - iframe [ref=f112e1529]:
+                        - generic [ref=f117e1]:
+                          - document [ref=f117e5]:
+                            - paragraph [ref=f117e14]: I am a circle
+                          - generic [ref=f117e15]:
+                            - button "Zoom in" [ref=f117e16]
+                            - button "Zoom out" [ref=f117e20]
+                            - button "Reset view" [ref=f117e24]
+                            - button "Pan up" [ref=f117e27]
+                            - button "Pan down" [ref=f117e30]
+                            - button "Pan left" [ref=f117e33]
+                            - button "Pan right" [ref=f117e36]
+                  - generic [ref=f112e1530]:
+                    - heading "Bang" [level=3] [ref=f112e1531]
+                    - 'link "Permalink: Bang" [ref=f112e1532] [cursor=pointer]':
+                      - /url: "#bang"
+                  - generic [ref=f112e1535]:
+                    - code [ref=f112e1537]: mindmap id))I am a bang((
+                    - button "Copy code to clipboard" [ref=f112e1539] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1543]:
+                    - generic [ref=f112e1544]:
+                      - generic [ref=f112e1545]:
+                        - group [ref=f112e1546]:
+                          - button "Open dialog" [ref=f112e1547] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1550] [cursor=pointer]
+                      - iframe [ref=f112e1555]:
+                        - generic [ref=f118e1]:
+                          - document [ref=f118e5]:
+                            - paragraph [ref=f118e14]: I am a bang
+                          - generic [ref=f118e15]:
+                            - button "Zoom in" [ref=f118e16]
+                            - button "Zoom out" [ref=f118e20]
+                            - button "Reset view" [ref=f118e24]
+                            - button "Pan up" [ref=f118e27]
+                            - button "Pan down" [ref=f118e30]
+                            - button "Pan left" [ref=f118e33]
+                            - button "Pan right" [ref=f118e36]
+                  - generic [ref=f112e1556]:
+                    - heading "Cloud" [level=3] [ref=f112e1557]
+                    - 'link "Permalink: Cloud" [ref=f112e1558] [cursor=pointer]':
+                      - /url: "#cloud"
+                  - generic [ref=f112e1561]:
+                    - code [ref=f112e1563]: mindmap id)I am a cloud(
+                    - button "Copy code to clipboard" [ref=f112e1565] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1569]:
+                    - generic [ref=f112e1570]:
+                      - generic [ref=f112e1571]:
+                        - group [ref=f112e1572]:
+                          - button "Open dialog" [ref=f112e1573] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1576] [cursor=pointer]
+                      - iframe [ref=f112e1581]:
+                        - generic [ref=f119e1]:
+                          - document [ref=f119e5]:
+                            - paragraph [ref=f119e14]: I am a cloud
+                          - generic [ref=f119e15]:
+                            - button "Zoom in" [ref=f119e16]
+                            - button "Zoom out" [ref=f119e20]
+                            - button "Reset view" [ref=f119e24]
+                            - button "Pan up" [ref=f119e27]
+                            - button "Pan down" [ref=f119e30]
+                            - button "Pan left" [ref=f119e33]
+                            - button "Pan right" [ref=f119e36]
+                  - generic [ref=f112e1582]:
+                    - heading "Hexagon" [level=3] [ref=f112e1583]
+                    - 'link "Permalink: Hexagon" [ref=f112e1584] [cursor=pointer]':
+                      - /url: "#hexagon"
+                  - generic [ref=f112e1587]:
+                    - code [ref=f112e1589]: "mindmap id{{I am a hexagon}}"
+                    - button "Copy code to clipboard" [ref=f112e1591] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1595]:
+                    - generic [ref=f112e1596]:
+                      - generic [ref=f112e1597]:
+                        - group [ref=f112e1598]:
+                          - button "Open dialog" [ref=f112e1599] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1602] [cursor=pointer]
+                      - iframe [ref=f112e1607]:
+                        - generic [ref=f120e1]:
+                          - document [ref=f120e5]:
+                            - paragraph [ref=f120e14]: I am a hexagon
+                          - generic [ref=f120e15]:
+                            - button "Zoom in" [ref=f120e16]
+                            - button "Zoom out" [ref=f120e20]
+                            - button "Reset view" [ref=f120e24]
+                            - button "Pan up" [ref=f120e27]
+                            - button "Pan down" [ref=f120e30]
+                            - button "Pan left" [ref=f120e33]
+                            - button "Pan right" [ref=f120e36]
+                  - generic [ref=f112e1608]:
+                    - heading "Default" [level=3] [ref=f112e1609]
+                    - 'link "Permalink: Default" [ref=f112e1610] [cursor=pointer]':
+                      - /url: "#default"
+                  - generic [ref=f112e1613]:
+                    - code [ref=f112e1615]: mindmap I am the default shape
+                    - button "Copy code to clipboard" [ref=f112e1617] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1621]:
+                    - generic [ref=f112e1622]:
+                      - generic [ref=f112e1623]:
+                        - group [ref=f112e1624]:
+                          - button "Open dialog" [ref=f112e1625] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1628] [cursor=pointer]
+                      - iframe [ref=f112e1633]:
+                        - generic [ref=f121e1]:
+                          - document [ref=f121e5]:
+                            - paragraph [ref=f121e14]: I am the default shape
+                          - generic [ref=f121e15]:
+                            - button "Zoom in" [ref=f121e16]
+                            - button "Zoom out" [ref=f121e20]
+                            - button "Reset view" [ref=f121e24]
+                            - button "Pan up" [ref=f121e27]
+                            - button "Pan down" [ref=f121e30]
+                            - button "Pan left" [ref=f121e33]
+                            - button "Pan right" [ref=f121e36]
+                  - paragraph [ref=f112e1634]: More shapes will be added, beginning with the shapes available in flowcharts.
+                  - generic [ref=f112e1635]:
+                    - heading "Icons and classes" [level=1] [ref=f112e1636]
+                    - 'link "Permalink: Icons and classes" [ref=f112e1637] [cursor=pointer]':
+                      - /url: "#icons-and-classes"
+                  - generic [ref=f112e1640]:
+                    - heading "Icons" [level=2] [ref=f112e1641]
+                    - 'link "Permalink: Icons" [ref=f112e1642] [cursor=pointer]':
+                      - /url: "#icons"
+                  - paragraph [ref=f112e1645]:
+                    - text: As with flowcharts you can add icons to your nodes but with an updated syntax. The styling for the font based icons are added during the integration so that they are available for the web page.
+                    - emphasis [ref=f112e1646]: This is not something a diagram author can do but has to be done with the site administrator or the integrator
+                    - text: . Once the icon fonts are in place you add them to the mind map nodes using the
+                    - code [ref=f112e1647]: ::icon()
+                    - text: syntax. You place the classes for the icon within the parenthesis like in the following example where icons for material design and
+                    - link "Font Awesome 5" [ref=f112e1648] [cursor=pointer]:
+                      - /url: https://fontawesome.com/v5/search?o=r&m=free
+                    - text: are displayed. The intention is that this approach should be used for all diagrams supporting icons.
+                    - strong [ref=f112e1649]: "Experimental feature:"
+                    - text: This wider scope is also the reason Mindmaps are experimental as this syntax and approach could change.
+                  - generic [ref=f112e1650]:
+                    - code [ref=f112e1652]: mindmap Root A ::icon(fa fa-book) B(B) ::icon(mdi mdi-skull-outline)
+                    - button "Copy code to clipboard" [ref=f112e1654] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1658]:
+                    - generic [ref=f112e1659]:
+                      - generic [ref=f112e1660]:
+                        - group [ref=f112e1661]:
+                          - button "Open dialog" [ref=f112e1662] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1665] [cursor=pointer]
+                      - iframe [ref=f112e1670]:
+                        - generic [ref=f122e1]:
+                          - document [ref=f122e5]:
+                            - generic [ref=f122e7]:
+                              - paragraph [ref=f122e14]: Root
+                              - paragraph [ref=f122e21]: A
+                              - paragraph [ref=f122e28]: B
+                          - generic [ref=f122e29]:
+                            - button "Zoom in" [ref=f122e30]
+                            - button "Zoom out" [ref=f122e34]
+                            - button "Reset view" [ref=f122e38]
+                            - button "Pan up" [ref=f122e41]
+                            - button "Pan down" [ref=f122e44]
+                            - button "Pan left" [ref=f122e47]
+                            - button "Pan right" [ref=f122e50]
+                  - generic [ref=f112e1671]:
+                    - heading "Classes" [level=2] [ref=f112e1672]
+                    - 'link "Permalink: Classes" [ref=f112e1673] [cursor=pointer]':
+                      - /url: "#classes"
+                  - paragraph [ref=f112e1676]: "Again the syntax for adding classes is similar to flowcharts. You can add classes using a triple colon following a number of css classes separated by space. In the following example one of the nodes has two custom classes attached urgent turning the background red and the text white and large increasing the font size:"
+                  - generic [ref=f112e1677]:
+                    - code [ref=f112e1679]: mindmap Root A[A] :::urgent large B(B) C
+                    - button "Copy code to clipboard" [ref=f112e1681] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1685]:
+                    - generic [ref=f112e1686]:
+                      - generic [ref=f112e1687]:
+                        - group [ref=f112e1688]:
+                          - button "Open dialog" [ref=f112e1689] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1692] [cursor=pointer]
+                      - iframe [ref=f112e1697]:
+                        - generic [ref=f123e1]:
+                          - document [ref=f123e5]:
+                            - generic [ref=f123e11]:
+                              - paragraph [ref=f123e18]: Root
+                              - paragraph [ref=f123e25]: A
+                              - paragraph [ref=f123e32]: B
+                              - paragraph [ref=f123e39]: C
+                          - generic [ref=f123e40]:
+                            - button "Zoom in" [ref=f123e41]
+                            - button "Zoom out" [ref=f123e45]
+                            - button "Reset view" [ref=f123e49]
+                            - button "Pan up" [ref=f123e52]
+                            - button "Pan down" [ref=f123e55]
+                            - button "Pan left" [ref=f123e58]
+                            - button "Pan right" [ref=f123e61]
+                  - paragraph [ref=f112e1698]:
+                    - emphasis [ref=f112e1699]: These classes need to be supplied by the site administrator.
+                  - generic [ref=f112e1700]:
+                    - heading "Unclear indentation" [level=2] [ref=f112e1701]
+                    - 'link "Permalink: Unclear indentation" [ref=f112e1702] [cursor=pointer]':
+                      - /url: "#unclear-indentation"
+                  - paragraph [ref=f112e1705]:
+                    - text: The actual indentation does not really matter only compared with the previous rows. If we take the previous example and disrupt it a little we can see how the calculations are performed. Let us start with placing C with a smaller indentation than
+                    - code [ref=f112e1706]: B
+                    - text: but larger then
+                    - code [ref=f112e1707]: A
+                    - text: .
+                  - generic [ref=f112e1708]:
+                    - code [ref=f112e1710]: mindmap Root A B C
+                    - button "Copy code to clipboard" [ref=f112e1712] [cursor=pointer]
+                  - paragraph [ref=f112e1716]:
+                    - text: This outline is unclear as
+                    - code [ref=f112e1717]: B
+                    - text: clearly is a child of
+                    - code [ref=f112e1718]: A
+                    - text: but when we move on to
+                    - code [ref=f112e1719]: C
+                    - text: the clarity is lost.
+                    - code [ref=f112e1720]: C
+                    - text: is neither a child of
+                    - code [ref=f112e1721]: B
+                    - text: with a higher indentation nor does it have the same indentation as
+                    - code [ref=f112e1722]: B
+                    - text: . The only thing that is clear is that the first node with smaller indentation, indicating a parent, is A. Then Mermaid relies on this known truth and compensates for the unclear indentation and selects
+                    - code [ref=f112e1723]: A
+                    - text: as a parent of
+                    - code [ref=f112e1724]: C
+                    - text: leading till the same diagram with
+                    - code [ref=f112e1725]: B
+                    - text: and
+                    - code [ref=f112e1726]: C
+                    - text: as siblings.
+                  - generic [ref=f112e1727]:
+                    - code [ref=f112e1729]: mindmap Root A B C
+                    - button "Copy code to clipboard" [ref=f112e1731] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1735]:
+                    - generic [ref=f112e1736]:
+                      - generic [ref=f112e1737]:
+                        - group [ref=f112e1738]:
+                          - button "Open dialog" [ref=f112e1739] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1742] [cursor=pointer]
+                      - iframe [ref=f112e1747]:
+                        - generic [ref=f124e1]:
+                          - document [ref=f124e5]:
+                            - generic [ref=f124e11]:
+                              - paragraph [ref=f124e18]: Root
+                              - paragraph [ref=f124e25]: A
+                              - paragraph [ref=f124e32]: B
+                              - paragraph [ref=f124e39]: C
+                          - generic [ref=f124e40]:
+                            - button "Zoom in" [ref=f124e41]
+                            - button "Zoom out" [ref=f124e45]
+                            - button "Reset view" [ref=f124e49]
+                            - button "Pan up" [ref=f124e52]
+                            - button "Pan down" [ref=f124e55]
+                            - button "Pan left" [ref=f124e58]
+                            - button "Pan right" [ref=f124e61]
+                  - generic [ref=f112e1748]:
+                    - heading "Markdown Strings" [level=2] [ref=f112e1749]
+                    - 'link "Permalink: Markdown Strings" [ref=f112e1750] [cursor=pointer]':
+                      - /url: "#markdown-strings"
+                  - paragraph [ref=f112e1753]: The "Markdown Strings" feature enhances mind maps by offering a more versatile string type, which supports text formatting options such as bold and italics, and automatically wraps text within labels.
+                  - generic [ref=f112e1754]:
+                    - code [ref=f112e1756]: "mindmap id1[\"`**Root** with a second line Unicode works too: 🤓`\"] id2[\"`The dog in **the** hog... a *very long text* that wraps to a new line`\"] id3[Regular labels still works]"
+                    - button "Copy code to clipboard" [ref=f112e1758] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f112e1762]:
+                    - generic [ref=f112e1763]:
+                      - generic [ref=f112e1764]:
+                        - group [ref=f112e1765]:
+                          - button "Open dialog" [ref=f112e1766] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f112e1769] [cursor=pointer]
+                      - iframe [ref=f112e1774]:
+                        - generic [ref=f125e1]:
+                          - document [ref=f125e5]:
+                            - generic [ref=f125e10]:
+                              - paragraph [ref=f125e17]:
+                                - strong [ref=f125e18]: Root
+                                - text: "witha second lineUnicode works too: 🤓"
+                              - paragraph [ref=f125e25]:
+                                - text: The dog in
+                                - strong [ref=f125e26]: the
+                                - text: hog... a
+                                - emphasis [ref=f125e27]: very long text
+                                - text: that wraps to a new line
+                              - paragraph [ref=f125e34]: Regular labels still works
+                          - generic [ref=f125e35]:
+                            - button "Zoom in" [ref=f125e36]
+                            - button "Zoom out" [ref=f125e40]
+                            - button "Reset view" [ref=f125e44]
+                            - button "Pan up" [ref=f125e47]
+                            - button "Pan down" [ref=f125e50]
+                            - button "Pan left" [ref=f125e53]
+                            - button "Pan right" [ref=f125e56]
+                    - generic [ref=f112e1775]: Loading
+                  - paragraph [ref=f112e1780]: "Formatting:"
+                  - list [ref=f112e1781]:
+                    - listitem [ref=f112e1782]: For bold text, use double asterisks ** before and after the text.
+                    - listitem [ref=f112e1783]: For italics, use single asterisks * before and after the text.
+                    - listitem [ref=f112e1784]: With traditional strings, you needed to add tags for text to wrap in nodes. However, markdown strings automatically wrap text when it becomes too long and allows you to start a new line by simply using a newline character instead of a tag.
+                  - generic [ref=f112e1785]:
+                    - heading "Integrating with your library/website." [level=2] [ref=f112e1786]
+                    - 'link "Permalink: Integrating with your library/website." [ref=f112e1787] [cursor=pointer]':
+                      - /url: "#integrating-with-your-librarywebsite"
+                  - paragraph [ref=f112e1790]: Mindmap uses the experimental lazy loading & async rendering features which could change in the future. From version 9.4.0 this diagram is included in mermaid but use lazy loading in order to keep the size of mermaid down. This is important in order to be able to add additional diagrams going forward.
+                  - paragraph [ref=f112e1791]: "You can still use the pre 9.4.0 method to add mermaid with mindmaps to a web page:"
+                  - generic [ref=f112e1792]:
+                    - generic [ref=f112e1793]: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9.3.0/dist/mermaid.esm.min.mjs'; import mindmap from 'https://cdn.jsdelivr.net/npm/@mermaid-js/mermaid-mindmap@9.3.0/dist/mermaid-mindmap.esm.min.mjs'; await mermaid.registerExternalDiagrams([mindmap]); </script>
+                    - button "Copy code to clipboard" [ref=f112e1795] [cursor=pointer]
+                  - paragraph [ref=f112e1799]: "From version 9.4.0 you can simplify this code to:"
+                  - generic [ref=f112e1800]:
+                    - generic [ref=f112e1801]: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; </script>
+                    - button "Copy code to clipboard" [ref=f112e1803] [cursor=pointer]
+                  - paragraph [ref=f112e1807]:
+                    - text: You can also refer the
+                    - link "implementation in the live editor" [ref=f112e1808] [cursor=pointer]:
+                      - /url: https://github.com/mermaid-js/mermaid-live-editor/blob/develop/src/lib/util/mermaid.ts
+                    - text: to see how the async loading is done.
+                  - generic [ref=f112e1809]:
+                    - heading "Layouts" [level=2] [ref=f112e1810]
+                    - 'link "Permalink: Layouts" [ref=f112e1811] [cursor=pointer]':
+                      - /url: "#layouts"
+                  - paragraph [ref=f112e1814]: Mermaid also supports a Tidy Tree layout for mindmaps.
+                  - generic [ref=f112e1815]:
+                    - code [ref=f112e1817]: "--- config: layout: tidy-tree --- mindmap root((mindmap is a long thing)) A B C D"
+                    - button "Copy code to clipboard" [ref=f112e1819] [cursor=pointer]
+                  - paragraph [ref=f112e1823]:
+                    - text: Instructions to add and register tidy-tree layout are present in
+                    - link "Tidy Tree Configuration" [ref=f112e1824] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/blob/develop/config/tidy-tree
+  - alert [ref=f112e1828]

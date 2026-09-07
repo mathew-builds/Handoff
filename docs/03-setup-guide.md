@@ -5,7 +5,7 @@ Each step ends with a check. Don't move on until the check passes.
 ```mermaid
 flowchart LR
     S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Scoped token] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
-    style S2 fill:#EAF3EE,stroke:#2C6B4F
+    style S2 stroke:#2C6B4F
 ```
 
 Step 2 is the whole thesis test. If a PR comes back billed to your Max plan, everything else is wiring.

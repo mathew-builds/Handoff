@@ -1,22 +1,17 @@
 # 06 — Roadmap
 
-```mermaid
-gantt
-    title Handoff — phases, as they actually ran
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d %b
-    section Phase 0 · Prove
-    First PR billed to a subscription  :done, p0, 2026-09-05, 1d
-    section Phase 1 · Bridge
-    Coder bot, return path             :active, p1, 2026-09-05, 2d
-    section Phase 3 · Polish + publish
-    Setup script, doctor, weekly report, docs :active, p3, 2026-09-06, 1d
-    section Phase 2 · Team (parked)
-    Needs a real repository            :crit, p2, 2026-09-06, 1d
-```
+| Phase | Goal | Status | Still unticked |
+|---|---|---|---|
+| **0 · Prove** | A pull request billed to a subscription, triggered by an issue | **Done** — 2026-09-05 | — |
+| **1 · Bridge** | A chat agent opens the issue; the finished PR reports itself back | **In progress** — 3 of 6 | 1.1 token scope · 1.4 native connector · 1.6 runbook rehearsal |
+| **2 · Team** | You talk only to the Chief of Staff | **Parked** since 2026-09-06 | All five. Needs a real repository — the target was dropped. |
+| **3 · Publish** | Someone else can set this up from the README | **In progress** — 3 of 5 | 3.4 fresh-eyes install · 3.5 the `v1.0.0` tag |
 
-**Phase 2 is parked and Phase 3 was brought forward** — the chart shows what happened, not the
-original plan. Bar lengths after Phase 0 are indicative; the dates are not.
+**Phase 2 is parked and Phase 3 was brought forward.** This was a Gantt chart until 2026-09-07.
+It was removed rather than corrected: every real event happened inside 48 hours, so four bars on a
+two-day axis conveyed nothing while implying a schedule that does not exist — and Gantt has no way
+to draw "parked", so Phase 2 rendered in the same red normally reserved for *urgent*. A table can
+say "parked", carries the unticked tasks the chart could not, and has no dates to be wrong about.
 
 ## Phase 0 — Prove the thesis (weekend)
 

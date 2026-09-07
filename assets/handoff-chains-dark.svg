@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 320" width="660" height="320" role="img" aria-label="Four ways to delegate coding from a chat agent. Locum needs a tunnel to a machine of yours. Installing the CLI on the bot computer puts your login on a shared machine. SSH or a VPS session needs a server you maintain. Cursor Cloud Agents needs a second billing pool. Handoff needs only a GitHub issue.">
+  <title>Everybody builds the same chain — only the middle box differs</title>
+  <desc>Five rows, each showing a chat agent on the left, a coding agent on the right, and a different component in the middle. The first four middles are a tunnel, a server, a second billing pool, and your login on a shared computer. Handoff's middle is a GitHub issue.</desc>
+
+  <!-- Hand-authored. Round coordinates, no <style> block (GitHub strips it and prints the CSS
+       as visible text), no gradients, no exported paths. Dark-theme twin of
+       handoff-chains-light.svg — the two differ only in colour attributes. -->
+
+  <!-- Full-bleed background. Not decoration: <picture>'s prefers-color-scheme resolves against the
+       reader's OS, not the GitHub theme they picked, so a reader with a light OS and dark GitHub
+       gets this light variant on a dark page. Measured 2026-09-07. Without a card behind them the
+       row labels would sit on an unknown background at unknown contrast. -->
+  <rect x="0" y="0" width="660" height="320" rx="6" fill="#0D1117" stroke="#252B33"/>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12">
+
+    <!-- ── row 1 · Locum / MCP connector ────────────────────────────── -->
+    <text x="158" y="44" text-anchor="end" fill="#A4ABB4" dominant-baseline="middle">Locum / MCP connector</text>
+    <rect x="172" y="26" width="104" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="224" y="44" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Chat agent</text>
+    <path d="M 278 44 L 288 44" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 288 40 L 294 44 L 288 48 Z" fill="#737A84"/>
+    <rect x="294" y="26" width="210" height="36" rx="4" fill="#31201D" stroke="#E28376" stroke-width="2"/>
+    <text x="399" y="44" text-anchor="middle" fill="#E9A99F" dominant-baseline="middle">a tunnel to a machine of yours</text>
+    <path d="M 506 44 L 516 44" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 516 40 L 522 44 L 516 48 Z" fill="#737A84"/>
+    <rect x="522" y="26" width="118" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="581" y="44" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Coding agent</text>
+
+    <!-- ── row 2 · SSH or a VPS session ─────────────────────────────── -->
+    <text x="158" y="102" text-anchor="end" fill="#A4ABB4" dominant-baseline="middle">SSH, or a VPS session</text>
+    <rect x="172" y="84" width="104" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="224" y="102" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Chat agent</text>
+    <path d="M 278 102 L 288 102" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 288 98 L 294 102 L 288 106 Z" fill="#737A84"/>
+    <rect x="294" y="84" width="210" height="36" rx="4" fill="#31201D" stroke="#E28376" stroke-width="2"/>
+    <text x="399" y="102" text-anchor="middle" fill="#E9A99F" dominant-baseline="middle">a server you maintain</text>
+    <path d="M 506 102 L 516 102" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 516 98 L 522 102 L 516 106 Z" fill="#737A84"/>
+    <rect x="522" y="84" width="118" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="581" y="102" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Coding agent</text>
+
+    <!-- ── row 3 · Cursor Cloud Agents ──────────────────────────────── -->
+    <text x="158" y="160" text-anchor="end" fill="#A4ABB4" dominant-baseline="middle">Cursor Cloud Agents</text>
+    <rect x="172" y="142" width="104" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="224" y="160" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Chat agent</text>
+    <path d="M 278 160 L 288 160" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 288 156 L 294 160 L 288 164 Z" fill="#737A84"/>
+    <rect x="294" y="142" width="210" height="36" rx="4" fill="#31201D" stroke="#E28376" stroke-width="2"/>
+    <text x="399" y="160" text-anchor="middle" fill="#E9A99F" dominant-baseline="middle">a second billing pool</text>
+    <path d="M 506 160 L 516 160" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 516 156 L 522 160 L 516 164 Z" fill="#737A84"/>
+    <rect x="522" y="142" width="118" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="581" y="160" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Coding agent</text>
+
+    <!-- ── row 4 · CLIs installed on the bot's own computer ─────────── -->
+    <!-- This row exists because without it the claim above is false: this approach needs no
+         server, no tunnel and no second billing pool. What it costs is the fourth axis. -->
+    <text x="158" y="218" text-anchor="end" fill="#A4ABB4" dominant-baseline="middle">CLI on the bot's computer</text>
+    <rect x="172" y="200" width="104" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="224" y="218" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Chat agent</text>
+    <path d="M 278 218 L 288 218" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 288 214 L 294 218 L 288 222 Z" fill="#737A84"/>
+    <rect x="294" y="200" width="210" height="36" rx="4" fill="#31201D" stroke="#E28376" stroke-width="2"/>
+    <text x="399" y="218" text-anchor="middle" fill="#E9A99F" dominant-baseline="middle">your login on a shared computer</text>
+    <path d="M 506 218 L 516 218" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 516 214 L 522 218 L 516 222 Z" fill="#737A84"/>
+    <rect x="522" y="200" width="118" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="581" y="218" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Coding agent</text>
+
+    <!-- ── row 5 · Handoff ──────────────────────────────────────────── -->
+    <text x="158" y="276" text-anchor="end" fill="#ECEEF0" font-weight="700" dominant-baseline="middle">Handoff</text>
+    <rect x="172" y="258" width="104" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="224" y="276" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Chat agent</text>
+    <path d="M 278 276 L 288 276" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 288 272 L 294 276 L 288 280 Z" fill="#737A84"/>
+    <rect x="294" y="258" width="210" height="36" rx="4" fill="#1B2C24" stroke="#74C39A" stroke-width="2"/>
+    <text x="399" y="276" text-anchor="middle" fill="#9BD8B8" font-weight="600" dominant-baseline="middle">a GitHub issue</text>
+    <path d="M 506 276 L 516 276" stroke="#737A84" stroke-width="1.5"/>
+    <path d="M 516 272 L 522 276 L 516 280 Z" fill="#737A84"/>
+    <rect x="522" y="258" width="118" height="36" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="581" y="276" text-anchor="middle" fill="#ECEEF0" dominant-baseline="middle">Coding agent</text>
+
+  </g>
+</svg>

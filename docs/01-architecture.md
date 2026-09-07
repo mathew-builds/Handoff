@@ -17,20 +17,18 @@
 
 ```mermaid
 flowchart LR
-    subgraph L5["L5 · Control plane — Grok Bot"]
+    subgraph GB["Layer 2 · Command centre — Grok Bot (optional)"]
         direction TB
         YOU([You]):::you
         COS[Chief of Staff]:::grok
-        SPEC[Researcher · Ops]:::grok
         CODER[Coder<br/><i>opens issues, never codes</i>]:::coder
         RT[PR-ready routine]:::grok
         YOU --> COS
-        COS --> SPEC
         COS --> CODER
         RT --> COS
     end
 
-    subgraph L2["L2 · Bridge + gate — GitHub"]
+    subgraph GH["Layer 1 · Bridge and gate — GitHub"]
         direction TB
         ISSUE[/"Issue with @claude"/]:::gh
         RUN[["claude-code-action<br/>GitHub-hosted runner"]]:::gh
@@ -41,8 +39,8 @@ flowchart LR
         ISSUE --> RUN --> BR --> OPR --> PR --> CI
     end
 
-    subgraph L3["L3 · Worker"]
-        CLAUDE[("Claude Max<br/>OAuth token")]:::claude
+    subgraph CS["Pays for the work — your Claude subscription"]
+        CLAUDE[("Claude subscription<br/>OAuth token")]:::claude
     end
 
     CODER -- "① opens" --> ISSUE
@@ -51,14 +49,21 @@ flowchart LR
     COS -- "④ 'PR ready'" --> YOU
     YOU -- "⑤ review + merge" --> PR
 
-    classDef you fill:#EAF3EE,stroke:#2C6B4F
-    classDef grok fill:#EAF0F9,stroke:#2C4A7C
-    classDef coder fill:#FBEEE8,stroke:#B85A36,stroke-width:2px
-    classDef gh fill:#F5F3EF,stroke:#5C626B
-    classDef claude fill:#FBEEE8,stroke:#B85A36
+    classDef you stroke:#2C6B4F
+    classDef grok stroke:#2C4A7C
+    classDef coder stroke:#B85A36,stroke-width:2px
+    classDef gh stroke:#5C626B
+    classDef claude stroke:#B85A36
 ```
 
-Layer numbers are a naming convention only; there is no separate v3 design document in this repo. L4 (engineering manager) and L1 (substrate) are intentionally absent: GitHub Actions is stateless and GitHub-hosted.
+**The layer numbers match the README, and until 2026-09-07 they did not.** This diagram used to
+label GitHub `L2` and Grok Bot `L5`, while `README.md` calls GitHub **layer 1** and Grok Bot
+**layer 2** — so the number *2* meant the opposite thing in the two files a reader is told to read
+in that order. There is one scheme now: **layer 1 is the bridge, layer 2 is the optional command
+centre**, exactly as the README says.
+
+The `Researcher · Ops` box was also removed: `templates/bots/` ships `chief-of-staff.md` and
+`coder.md` and nothing else, so it drew a component that does not exist.
 
 ## Sequence: one task, end to end
 
@@ -92,7 +97,7 @@ Typical wall-clock: 1–2 min runner start + task time. Grok Bot spends ~3–5 t
 
 ```mermaid
 flowchart LR
-    subgraph M1["Meter 1 — Grok Bot weekly allowance (unpublished, no cap)"]
+    subgraph M1["Meter 1 — Grok Bot weekly allowance<br/>(size unpublished; no product-specific cap)"]
         direction TB
         A[Chief of Staff turns] --> B[Coder writes the issue]
         C[Routine reports the PR]
@@ -107,12 +112,21 @@ flowchart LR
     B == "the one arrow this project adds" ==> D
     G -. "PR event" .-> C
     H -. "runs alongside" .-> D
-    style M1 fill:#EAF0F9,stroke:#2C4A7C
-    style M2 fill:#FBEEE8,stroke:#B85A36
-    style M3 fill:#F5F3EF,stroke:#5C626B
+    style M1 stroke:#2C4A7C
+    style M2 stroke:#B85A36
+    style M3 stroke:#5C626B
 ```
 
 The whole project is the arrow from B to D. Everything to the right of it used to be on Meter 1.
+
+**On "no second meter", which the README says and this diagram appears to contradict.** There are
+three meters here, so the claim needs its qualifier stated rather than assumed: Handoff adds no
+second *model* meter — no per-token pool, no second agent subscription. Meter 3 is GitHub Actions
+minutes, which is time on a runner, not tokens. The honest state of Meter 3 is that we cannot price
+it: the timing API reports `billable_ms: 0` for every run on this repo, and whether that is a
+free-tier allowance or an unpopulated field is **unresolved** (`08-measurements.md`). One measured
+task used about 60 seconds of runner time. Anyone comparing Handoff to alternatives should count
+Meter 3 as a real, small, unpriced cost rather than as nothing.
 
 ## State and memory
 
@@ -143,9 +157,9 @@ flowchart LR
     GBVM -- "opens / comments on issues" --> ISSUES
     ISSUES -- "triggers workflow" --> RUNNER
     SECRETS -. "injected at run time" .-> RUNNER
-    style U fill:#FBECEA,stroke:#A02B20
-    style G fill:#F5F3EF,stroke:#5C626B
-    style T fill:#EAF3EE,stroke:#2C6B4F
+    style U stroke:#A02B20
+    style G stroke:#5C626B
+    style T stroke:#2C6B4F
 ```
 
 - The Grok Bot computer is shared by every bot on the account. It holds a GitHub token for one repo. **That token is a spam control, not a privilege control** — the action checks the *account's* write access, not the *token's* scope, so anyone holding it can start a full run. See D5 and `05-security.md`.
@@ -161,6 +175,6 @@ See `05-security.md` for the full threat model.
 |---|---|---|
 | VPS / persistent session | Not needed to move billing; adds a server to maintain | You need memory across tasks or private-network access |
 | Permission relay to chat | The PR already gates every change | Tasks need mid-run human decisions |
-| MCP connector / tunnel (Locum) | Extra moving part, ToS grey zone | Never, in this design |
+| MCP connector / tunnel (Locum) | An extra moving part, and it needs a machine of yours kept awake | Never, in this design |
 | Observability stack | GitHub Actions logs + two usage dashboards are enough | A client asks for reports |
 | Self-hosted runner | Hosted runners are free enough and safer | Tasks exceed included minutes or need local tools |

@@ -104,6 +104,23 @@ cmd-click or middle-click. This is a platform limit, not an oversight.
 
 Plain English, short sentences, no jargon without a one-line definition. Tables for comparisons, numbered steps for procedures. Mermaid diagrams live next to the text they explain — and avoid `#` inside sequence-diagram labels, because Mermaid reads it as an entity prefix and truncates the line. Write "issue 212".
 
+**Never put `fill:` in a Mermaid diagram, and never use `%%{init: {'theme':...}}%%`.** GitHub picks
+Mermaid's theme from the reader's colour mode — `theme: "dark" === data-color-mode ? "dark" : "default"`,
+read out of its deployed bundle on 2026-09-07. A hard-coded fill is fixed paint in *both* modes, so
+a light fill gets dark-mode's light text on top of it and becomes unreadable. `%%{init}%%` is worse:
+`theme` is not in the config allowlist GitHub locks, so an author's directive **wins** and forces
+one theme on every reader.
+
+Colour-free Mermaid is theme-correct for free. Where a diagram needs meaning from colour, use
+`stroke:` only — the outline is coloured, the node keeps the theme's own fill and text — or reach
+for shapes, dashed edges and subgraphs instead. Sixteen `fill:` directives were removed on
+2026-09-07 for exactly this reason.
+
+**A diagram that must carry the argument belongs in `assets/` as a committed SVG, not in Mermaid.**
+GitHub renders Mermaid client-side only; through the API, in mirrors, on npm and in email
+notifications it is raw source text. Verified against GitHub's markdown API, which returns a
+syntax-highlighted code block rather than a diagram.
+
 ---
 
 ## Reporting a bug
