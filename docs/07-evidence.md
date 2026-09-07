@@ -62,6 +62,35 @@ Every one of these is a bridge. All of them need **a server, a tunnel, a second 
 > "Second **billing** pool", not "metered pool": we can evidence that Cursor Cloud Agents bill to a
 > *different* pool; we have not evidenced that that pool is metered per token.
 
+### The same thing as a table
+
+**Scored from our own notes on other people's products. We have run none of them.** Every
+`unknown` below is a cell we could not substantiate, not one we lost interest in. `unknown` is
+deliberately not written as "no". Corrections welcome — open an issue.
+
+| Approach | A server you run | A tunnel or inbound endpoint | A second billing pool | Your coding login on the shared bot computer | Survives the bot computer's image updates | Run end to end by us |
+|---|---|---|---|---|---|---|
+| **Handoff** | No | No | No — `$0.00` measured | No — the bot holds an issues-only GitHub token | n/a — nothing is installed there | **Yes** — run `34023564889` |
+| Coding CLI on the bot's own computer | No | No | No, if signed in to your own subscription | **Yes** | **No** — *"installed packages are wiped on image updates"* | No |
+| Locum — MCP tunnel to a local agent | **Yes** — a machine you run | **Yes** — an MCP tunnel | No — its stated purpose is to stop burning Grok Bot usage | `unknown` | `unknown` | No |
+| Cursor Cloud Agents | No — hosted by the vendor | No | **Yes** — *"bill to the Cursor pool rather than the Grok Bot pool"* | No | n/a | No |
+| A persistent session on a VPS | **Yes** — a VPS | `unknown` | `unknown` — probably the same subscription, but we cite no source | `unknown` | n/a | No |
+
+Also named in our decision record: a Jenkins/webhook bridge, and driving a remote box over SSH.
+**We hold too little on either to score them honestly**, so they are not in the table.
+
+### What Handoff needs instead
+
+A matrix with only the other side's costs in it is a sales sheet. These are ours:
+
+| | |
+|---|---|
+| **GitHub Actions minutes** | About 62s per task. The timing API reported `billable_ms: 0` for every run on this repo, and whether that is a free-tier allowance or an unpopulated field is **unresolved**. Count it as a real, small, unpriced cost. |
+| **A repository setting** | Settings → Actions → General → *"Allow GitHub Actions to create and approve pull requests"*. **Off by default on every repository**, and the single most common silent failure. |
+| **Your own CI will not run on the pull request** | A PR opened with the default `GITHUB_TOKEN` starts no further workflow runs. Pass a GitHub App token if you need it — and then you are storing another credential. |
+| **No memory across tasks** | Each task starts fresh. The repository and the issue thread are the memory. |
+| **Proven once per link, not repeatedly** | *"One run each… nothing here speaks to reliability over time."* |
+
 ## What people like
 
 - The chief-of-staff pattern works: "I set up a researcher and a writer, then a chief of staff… I expected it to fall apart. It didn't." (Aug)

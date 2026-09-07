@@ -1,0 +1,997 @@
+- generic [active] [ref=f126e1]:
+  - generic [ref=f126e2]:
+    - generic [ref=f126e3]:
+      - link "Skip to content" [ref=f126e4] [cursor=pointer]:
+        - /url: "#start-of-content"
+      - banner [ref=f126e9]:
+        - heading "Navigation Menu" [level=2] [ref=f126e10]
+        - generic [ref=f126e11]:
+          - link "Homepage" [ref=f126e13] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f126e16]:
+            - navigation "Global" [ref=f126e17]:
+              - list [ref=f126e18]:
+                - listitem [ref=f126e19]:
+                  - button "Platform" [ref=f126e21] [cursor=pointer]
+                - listitem [ref=f126e24]:
+                  - button "Solutions" [ref=f126e26] [cursor=pointer]
+                - listitem [ref=f126e29]:
+                  - button "Resources" [ref=f126e31] [cursor=pointer]
+                - listitem [ref=f126e34]:
+                  - button "Open Source" [ref=f126e36] [cursor=pointer]
+                - listitem [ref=f126e39]:
+                  - button "Enterprise" [ref=f126e41] [cursor=pointer]
+                - listitem [ref=f126e44]:
+                  - link "Pricing" [ref=f126e45] [cursor=pointer]:
+                    - /url: https://github.com/pricing
+            - generic [ref=f126e46]:
+              - button "Search or jump to, type / to search" [ref=f126e48] [cursor=pointer]
+              - link "Sign in" [ref=f126e55] [cursor=pointer]:
+                - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fmermaid-js%2Fmermaid%2Fblob%2Fdevelop%2Fdocs%2Fsyntax%2Ftimeline.md
+              - link "Sign up" [ref=f126e58] [cursor=pointer]:
+                - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fblob%2Fshow&source=header-repo&source_repo=mermaid-js%2Fmermaid
+              - button "Appearance settings" [ref=f126e61] [cursor=pointer]
+    - main [ref=f126e68]:
+      - generic [ref=f126e69]:
+        - generic [ref=f126e70]:
+          - generic [ref=f126e72]:
+            - link "mermaid-js" [ref=f126e76] [cursor=pointer]:
+              - /url: /mermaid-js
+            - generic [ref=f126e77]: /
+            - strong [ref=f126e78]:
+              - link "mermaid" [ref=f126e79] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid
+            - generic [ref=f126e80]: Public
+          - generic [ref=f126e81]:
+            - list:
+              - listitem [ref=f126e82]:
+                - button "Sponsor mermaid-js/mermaid" [ref=f126e84] [cursor=pointer]:
+                  - generic [ref=f126e85]: Sponsor
+              - listitem [ref=f126e89]:
+                - link "You must be signed in to change notification settings" [ref=f126e90] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Notifications
+              - listitem [ref=f126e93]:
+                - link "Fork 9.2k" [ref=f126e94] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Fork
+                  - generic "9,233" [ref=f126e97]: 9.2k
+              - listitem [ref=f126e98]:
+                - link "You must be signed in to star a repository" [ref=f126e100] [cursor=pointer]:
+                  - /url: /login?return_to=%2Fmermaid-js%2Fmermaid
+                  - text: Star
+                  - generic "90136 users starred this repository" [ref=f126e103]: 90.1k
+        - navigation "Repository" [ref=f126e104]:
+          - list [ref=f126e105]:
+            - listitem [ref=f126e106]:
+              - link "Code" [ref=f126e107] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid
+            - listitem [ref=f126e111]:
+              - link "Issues 1.5k" [ref=f126e112] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/issues
+                - generic [ref=f126e116]: Issues
+                - generic "1,471" [ref=f126e117]: 1.5k
+            - listitem [ref=f126e118]:
+              - link "Pull requests 299" [ref=f126e119] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/pulls
+                - generic [ref=f126e122]: Pull requests
+                - generic "299" [ref=f126e123]
+            - listitem [ref=f126e124]:
+              - link "Discussions" [ref=f126e125] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/discussions
+            - listitem [ref=f126e129]:
+              - link "Actions" [ref=f126e130] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/actions
+            - listitem [ref=f126e134]:
+              - link "Projects" [ref=f126e135] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/projects
+            - listitem [ref=f126e139]:
+              - link "Wiki" [ref=f126e140] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/wiki
+            - listitem [ref=f126e144]:
+              - link "Security and quality 14" [ref=f126e145] [cursor=pointer]:
+                - /url: /mermaid-js/mermaid/security
+                - generic [ref=f126e148]: Security and quality
+                - generic "14" [ref=f126e149]
+            - listitem [ref=f126e150]
+          - button "Additional navigation options" [ref=f126e154] [cursor=pointer]
+      - generic [ref=f126e162]:
+        - generic [ref=f126e164]:
+          - generic [ref=f126e167]:
+            - generic [ref=f126e168]:
+              - generic [ref=f126e169]:
+                - heading "Collapse file tree" [level=2] [ref=f126e170]:
+                  - button "Collapse file tree" [expanded] [ref=f126e171] [cursor=pointer]
+                - heading "Files" [level=2] [ref=f126e175]
+              - generic [ref=f126e176]:
+                - button "develop branch" [ref=f126e178] [cursor=pointer]:
+                  - generic [ref=f126e179]: develop
+                - button "Search this repository (forward slash)" [ref=f126e184] [cursor=pointer]
+            - combobox "Go to file" [ref=f126e192]
+            - navigation "File Tree Navigation" [ref=f126e198]:
+              - tree "Files" [ref=f126e200]:
+                - treeitem ".build" [level=1] [ref=f126e201]
+                - treeitem ".changeset" [level=1] [ref=f126e213]
+                - treeitem ".cspell" [level=1] [ref=f126e225]
+                - treeitem ".esbuild" [level=1] [ref=f126e237]
+                - treeitem ".github" [level=1] [ref=f126e249]
+                - treeitem ".husky" [level=1] [ref=f126e261]
+                - treeitem ".vite" [level=1] [ref=f126e273]
+                - treeitem ".vscode" [level=1] [ref=f126e285]
+                - treeitem "demos" [level=1] [ref=f126e297]
+                - treeitem "docs" [expanded] [level=1] [ref=f126e309]:
+                  - group "docs" [ref=f126e321]:
+                    - treeitem "community" [level=2] [ref=f126e322]
+                    - treeitem "config" [level=2] [ref=f126e337]
+                    - treeitem "diagrams" [level=2] [ref=f126e352]
+                    - treeitem "ecosystem" [level=2] [ref=f126e367]
+                    - treeitem "img" [level=2] [ref=f126e382]
+                    - treeitem "intro" [level=2] [ref=f126e397]
+                    - treeitem "news" [level=2] [ref=f126e412]
+                    - treeitem "public" [level=2] [ref=f126e427]
+                    - treeitem "syntax" [expanded] [level=2] [ref=f126e442]:
+                      - group "syntax" [ref=f126e457]:
+                        - treeitem "img" [level=3] [ref=f126e458]
+                        - treeitem "agentflow.md" [level=3] [ref=f126e474]
+                        - treeitem "architecture.md" [level=3] [ref=f126e486]
+                        - treeitem "block.md" [level=3] [ref=f126e498]
+                        - treeitem "c4.md" [level=3] [ref=f126e510]
+                        - treeitem "classDiagram.md" [level=3] [ref=f126e522]
+                        - treeitem "cynefin.md" [level=3] [ref=f126e534]
+                        - treeitem "entityRelationshipDiagram.md" [level=3] [ref=f126e546]
+                        - treeitem "eventmodeling.md" [level=3] [ref=f126e558]
+                        - treeitem "examples.md" [level=3] [ref=f126e570]
+                        - treeitem "flowchart.md" [level=3] [ref=f126e582]
+                        - treeitem "gantt.md" [level=3] [ref=f126e594]
+                        - treeitem "gitgraph.md" [level=3] [ref=f126e606]
+                        - treeitem "ishikawa.md" [level=3] [ref=f126e618]
+                        - treeitem "kanban.md" [level=3] [ref=f126e630]
+                        - treeitem "mindmap.md" [level=3] [ref=f126e642]
+                        - treeitem "packet.md" [level=3] [ref=f126e654]
+                        - treeitem "pie.md" [level=3] [ref=f126e666]
+                        - treeitem "quadrantChart.md" [level=3] [ref=f126e678]
+                        - treeitem "radar.md" [level=3] [ref=f126e690]
+                        - treeitem "railroad.md" [level=3] [ref=f126e702]
+                        - treeitem "requirementDiagram.md" [level=3] [ref=f126e714]
+                        - treeitem "sankey.md" [level=3] [ref=f126e726]
+                        - treeitem "sequenceDiagram.md" [level=3] [ref=f126e738]
+                        - treeitem "stateDiagram.md" [level=3] [ref=f126e750]
+                        - treeitem "swimlanes.md" [level=3] [ref=f126e762]
+                        - treeitem "timeline.md" [level=3] [ref=f126e774]
+                        - treeitem "treeView.md" [level=3] [ref=f126e786]
+                        - treeitem "treemap.md" [level=3] [ref=f126e798]
+                        - treeitem "usecase.md" [level=3] [ref=f126e810]
+                        - treeitem "userJourney.md" [level=3] [ref=f126e822]
+                        - treeitem "venn.md" [level=3] [ref=f126e834]
+                        - treeitem "wardley.md" [level=3] [ref=f126e846]
+                        - treeitem "xyChart.md" [level=3] [ref=f126e858]
+                        - treeitem "zenuml.md" [level=3] [ref=f126e870]
+                    - treeitem "adding-new-shape.md" [level=2] [ref=f126e882]
+                - treeitem "e2e" [level=1] [ref=f126e893]
+                - treeitem "img" [level=1] [ref=f126e905]
+                - treeitem "packages" [level=1] [ref=f126e917]
+                - treeitem "patches" [level=1] [ref=f126e929]
+                - treeitem "scripts" [level=1] [ref=f126e941]
+                - treeitem "tests" [level=1] [ref=f126e953]
+                - treeitem ".ackrc" [level=1] [ref=f126e965]
+                - treeitem ".editorconfig" [level=1] [ref=f126e973]
+                - treeitem ".fallowrc.json" [level=1] [ref=f126e981]
+                - treeitem ".gitattributes" [level=1] [ref=f126e989]
+                - treeitem ".gitignore" [level=1] [ref=f126e997]
+                - treeitem ".hadolint.yaml" [level=1] [ref=f126e1005]
+                - treeitem ".lintstagedrc.mjs" [level=1] [ref=f126e1013]
+                - treeitem ".node-version" [level=1] [ref=f126e1021]
+                - treeitem ".npmrc" [level=1] [ref=f126e1029]
+                - treeitem ".prettierignore" [level=1] [ref=f126e1037]
+                - treeitem ".prettierrc.json" [level=1] [ref=f126e1045]
+                - treeitem "CHANGELOG.md" [level=1] [ref=f126e1053]
+                - treeitem "CITATION.cff" [level=1] [ref=f126e1061]
+                - treeitem "CODE_OF_CONDUCT.md" [level=1] [ref=f126e1069]
+                - treeitem "CONTRIBUTING.md" [level=1] [ref=f126e1077]
+                - treeitem "Dockerfile" [level=1] [ref=f126e1085]
+                - treeitem "FUNDING.json" [level=1] [ref=f126e1093]
+                - treeitem "LICENSE" [level=1] [ref=f126e1101]
+                - treeitem "README.md" [level=1] [ref=f126e1109]
+                - treeitem "README.zh-CN.md" [level=1] [ref=f126e1117]
+                - treeitem "cspell.config.yaml" [level=1] [ref=f126e1125]
+                - treeitem "docker-compose.yml" [level=1] [ref=f126e1133]
+                - treeitem "eslint.config.js" [level=1] [ref=f126e1141]
+                - treeitem "netlify.toml" [level=1] [ref=f126e1149]
+                - treeitem "package.json" [level=1] [ref=f126e1157]
+                - treeitem "playwright.config.ts" [level=1] [ref=f126e1165]
+                - treeitem "pnpm-lock.yaml" [level=1] [ref=f126e1173]
+                - treeitem "pnpm-workspace.yaml" [level=1] [ref=f126e1181]
+                - treeitem "renovate.json" [level=1] [ref=f126e1189]
+                - treeitem "run" [level=1] [ref=f126e1197]
+                - treeitem "tsconfig.eslint.json" [level=1] [ref=f126e1205]
+                - treeitem "tsconfig.json" [level=1] [ref=f126e1213]
+                - treeitem "vite.config.ts" [level=1] [ref=f126e1221]
+                - treeitem "vitest.workspace.js" [level=1] [ref=f126e1229]
+          - slider "Draggable pane splitter" [ref=f126e1238]
+        - generic [ref=f126e1241]:
+          - generic [ref=f126e1245]:
+            - generic [ref=f126e1247]:
+              - navigation [ref=f126e1248]:
+                - heading "Breadcrumbs" [level=2] [ref=f126e1249]
+                - list [ref=f126e1250]:
+                  - listitem [ref=f126e1251]:
+                    - link "mermaid" [ref=f126e1252] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop
+                  - listitem [ref=f126e1253]:
+                    - text: /
+                    - link "docs" [ref=f126e1254] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop/docs
+                  - listitem [ref=f126e1255]:
+                    - text: /
+                    - link "syntax" [ref=f126e1256] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/tree/develop/docs/syntax
+              - generic [ref=f126e1257]:
+                - text: /
+                - heading "timeline.md" [level=1] [ref=f126e1258]
+              - button "Copy path" [ref=f126e1259] [cursor=pointer]
+            - button "More file actions" [ref=f126e1266] [cursor=pointer]
+          - generic [ref=f126e1269]:
+            - generic [ref=f126e1271]:
+              - heading "Latest commit" [level=2] [ref=f126e1272]
+              - generic [ref=f126e1273]:
+                - generic [ref=f126e1275]:
+                  - link [ref=f126e1276] [cursor=pointer]:
+                    - /url: /ashishjain0512
+                    - img "ashishjain0512" [ref=f126e1277]
+                  - link "commits by ashishjain0512" [ref=f126e1278] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commits?author=ashishjain0512
+                    - text: ashishjain0512
+                - generic [ref=f126e1279]:
+                  - generic [ref=f126e1281]:
+                    - 'link "fix(themes): address the CodeRabbit review on" [ref=f126e1282] [cursor=pointer]':
+                      - /url: /mermaid-js/mermaid/commit/1282309896845691fdbef53703f481dcedaca0e1
+                    - link "#8148" [ref=f126e1283] [cursor=pointer]:
+                      - /url: https://github.com/mermaid-js/mermaid/pull/8148
+                  - button "Open commit details" [ref=f126e1284] [cursor=pointer]
+                  - button "failure" [ref=f126e1287] [cursor=pointer]
+              - generic [ref=f126e1290]:
+                - generic [ref=f126e1292]:
+                  - link "Commit 1282309" [ref=f126e1293] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commit/1282309896845691fdbef53703f481dcedaca0e1
+                    - text: "1282309"
+                  - text: ·
+                  - generic "Aug 29, 2026, 1:47 AM GMT+5:30" [ref=f126e1294]: Aug 28, 2026last week
+                - generic [ref=f126e1295]:
+                  - heading "History" [level=2] [ref=f126e1296]
+                  - link "History" [ref=f126e1297] [cursor=pointer]:
+                    - /url: /mermaid-js/mermaid/commits/develop/docs/syntax/timeline.md
+            - generic [ref=f126e1301]:
+              - generic [ref=f126e1303]:
+                - heading "File metadata and controls" [level=2] [ref=f126e1304]
+                - generic [ref=f126e1305]:
+                  - list "File view" [ref=f126e1306]:
+                    - listitem [ref=f126e1307]:
+                      - button "Preview" [pressed] [ref=f126e1308] [cursor=pointer]
+                    - listitem [ref=f126e1311]:
+                      - button "Code" [ref=f126e1312] [cursor=pointer]
+                    - listitem [ref=f126e1315]:
+                      - button "Blame" [ref=f126e1316] [cursor=pointer]
+                  - generic "16.4 KB" [ref=f126e1321]: 577 lines (478 loc) · 16.4 KB
+                - generic [ref=f126e1322]:
+                  - generic [ref=f126e1323]:
+                    - generic [ref=f126e1324]:
+                      - link "Raw" [ref=f126e1326] [cursor=pointer]:
+                        - /url: https://github.com/mermaid-js/mermaid/raw/refs/heads/develop/docs/syntax/timeline.md
+                      - button "Copy raw file" [ref=f126e1330] [cursor=pointer]
+                      - button "Download raw file" [ref=f126e1335] [cursor=pointer]
+                    - generic [ref=f126e1339]:
+                      - button "You must be signed in to make or propose changes" [disabled] [ref=f126e1341]
+                      - button "More edit options" [ref=f126e1345] [cursor=pointer]
+                  - button "Outline" [ref=f126e1348] [cursor=pointer]
+              - region "timeline.md" [ref=f126e1352]:
+                - article [ref=f126e1354]:
+                  - blockquote [ref=f126e1355]:
+                    - paragraph [ref=f126e1356]:
+                      - strong [ref=f126e1357]: Warning
+                    - generic [ref=f126e1358]:
+                      - heading "THIS IS AN AUTOGENERATED FILE. DO NOT EDIT." [level=2] [ref=f126e1359]
+                      - 'link "Permalink: THIS IS AN AUTOGENERATED FILE. DO NOT EDIT." [ref=f126e1360] [cursor=pointer]':
+                        - /url: "#this-is-an-autogenerated-file-do-not-edit"
+                    - generic [ref=f126e1363]:
+                      - heading [level=2] [ref=f126e1364]:
+                        - text: Please edit the corresponding file in
+                        - link "/packages/mermaid/src/docs/syntax/timeline.md" [ref=f126e1365] [cursor=pointer]:
+                          - /url: /mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/timeline.md
+                        - text: .
+                      - 'link "Permalink: Please edit the corresponding file in /packages/mermaid/src/docs/syntax/timeline.md." [ref=f126e1366] [cursor=pointer]':
+                        - /url: "#please-edit-the-corresponding-file-in-packagesmermaidsrcdocssyntaxtimelinemd"
+                  - generic [ref=f126e1369]:
+                    - heading "Timeline Diagram" [level=1] [ref=f126e1370]
+                    - 'link "Permalink: Timeline Diagram" [ref=f126e1371] [cursor=pointer]':
+                      - /url: "#timeline-diagram"
+                  - blockquote [ref=f126e1374]:
+                    - paragraph [ref=f126e1375]: "Timeline: This is an experimental diagram for now. The syntax and properties can change in future releases. The syntax is stable except for the icon integration which is the experimental part."
+                  - paragraph [ref=f126e1376]:
+                    - text: "\"A timeline is a type of diagram used to illustrate a chronology of events, dates, or periods of time. It is usually presented graphically to indicate the passing of time, and it is usually organized chronologically. A basic timeline presents a list of events in chronological order, usually using dates as markers. A timeline can also be used to show the relationship between events, such as the relationship between the events of a person's life\""
+                    - link "(Wikipedia)" [ref=f126e1377] [cursor=pointer]:
+                      - /url: https://en.wikipedia.org/wiki/Timeline
+                    - text: .
+                  - generic [ref=f126e1378]:
+                    - heading "An example of a timeline" [level=3] [ref=f126e1379]
+                    - 'link "Permalink: An example of a timeline" [ref=f126e1380] [cursor=pointer]':
+                      - /url: "#an-example-of-a-timeline"
+                  - generic [ref=f126e1383]:
+                    - code [ref=f126e1385]: "timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter"
+                    - button "Copy code to clipboard" [ref=f126e1387] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1391]:
+                    - generic [ref=f126e1392]:
+                      - generic [ref=f126e1393]:
+                        - group [ref=f126e1394]:
+                          - button "Open dialog" [ref=f126e1395] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1398] [cursor=pointer]
+                      - iframe [ref=f126e1403]:
+                        - generic [ref=f127e1]:
+                          - document [ref=f127e5]:
+                            - generic [ref=f127e6]: "2002"
+                            - generic [ref=f127e12]: LinkedIn
+                            - generic [ref=f127e18]: "2004"
+                            - generic [ref=f127e24]: Facebook
+                            - generic [ref=f127e30]: Google
+                            - generic [ref=f127e36]: "2005"
+                            - generic [ref=f127e42]: YouTube
+                            - generic [ref=f127e48]: "2006"
+                            - generic [ref=f127e54]: Twitter
+                            - generic [ref=f127e60]: History of Social Media Platform
+                          - generic [ref=f127e61]:
+                            - button "Zoom in" [ref=f127e62]
+                            - button "Zoom out" [ref=f127e66]
+                            - button "Reset view" [ref=f127e70]
+                            - button "Pan up" [ref=f127e73]
+                            - button "Pan down" [ref=f127e76]
+                            - button "Pan left" [ref=f127e79]
+                            - button "Pan right" [ref=f127e82]
+                  - generic [ref=f126e1404]:
+                    - heading "Syntax" [level=2] [ref=f126e1405]
+                    - 'link "Permalink: Syntax" [ref=f126e1406] [cursor=pointer]':
+                      - /url: "#syntax"
+                  - paragraph [ref=f126e1409]:
+                    - text: The syntax for creating Timeline diagram is simple. You always start with the
+                    - code [ref=f126e1410]: timeline
+                    - text: keyword to let mermaid know that you want to create a timeline diagram.
+                  - paragraph [ref=f126e1411]:
+                    - text: After that there is a possibility to add a title to the timeline. This is done by adding a line with the keyword
+                    - code [ref=f126e1412]: title
+                    - text: followed by the title text.
+                  - paragraph [ref=f126e1413]: Then you add the timeline data, where you always start with a time period, followed by a colon and then the text for the event. Optionally you can add a second colon and then the text for the event. So, you can have one or more events per time period.
+                  - generic [ref=f126e1414]:
+                    - generic [ref=f126e1415]: "{time period} : {event}"
+                    - button "Copy code to clipboard" [ref=f126e1417] [cursor=pointer]
+                  - paragraph [ref=f126e1421]: or
+                  - generic [ref=f126e1422]:
+                    - generic [ref=f126e1423]: "{time period} : {event} : {event}"
+                    - button "Copy code to clipboard" [ref=f126e1425] [cursor=pointer]
+                  - paragraph [ref=f126e1429]: or
+                  - generic [ref=f126e1430]:
+                    - generic [ref=f126e1431]: "{time period} : {event} : {event} : {event}"
+                    - button "Copy code to clipboard" [ref=f126e1433] [cursor=pointer]
+                  - paragraph [ref=f126e1437]:
+                    - strong [ref=f126e1438]: NOTE
+                    - text: ": Both time period and event are simple text, and not limited to numbers."
+                  - paragraph [ref=f126e1439]: Let us look at the syntax for the example above.
+                  - generic [ref=f126e1440]:
+                    - code [ref=f126e1442]: "timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter"
+                    - button "Copy code to clipboard" [ref=f126e1444] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1448]:
+                    - generic [ref=f126e1449]:
+                      - generic [ref=f126e1450]:
+                        - group [ref=f126e1451]:
+                          - button "Open dialog" [ref=f126e1452] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1455] [cursor=pointer]
+                      - iframe [ref=f126e1460]:
+                        - generic [ref=f128e1]:
+                          - document [ref=f128e5]:
+                            - generic [ref=f128e6]: "2002"
+                            - generic [ref=f128e12]: LinkedIn
+                            - generic [ref=f128e18]: "2004"
+                            - generic [ref=f128e24]: Facebook
+                            - generic [ref=f128e30]: Google
+                            - generic [ref=f128e36]: "2005"
+                            - generic [ref=f128e42]: YouTube
+                            - generic [ref=f128e48]: "2006"
+                            - generic [ref=f128e54]: Twitter
+                            - generic [ref=f128e60]: History of Social Media Platform
+                          - generic [ref=f128e61]:
+                            - button "Zoom in" [ref=f128e62]
+                            - button "Zoom out" [ref=f128e66]
+                            - button "Reset view" [ref=f128e70]
+                            - button "Pan up" [ref=f128e73]
+                            - button "Pan down" [ref=f128e76]
+                            - button "Pan left" [ref=f128e79]
+                            - button "Pan right" [ref=f128e82]
+                  - paragraph [ref=f126e1461]: In this way we can use a text outline to generate a timeline diagram. The sequence of time period and events is important, as it will be used to draw the timeline. The first time period will be placed at the left side of the timeline, and the last time period will be placed at the right side of the timeline.
+                  - paragraph [ref=f126e1462]: Similarly, the first event will be placed at the top for that specific time period, and the last event will be placed at the bottom.
+                  - generic [ref=f126e1463]:
+                    - heading "Grouping of time periods in sections/ages" [level=2] [ref=f126e1464]
+                    - 'link "Permalink: Grouping of time periods in sections/ages" [ref=f126e1465] [cursor=pointer]':
+                      - /url: "#grouping-of-time-periods-in-sectionsages"
+                  - paragraph [ref=f126e1468]:
+                    - text: You can group time periods in sections/ages. This is done by adding a line with the keyword
+                    - code [ref=f126e1469]: section
+                    - text: followed by the section name.
+                  - paragraph [ref=f126e1470]: All subsequent time periods will be placed in this section until a new section is defined.
+                  - paragraph [ref=f126e1471]: If no section is defined, all time periods will be placed in the default section.
+                  - paragraph [ref=f126e1472]: Let us look at an example, where we have grouped the time periods in sections.
+                  - generic [ref=f126e1473]:
+                    - code [ref=f126e1475]: "timeline title Timeline of Industrial Revolution section 17th-20th century Industry 1.0 : Machinery, Water power, Steam <br>power Industry 2.0 : Electricity, Internal combustion engine, Mass production Industry 3.0 : Electronics, Computers, Automation section 21st century Industry 4.0 : Internet, Robotics, Internet of Things Industry 5.0 : Artificial intelligence, Big data, 3D printing"
+                    - button "Copy code to clipboard" [ref=f126e1477] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1481]:
+                    - generic [ref=f126e1482]:
+                      - generic [ref=f126e1483]:
+                        - group [ref=f126e1484]:
+                          - button "Open dialog" [ref=f126e1485] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1488] [cursor=pointer]
+                      - iframe [ref=f126e1493]:
+                        - generic [ref=f129e1]:
+                          - document [ref=f129e5]:
+                            - generic [ref=f129e6]: 17th-20th century
+                            - generic [ref=f129e12]: Industry 1.0
+                            - generic [ref=f129e18]: Machinery, Waterpower, Steampower
+                            - generic [ref=f129e24]: Industry 2.0
+                            - generic [ref=f129e30]: Electricity, Internalcombustion engine,Mass production
+                            - generic [ref=f129e36]: Industry 3.0
+                            - generic [ref=f129e42]: Electronics,Computers,Automation
+                            - generic [ref=f129e48]: 21st century
+                            - generic [ref=f129e54]: Industry 4.0
+                            - generic [ref=f129e60]: Internet, Robotics,Internet of Things
+                            - generic [ref=f129e66]: Industry 5.0
+                            - generic [ref=f129e72]: Artificialintelligence, Bigdata, 3D printing
+                            - generic [ref=f129e78]: Timeline of Industrial Revolution
+                          - generic [ref=f129e79]:
+                            - button "Zoom in" [ref=f129e80]
+                            - button "Zoom out" [ref=f129e84]
+                            - button "Reset view" [ref=f129e88]
+                            - button "Pan up" [ref=f129e91]
+                            - button "Pan down" [ref=f129e94]
+                            - button "Pan left" [ref=f129e97]
+                            - button "Pan right" [ref=f129e100]
+                  - paragraph [ref=f126e1494]: As you can see, the time periods are placed in the sections, and the sections are placed in the order they are defined.
+                  - paragraph [ref=f126e1495]: All time periods and events under a given section follow a similar color scheme. This is done to make it easier to see the relationship between time periods and events.
+                  - generic [ref=f126e1496]:
+                    - heading "Wrapping of text for long time-periods or events" [level=2] [ref=f126e1497]
+                    - 'link "Permalink: Wrapping of text for long time-periods or events" [ref=f126e1498] [cursor=pointer]':
+                      - /url: "#wrapping-of-text-for-long-time-periods-or-events"
+                  - paragraph [ref=f126e1501]: By default, the text for time-periods and events will be wrapped if it is too long. This is done to avoid that the text is drawn outside the diagram.
+                  - paragraph [ref=f126e1502]:
+                    - text: You can also use
+                    - code [ref=f126e1503]: <br>
+                    - text: to force a line break.
+                  - paragraph [ref=f126e1504]: Let us look at another example, where we have a long time period, and a long event.
+                  - generic [ref=f126e1505]:
+                    - code [ref=f126e1507]: "timeline title England's History Timeline section Stone Age 7600 BC : Britain's oldest known house was built in Orkney, Scotland 6000 BC : Sea levels rise and Britain becomes an island.<br> The people who live here are hunter-gatherers. section Bronze Age 2300 BC : People arrive from Europe and settle in Britain. <br>They bring farming and metalworking. : New styles of pottery and ways of burying the dead appear. 2200 BC : The last major building works are completed at Stonehenge.<br> People now bury their dead in stone circles. : The first metal objects are made in Britain.Some other nice things happen. it is a good time to be alive."
+                    - button "Copy code to clipboard" [ref=f126e1509] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1513]:
+                    - generic [ref=f126e1514]:
+                      - generic [ref=f126e1515]:
+                        - group [ref=f126e1516]:
+                          - button "Open dialog" [ref=f126e1517] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1520] [cursor=pointer]
+                      - iframe [ref=f126e1525]:
+                        - generic [ref=f130e1]:
+                          - document [ref=f130e5]:
+                            - generic [ref=f130e6]: Stone Age
+                            - generic [ref=f130e12]: 7600 BC
+                            - generic [ref=f130e18]: Britain's oldestknown house wasbuilt in Orkney,Scotland
+                            - generic [ref=f130e24]: 6000 BC
+                            - generic [ref=f130e30]: Sea levels rise andBritain becomes anisland.The people who livehere arehunter-gatherers.
+                            - generic [ref=f130e36]: Bronze Age
+                            - generic [ref=f130e42]: 2300 BC
+                            - generic [ref=f130e48]: People arrive fromEurope and settle inBritain.They bring farmingand metalworking.
+                            - generic [ref=f130e54]: New styles ofpottery and ways ofburying the deadappear.
+                            - generic [ref=f130e60]: 2200 BC
+                            - generic [ref=f130e66]: The last majorbuilding works arecompleted atStonehenge.People now burytheir dead in stonecircles.
+                            - generic [ref=f130e72]: The first metalobjects are made inBritain.Some othernice things happen.it is a good time tobe alive.
+                            - generic [ref=f130e78]: England's History Timeline
+                          - generic [ref=f130e79]:
+                            - button "Zoom in" [ref=f130e80]
+                            - button "Zoom out" [ref=f130e84]
+                            - button "Reset view" [ref=f130e88]
+                            - button "Pan up" [ref=f130e91]
+                            - button "Pan down" [ref=f130e94]
+                            - button "Pan left" [ref=f130e97]
+                            - button "Pan right" [ref=f130e100]
+                  - generic [ref=f126e1526]:
+                    - code [ref=f126e1528]: "timeline title MermaidChart 2023 Timeline section 2023 Q1 <br> Release Personal Tier Bullet 1 : sub-point 1a : sub-point 1b : sub-point 1c Bullet 2 : sub-point 2a : sub-point 2b section 2023 Q2 <br> Release XYZ Tier Bullet 3 : sub-point <br> 3a : sub-point 3b : sub-point 3c Bullet 4 : sub-point 4a : sub-point 4b"
+                    - button "Copy code to clipboard" [ref=f126e1530] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1534]:
+                    - generic [ref=f126e1535]:
+                      - generic [ref=f126e1536]:
+                        - group [ref=f126e1537]:
+                          - button "Open dialog" [ref=f126e1538] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1541] [cursor=pointer]
+                      - iframe [ref=f126e1546]:
+                        - generic [ref=f131e1]:
+                          - document [ref=f131e5]:
+                            - generic [ref=f131e6]: 2023 Q1Release Personal Tier
+                            - generic [ref=f131e12]: Bullet 1
+                            - generic [ref=f131e18]: sub-point 1a
+                            - generic [ref=f131e24]: sub-point 1b
+                            - generic [ref=f131e30]: sub-point 1c
+                            - generic [ref=f131e36]: Bullet 2
+                            - generic [ref=f131e42]: sub-point 2a
+                            - generic [ref=f131e48]: sub-point 2b
+                            - generic [ref=f131e54]: 2023 Q2Release XYZ Tier
+                            - generic [ref=f131e60]: Bullet 3
+                            - generic [ref=f131e66]: sub-point3a
+                            - generic [ref=f131e72]: sub-point 3b
+                            - generic [ref=f131e78]: sub-point 3c
+                            - generic [ref=f131e84]: Bullet 4
+                            - generic [ref=f131e90]: sub-point 4a
+                            - generic [ref=f131e96]: sub-point 4b
+                            - generic [ref=f131e102]: MermaidChart 2023 Timeline
+                          - generic [ref=f131e103]:
+                            - button "Zoom in" [ref=f131e104]
+                            - button "Zoom out" [ref=f131e108]
+                            - button "Reset view" [ref=f131e112]
+                            - button "Pan up" [ref=f131e115]
+                            - button "Pan down" [ref=f131e118]
+                            - button "Pan left" [ref=f131e121]
+                            - button "Pan right" [ref=f131e124]
+                  - generic [ref=f126e1547]:
+                    - heading "Direction (v11.14.0+)" [level=3] [ref=f126e1548]
+                    - 'link "Permalink: Direction (v11.14.0+)" [ref=f126e1549] [cursor=pointer]':
+                      - /url: "#direction-v11140"
+                  - paragraph [ref=f126e1552]:
+                    - text: Timeline can change its direction by the keyword after
+                    - code [ref=f126e1553]: timeline
+                    - text: .
+                  - generic [ref=f126e1554]:
+                    - code [ref=f126e1556]: "timeline TD title MermaidChart 2023 Timeline section 2023 Q1 <br> Release Personal Tier Bullet 1 : sub-point 1a : sub-point 1b Bullet 2 : sub-point 2a : sub-point 2b section 2023 Q2 <br> Release XYZ Tier Bullet 3 : sub-point <br> 3a : sub-point 3b Bullet 4 : sub-point 4a : sub-point 4b"
+                    - button "Copy code to clipboard" [ref=f126e1558] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1562]:
+                    - generic [ref=f126e1563]:
+                      - generic [ref=f126e1564]:
+                        - group [ref=f126e1565]:
+                          - button "Open dialog" [ref=f126e1566] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1569] [cursor=pointer]
+                      - iframe [ref=f126e1574]:
+                        - generic [ref=f132e1]:
+                          - document [ref=f132e5]:
+                            - generic [ref=f132e6]: 2023 Q1Release Personal Tier
+                            - generic [ref=f132e12]: Bullet 1
+                            - generic [ref=f132e18]: sub-point 1a
+                            - generic [ref=f132e24]: sub-point 1b
+                            - generic [ref=f132e30]: Bullet 2
+                            - generic [ref=f132e36]: sub-point 2a
+                            - generic [ref=f132e42]: sub-point 2b
+                            - generic [ref=f132e48]: 2023 Q2Release XYZ Tier
+                            - generic [ref=f132e54]: Bullet 3
+                            - generic [ref=f132e60]: sub-point3a
+                            - generic [ref=f132e66]: sub-point 3b
+                            - generic [ref=f132e72]: Bullet 4
+                            - generic [ref=f132e78]: sub-point 4a
+                            - generic [ref=f132e84]: sub-point 4b
+                            - generic [ref=f132e90]: MermaidChart 2023 Timeline
+                          - generic [ref=f132e91]:
+                            - button "Zoom in" [ref=f132e92]
+                            - button "Zoom out" [ref=f132e96]
+                            - button "Reset view" [ref=f132e100]
+                            - button "Pan up" [ref=f132e103]
+                            - button "Pan down" [ref=f132e106]
+                            - button "Pan left" [ref=f132e109]
+                            - button "Pan right" [ref=f132e112]
+                  - paragraph [ref=f126e1575]: "Possible directions are:"
+                  - list [ref=f126e1576]:
+                    - listitem [ref=f126e1577]:
+                      - code [ref=f126e1578]: LR
+                      - text: ": Left to right (default)"
+                    - listitem [ref=f126e1579]:
+                      - code [ref=f126e1580]: TD
+                      - text: ": Top top down."
+                  - generic [ref=f126e1581]:
+                    - heading "Styling of time periods and events" [level=2] [ref=f126e1582]
+                    - 'link "Permalink: Styling of time periods and events" [ref=f126e1583] [cursor=pointer]':
+                      - /url: "#styling-of-time-periods-and-events"
+                  - paragraph [ref=f126e1586]: As explained earlier, each section has a color scheme, and each time period and event under a section follow the similar color scheme.
+                  - paragraph [ref=f126e1587]: "However, if there is no section defined, then we have two possibilities:"
+                  - list [ref=f126e1588]:
+                    - listitem [ref=f126e1589]: Style time periods individually, i.e. each time period(and its corresponding events) will have its own color scheme. This is the DEFAULT behavior.
+                  - generic [ref=f126e1590]:
+                    - code [ref=f126e1592]: "timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter"
+                    - button "Copy code to clipboard" [ref=f126e1594] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1598]:
+                    - generic [ref=f126e1599]:
+                      - generic [ref=f126e1600]:
+                        - group [ref=f126e1601]:
+                          - button "Open dialog" [ref=f126e1602] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1605] [cursor=pointer]
+                      - iframe [ref=f126e1610]:
+                        - generic [ref=f133e1]:
+                          - document [ref=f133e5]:
+                            - generic [ref=f133e6]: "2002"
+                            - generic [ref=f133e12]: LinkedIn
+                            - generic [ref=f133e18]: "2004"
+                            - generic [ref=f133e24]: Facebook
+                            - generic [ref=f133e30]: Google
+                            - generic [ref=f133e36]: "2005"
+                            - generic [ref=f133e42]: YouTube
+                            - generic [ref=f133e48]: "2006"
+                            - generic [ref=f133e54]: Twitter
+                            - generic [ref=f133e60]: History of Social Media Platform
+                          - generic [ref=f133e61]:
+                            - button "Zoom in" [ref=f133e62]
+                            - button "Zoom out" [ref=f133e66]
+                            - button "Reset view" [ref=f133e70]
+                            - button "Pan up" [ref=f133e73]
+                            - button "Pan down" [ref=f133e76]
+                            - button "Pan left" [ref=f133e79]
+                            - button "Pan right" [ref=f133e82]
+                  - paragraph [ref=f126e1611]:
+                    - strong [ref=f126e1612]: NOTE
+                    - text: ": that there are no sections defined, and each time period and its corresponding events will have its own color scheme."
+                  - list [ref=f126e1613]:
+                    - listitem [ref=f126e1614]:
+                      - text: Disable the multiColor option using the
+                      - code [ref=f126e1615]: disableMultiColor
+                      - text: option. This will make all time periods and events follow the same color scheme.
+                  - paragraph [ref=f126e1616]: You will need to add this option either via mermaid.initialize function or directives.
+                  - generic [ref=f126e1617]:
+                    - generic [ref=f126e1618]: "mermaid.initialize({ theme: 'base', startOnLoad: true, logLevel: 0, timeline: { disableMulticolor: false, }, ... ..."
+                    - button "Copy code to clipboard" [ref=f126e1620] [cursor=pointer]
+                  - paragraph [ref=f126e1624]: let us look at same example, where we have disabled the multiColor option.
+                  - generic [ref=f126e1625]:
+                    - code [ref=f126e1627]: "--- config: logLevel: 'debug' theme: 'base' timeline: disableMulticolor: true --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter"
+                    - button "Copy code to clipboard" [ref=f126e1629] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1633]:
+                    - generic [ref=f126e1634]:
+                      - generic [ref=f126e1635]:
+                        - group [ref=f126e1636]:
+                          - button "Open dialog" [ref=f126e1637] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1640] [cursor=pointer]
+                      - iframe [ref=f126e1645]:
+                        - generic [ref=f134e1]:
+                          - document [ref=f134e5]:
+                            - generic [ref=f134e6]: "2002"
+                            - generic [ref=f134e12]: LinkedIn
+                            - generic [ref=f134e18]: "2004"
+                            - generic [ref=f134e24]: Facebook
+                            - generic [ref=f134e30]: Google
+                            - generic [ref=f134e36]: "2005"
+                            - generic [ref=f134e42]: YouTube
+                            - generic [ref=f134e48]: "2006"
+                            - generic [ref=f134e54]: Twitter
+                            - generic [ref=f134e60]: History of Social Media Platform
+                          - generic [ref=f134e61]:
+                            - button "Zoom in" [ref=f134e62]
+                            - button "Zoom out" [ref=f134e66]
+                            - button "Reset view" [ref=f134e70]
+                            - button "Pan up" [ref=f134e73]
+                            - button "Pan down" [ref=f134e76]
+                            - button "Pan left" [ref=f134e79]
+                            - button "Pan right" [ref=f134e82]
+                  - generic [ref=f126e1646]:
+                    - heading "Customizing Color scheme" [level=3] [ref=f126e1647]
+                    - 'link "Permalink: Customizing Color scheme" [ref=f126e1648] [cursor=pointer]':
+                      - /url: "#customizing-color-scheme"
+                  - paragraph [ref=f126e1651]:
+                    - text: You can customize the color scheme using the
+                    - code [ref=f126e1652]: cScale0
+                    - text: to
+                    - code [ref=f126e1653]: cScale11
+                    - text: theme variables, which will change the background colors. Mermaid allows you to set unique colors for up-to 12 sections, where
+                    - code [ref=f126e1654]: cScale0
+                    - text: variable will drive the value of the first section or time-period,
+                    - code [ref=f126e1655]: cScale1
+                    - text: will drive the value of the second section and so on. In case you have more than 12 sections, the color scheme will start to repeat.
+                  - paragraph [ref=f126e1656]:
+                    - text: If you also want to change the foreground color of a section, you can do so use theme variables corresponding
+                    - code [ref=f126e1657]: cScaleLabel0
+                    - text: to
+                    - code [ref=f126e1658]: cScaleLabel11
+                    - text: variables.
+                  - paragraph [ref=f126e1659]:
+                    - strong [ref=f126e1660]: NOTE
+                    - text: ": Default values for these theme variables are picked from the selected theme. If you want to override the default values, you can use the"
+                    - code [ref=f126e1661]: initialize
+                    - text: call to add your custom theme variable values.
+                  - paragraph [ref=f126e1662]: "Example:"
+                  - paragraph [ref=f126e1663]:
+                    - text: Now let's override the default values for the
+                    - code [ref=f126e1664]: cScale0
+                    - text: to
+                    - code [ref=f126e1665]: cScale2
+                    - text: "variables:"
+                  - generic [ref=f126e1666]:
+                    - code [ref=f126e1668]: "--- config: logLevel: 'debug' theme: 'default' themeVariables: cScale0: '#ff0000' cScaleLabel0: '#ffffff' cScale1: '#00ff00' cScale2: '#0000ff' cScaleLabel2: '#ffffff' --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter 2007 : Tumblr 2008 : Instagram 2010 : Pinterest"
+                    - button "Copy code to clipboard" [ref=f126e1670] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1674]:
+                    - generic [ref=f126e1675]:
+                      - generic [ref=f126e1676]:
+                        - group [ref=f126e1677]:
+                          - button "Open dialog" [ref=f126e1678] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1681] [cursor=pointer]
+                      - iframe [ref=f126e1686]:
+                        - generic [ref=f135e1]:
+                          - document [ref=f135e5]:
+                            - generic [ref=f135e6]: "2002"
+                            - generic [ref=f135e12]: LinkedIn
+                            - generic [ref=f135e18]: "2004"
+                            - generic [ref=f135e24]: Facebook
+                            - generic [ref=f135e30]: Google
+                            - generic [ref=f135e36]: "2005"
+                            - generic [ref=f135e42]: YouTube
+                            - generic [ref=f135e48]: "2006"
+                            - generic [ref=f135e54]: Twitter
+                            - generic [ref=f135e60]: "2007"
+                            - generic [ref=f135e66]: Tumblr
+                            - generic [ref=f135e72]: "2008"
+                            - generic [ref=f135e78]: Instagram
+                            - generic [ref=f135e84]: "2010"
+                            - generic [ref=f135e90]: Pinterest
+                            - generic [ref=f135e96]: History of Social Media Platform
+                          - generic [ref=f135e97]:
+                            - button "Zoom in" [ref=f135e98]
+                            - button "Zoom out" [ref=f135e102]
+                            - button "Reset view" [ref=f135e106]
+                            - button "Pan up" [ref=f135e109]
+                            - button "Pan down" [ref=f135e112]
+                            - button "Pan left" [ref=f135e115]
+                            - button "Pan right" [ref=f135e118]
+                  - paragraph [ref=f126e1687]: See how the colors are changed to the values specified in the theme variables.
+                  - generic [ref=f126e1688]:
+                    - heading "Themes" [level=2] [ref=f126e1689]
+                    - 'link "Permalink: Themes" [ref=f126e1690] [cursor=pointer]':
+                      - /url: "#themes"
+                  - paragraph [ref=f126e1693]:
+                    - text: "Mermaid supports a bunch of pre-defined themes which you can use to find the right one for you. PS: you can actually override an existing theme's variable to get your own custom theme going. Learn more about"
+                    - link "theming your diagram" [ref=f126e1694] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/blob/develop/docs/config/theming.md
+                    - text: .
+                  - paragraph [ref=f126e1695]: "The following are the different pre-defined theme options:"
+                  - list [ref=f126e1696]:
+                    - listitem [ref=f126e1697]:
+                      - code [ref=f126e1698]: redux-color
+                      - text: (the default)
+                    - listitem [ref=f126e1699]:
+                      - code [ref=f126e1700]: redux-dark-color
+                    - listitem [ref=f126e1701]:
+                      - code [ref=f126e1702]: redux
+                    - listitem [ref=f126e1703]:
+                      - code [ref=f126e1704]: redux-dark
+                    - listitem [ref=f126e1705]:
+                      - code [ref=f126e1706]: default
+                    - listitem [ref=f126e1707]:
+                      - code [ref=f126e1708]: neutral
+                    - listitem [ref=f126e1709]:
+                      - code [ref=f126e1710]: dark
+                    - listitem [ref=f126e1711]:
+                      - code [ref=f126e1712]: forest
+                    - listitem [ref=f126e1713]:
+                      - code [ref=f126e1714]: neo
+                    - listitem [ref=f126e1715]:
+                      - code [ref=f126e1716]: neo-dark
+                    - listitem [ref=f126e1717]:
+                      - code [ref=f126e1718]: base
+                  - paragraph [ref=f126e1719]:
+                    - strong [ref=f126e1720]: NOTE
+                    - text: ": To change theme you can either use the"
+                    - code [ref=f126e1721]: initialize
+                    - text: call or
+                    - emphasis [ref=f126e1722]: directives
+                    - text: . Learn more about
+                    - link "directives" [ref=f126e1723] [cursor=pointer]:
+                      - /url: /mermaid-js/mermaid/blob/develop/docs/config/directives.md
+                    - text: "Let's put a few of them to use, and see how our sample diagram looks in different themes:"
+                  - generic [ref=f126e1724]:
+                    - heading "Base Theme" [level=3] [ref=f126e1725]
+                    - 'link "Permalink: Base Theme" [ref=f126e1726] [cursor=pointer]':
+                      - /url: "#base-theme"
+                  - generic [ref=f126e1729]:
+                    - code [ref=f126e1731]: "--- config: logLevel: 'debug' theme: 'base' --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter 2007 : Tumblr 2008 : Instagram 2010 : Pinterest"
+                    - button "Copy code to clipboard" [ref=f126e1733] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1737]:
+                    - generic [ref=f126e1738]:
+                      - generic [ref=f126e1739]:
+                        - group [ref=f126e1740]:
+                          - button "Open dialog" [ref=f126e1741] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1744] [cursor=pointer]
+                      - iframe [ref=f126e1749]:
+                        - generic [ref=f136e1]:
+                          - document [ref=f136e5]:
+                            - generic [ref=f136e6]: "2002"
+                            - generic [ref=f136e12]: LinkedIn
+                            - generic [ref=f136e18]: "2004"
+                            - generic [ref=f136e24]: Facebook
+                            - generic [ref=f136e30]: Google
+                            - generic [ref=f136e36]: "2005"
+                            - generic [ref=f136e42]: YouTube
+                            - generic [ref=f136e48]: "2006"
+                            - generic [ref=f136e54]: Twitter
+                            - generic [ref=f136e60]: "2007"
+                            - generic [ref=f136e66]: Tumblr
+                            - generic [ref=f136e72]: "2008"
+                            - generic [ref=f136e78]: Instagram
+                            - generic [ref=f136e84]: "2010"
+                            - generic [ref=f136e90]: Pinterest
+                            - generic [ref=f136e96]: History of Social Media Platform
+                          - generic [ref=f136e97]:
+                            - button "Zoom in" [ref=f136e98]
+                            - button "Zoom out" [ref=f136e102]
+                            - button "Reset view" [ref=f136e106]
+                            - button "Pan up" [ref=f136e109]
+                            - button "Pan down" [ref=f136e112]
+                            - button "Pan left" [ref=f136e115]
+                            - button "Pan right" [ref=f136e118]
+                  - generic [ref=f126e1750]:
+                    - heading "Forest Theme" [level=3] [ref=f126e1751]
+                    - 'link "Permalink: Forest Theme" [ref=f126e1752] [cursor=pointer]':
+                      - /url: "#forest-theme"
+                  - generic [ref=f126e1755]:
+                    - code [ref=f126e1757]: "--- config: logLevel: 'debug' theme: 'forest' --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter 2007 : Tumblr 2008 : Instagram 2010 : Pinterest"
+                    - button "Copy code to clipboard" [ref=f126e1759] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1763]:
+                    - generic [ref=f126e1764]:
+                      - generic [ref=f126e1765]:
+                        - group [ref=f126e1766]:
+                          - button "Open dialog" [ref=f126e1767] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1770] [cursor=pointer]
+                      - iframe [ref=f126e1775]:
+                        - generic [ref=f137e1]:
+                          - document [ref=f137e5]:
+                            - generic [ref=f137e6]: "2002"
+                            - generic [ref=f137e12]: LinkedIn
+                            - generic [ref=f137e18]: "2004"
+                            - generic [ref=f137e24]: Facebook
+                            - generic [ref=f137e30]: Google
+                            - generic [ref=f137e36]: "2005"
+                            - generic [ref=f137e42]: YouTube
+                            - generic [ref=f137e48]: "2006"
+                            - generic [ref=f137e54]: Twitter
+                            - generic [ref=f137e60]: "2007"
+                            - generic [ref=f137e66]: Tumblr
+                            - generic [ref=f137e72]: "2008"
+                            - generic [ref=f137e78]: Instagram
+                            - generic [ref=f137e84]: "2010"
+                            - generic [ref=f137e90]: Pinterest
+                            - generic [ref=f137e96]: History of Social Media Platform
+                          - generic [ref=f137e97]:
+                            - button "Zoom in" [ref=f137e98]
+                            - button "Zoom out" [ref=f137e102]
+                            - button "Reset view" [ref=f137e106]
+                            - button "Pan up" [ref=f137e109]
+                            - button "Pan down" [ref=f137e112]
+                            - button "Pan left" [ref=f137e115]
+                            - button "Pan right" [ref=f137e118]
+                  - generic [ref=f126e1776]:
+                    - heading "Dark Theme" [level=3] [ref=f126e1777]
+                    - 'link "Permalink: Dark Theme" [ref=f126e1778] [cursor=pointer]':
+                      - /url: "#dark-theme"
+                  - generic [ref=f126e1781]:
+                    - code [ref=f126e1783]: "--- config: logLevel: 'debug' theme: 'dark' --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter 2007 : Tumblr 2008 : Instagram 2010 : Pinterest"
+                    - button "Copy code to clipboard" [ref=f126e1785] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1789]:
+                    - generic [ref=f126e1790]:
+                      - generic [ref=f126e1791]:
+                        - group [ref=f126e1792]:
+                          - button "Open dialog" [ref=f126e1793] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1796] [cursor=pointer]
+                      - iframe [ref=f126e1801]:
+                        - generic [ref=f138e1]:
+                          - document [ref=f138e5]:
+                            - generic [ref=f138e6]: "2002"
+                            - generic [ref=f138e12]: LinkedIn
+                            - generic [ref=f138e18]: "2004"
+                            - generic [ref=f138e24]: Facebook
+                            - generic [ref=f138e30]: Google
+                            - generic [ref=f138e36]: "2005"
+                            - generic [ref=f138e42]: YouTube
+                            - generic [ref=f138e48]: "2006"
+                            - generic [ref=f138e54]: Twitter
+                            - generic [ref=f138e60]: "2007"
+                            - generic [ref=f138e66]: Tumblr
+                            - generic [ref=f138e72]: "2008"
+                            - generic [ref=f138e78]: Instagram
+                            - generic [ref=f138e84]: "2010"
+                            - generic [ref=f138e90]: Pinterest
+                            - generic [ref=f138e96]: History of Social Media Platform
+                          - generic [ref=f138e97]:
+                            - button "Zoom in" [ref=f138e98]
+                            - button "Zoom out" [ref=f138e102]
+                            - button "Reset view" [ref=f138e106]
+                            - button "Pan up" [ref=f138e109]
+                            - button "Pan down" [ref=f138e112]
+                            - button "Pan left" [ref=f138e115]
+                            - button "Pan right" [ref=f138e118]
+                  - generic [ref=f126e1802]:
+                    - heading [level=3] [ref=f126e1803]:
+                      - text: The
+                      - code [ref=f126e1804]: default
+                      - text: Theme
+                    - 'link "Permalink: The default Theme" [ref=f126e1805] [cursor=pointer]':
+                      - /url: "#the-default-theme"
+                  - generic [ref=f126e1808]:
+                    - code [ref=f126e1810]: "--- config: logLevel: 'debug' theme: 'default' --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter 2007 : Tumblr 2008 : Instagram 2010 : Pinterest"
+                    - button "Copy code to clipboard" [ref=f126e1812] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1816]:
+                    - generic [ref=f126e1817]:
+                      - generic [ref=f126e1818]:
+                        - group [ref=f126e1819]:
+                          - button "Open dialog" [ref=f126e1820] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1823] [cursor=pointer]
+                      - iframe [ref=f126e1828]:
+                        - generic [ref=f139e1]:
+                          - document [ref=f139e5]:
+                            - generic [ref=f139e6]: "2002"
+                            - generic [ref=f139e12]: LinkedIn
+                            - generic [ref=f139e18]: "2004"
+                            - generic [ref=f139e24]: Facebook
+                            - generic [ref=f139e30]: Google
+                            - generic [ref=f139e36]: "2005"
+                            - generic [ref=f139e42]: YouTube
+                            - generic [ref=f139e48]: "2006"
+                            - generic [ref=f139e54]: Twitter
+                            - generic [ref=f139e60]: "2007"
+                            - generic [ref=f139e66]: Tumblr
+                            - generic [ref=f139e72]: "2008"
+                            - generic [ref=f139e78]: Instagram
+                            - generic [ref=f139e84]: "2010"
+                            - generic [ref=f139e90]: Pinterest
+                            - generic [ref=f139e96]: History of Social Media Platform
+                          - generic [ref=f139e97]:
+                            - button "Zoom in" [ref=f139e98]
+                            - button "Zoom out" [ref=f139e102]
+                            - button "Reset view" [ref=f139e106]
+                            - button "Pan up" [ref=f139e109]
+                            - button "Pan down" [ref=f139e112]
+                            - button "Pan left" [ref=f139e115]
+                            - button "Pan right" [ref=f139e118]
+                  - generic [ref=f126e1829]:
+                    - heading "Neutral Theme" [level=3] [ref=f126e1830]
+                    - 'link "Permalink: Neutral Theme" [ref=f126e1831] [cursor=pointer]':
+                      - /url: "#neutral-theme"
+                  - generic [ref=f126e1834]:
+                    - code [ref=f126e1836]: "--- config: logLevel: 'debug' theme: 'neutral' --- timeline title History of Social Media Platform 2002 : LinkedIn 2004 : Facebook : Google 2005 : YouTube 2006 : Twitter 2007 : Tumblr 2008 : Instagram 2010 : Pinterest"
+                    - button "Copy code to clipboard" [ref=f126e1838] [cursor=pointer]
+                  - region "mermaid rendered output container" [ref=f126e1842]:
+                    - generic [ref=f126e1843]:
+                      - generic [ref=f126e1844]:
+                        - group [ref=f126e1845]:
+                          - button "Open dialog" [ref=f126e1846] [cursor=pointer]
+                        - button "Copy mermaid code" [ref=f126e1849] [cursor=pointer]
+                      - iframe [ref=f126e1854]:
+                        - generic [ref=f140e1]:
+                          - document [ref=f140e5]:
+                            - generic [ref=f140e6]: "2002"
+                            - generic [ref=f140e12]: LinkedIn
+                            - generic [ref=f140e18]: "2004"
+                            - generic [ref=f140e24]: Facebook
+                            - generic [ref=f140e30]: Google
+                            - generic [ref=f140e36]: "2005"
+                            - generic [ref=f140e42]: YouTube
+                            - generic [ref=f140e48]: "2006"
+                            - generic [ref=f140e54]: Twitter
+                            - generic [ref=f140e60]: "2007"
+                            - generic [ref=f140e66]: Tumblr
+                            - generic [ref=f140e72]: "2008"
+                            - generic [ref=f140e78]: Instagram
+                            - generic [ref=f140e84]: "2010"
+                            - generic [ref=f140e90]: Pinterest
+                            - generic [ref=f140e96]: History of Social Media Platform
+                          - generic [ref=f140e97]:
+                            - button "Zoom in" [ref=f140e98]
+                            - button "Zoom out" [ref=f140e102]
+                            - button "Reset view" [ref=f140e106]
+                            - button "Pan up" [ref=f140e109]
+                            - button "Pan down" [ref=f140e112]
+                            - button "Pan left" [ref=f140e115]
+                            - button "Pan right" [ref=f140e118]
+                    - generic [ref=f126e1855]: Loading
+                  - generic [ref=f126e1860]:
+                    - heading "Integrating with your library/website" [level=2] [ref=f126e1861]
+                    - 'link "Permalink: Integrating with your library/website" [ref=f126e1862] [cursor=pointer]':
+                      - /url: "#integrating-with-your-librarywebsite"
+                  - paragraph [ref=f126e1865]: Timeline uses experimental lazy loading & async rendering features which could change in the future.The lazy loading is important in order to be able to add additional diagrams going forward.
+                  - paragraph [ref=f126e1866]: "You can use this method to add mermaid including the timeline diagram to a web page:"
+                  - generic [ref=f126e1867]:
+                    - generic [ref=f126e1868]: <script type="module"> import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'; </script>
+                    - button "Copy code to clipboard" [ref=f126e1870] [cursor=pointer]
+                  - paragraph [ref=f126e1874]:
+                    - text: You can also refer the
+                    - link "implementation in the live editor" [ref=f126e1875] [cursor=pointer]:
+                      - /url: https://github.com/mermaid-js/mermaid-live-editor/blob/develop/src/lib/util/mermaid.ts
+                    - text: to see how the async loading is done.
+  - alert [ref=f126e1879]
