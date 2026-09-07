@@ -4,7 +4,7 @@ Each step ends with a check. Don't move on until the check passes.
 
 ```mermaid
 flowchart LR
-    S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Scoped token] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
+    S0[0. Get Handoff] --> S1[1. Claude side] --> S2[2. First PR<br/>from your laptop] --> S3[3. Scoped token] --> S4[4. Coder bot] --> S5[5. Return path] --> S6[6. Guardrails] --> S7[7. Chief of Staff]
     style S2 stroke:#2C6B4F
 ```
 
@@ -20,6 +20,23 @@ Step 2 is the whole thesis test. If a PR comes back billed to your Max plan, eve
 - **No organisation is required.** Start with a fine-grained token on **your own** account, scoped to `Issues: read and write` on the one target repo (D5a). A dedicated machine account is an attribution upgrade you can add later; it *does* need an org-owned repo (#46), which is why it is not where you start.
 - Grok Bot access via an eligible plan (Cursor Pro or SuperGrok at time of writing — check current bundling).
 - Claude Code installed locally and logged in with that subscription.
+
+## Step 0 — Get Handoff onto your machine (2 min)
+
+Every step below copies files out of a Handoff checkout, or pastes text from one into a bot. You need one, and it must live **outside** the repository you are setting up.
+
+```bash
+HANDOFF=~/handoff
+git clone <URL of this repository> "$HANDOFF"
+```
+
+**Set `HANDOFF` to wherever you actually cloned it, and use `$HANDOFF` for the rest of this guide.** Every path below is written that way, because you spend the rest of the guide standing inside *your own* repository, where a bare `templates/…` does not exist.
+
+**Check:**
+
+```bash
+ls "$HANDOFF/templates/claude.yml"
+```
 
 ## Step 1 — Claude side (10 min)
 
@@ -41,20 +58,24 @@ gh secret set CLAUDE_CODE_OAUTH_TOKEN
 #     (`claude /install-github-app` does NOT work — that is a slash command
 #      inside a session, not a CLI argument.)
 
-# 1d. Add the workflow
+# 1d. Add the workflow ($HANDOFF is from step 0)
 mkdir -p .github/workflows
-cp <bridge>/templates/claude.yml .github/workflows/claude.yml
+cp "$HANDOFF/templates/claude.yml" .github/workflows/claude.yml
 
 # 1e. Repo instructions. STOP AND READ:
 #     If this repo already has a CLAUDE.md, `cp` DESTROYS it. Merge the
 #     template in by hand instead. Only run this on a repo that has none.
 [ -e CLAUDE.md ] && echo "CLAUDE.md exists - merge by hand, do not copy" \
-  || cp <bridge>/templates/CLAUDE.md.template CLAUDE.md   # then edit for your repo
+  || cp "$HANDOFF/templates/CLAUDE.md.template" CLAUDE.md   # then edit for your repo
 
 git add -A && git commit -m "add claude bridge" && git push
 ```
 
-**1f. Enable one repository setting.** Settings → Actions → General → Workflow permissions → tick **"Allow GitHub Actions to create and approve pull requests"**. It is **off by default on every repository**, and without it the pull-request workflow fails with `GitHub Actions is not permitted to create or approve pull requests`.
+**1f. Enable one repository setting.** Settings → Actions → General → Workflow permissions → tick **"Allow GitHub Actions to create and approve pull requests"**. It is **off by default on every repository, and on an organisation-owned repository it is capped by a second setting at organisation level as well** — see below. Without it the pull-request workflow fails with `GitHub Actions is not permitted to create or approve pull requests`.
+
+> **If the repository is owned by an organisation.** GitHub keeps the same setting at organisation level, and only an **organisation owner** can change it — repository admin is not enough. It lives at **Organisation settings → Actions → General → Workflow permissions**, <https://github.com/organizations/ORG/settings/actions> (substitute your organisation; URL shape checked 2026-09-07 — signed out it redirects to GitHub's login page, while a made-up sibling path returns 404). Reading it over the API needs the same access: `gh api /orgs/ORG/actions/permissions/workflow` returned `403 "You must be an org admin or have the actions policies fine-grained permission"` when run on 2026-09-07, and GitHub's own error body named <https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-an-organization>, which returned 200 the same day.
+>
+> On 2026-09-06 the repository-level `PUT` was refused with `409 Conflict` on an organisation repo whose organisation policy was off. **We have not re-reproduced that, and the precedence rule — organisation value over repository value — is unverified.** Watch for it; do not treat it as proven. `$HANDOFF/scripts/doctor.sh` and `$HANDOFF/scripts/setup.sh` now report the organisation policy instead of printing a green tick at the moment they detect an organisation.
 
 **Check:** `gh secret list` shows `CLAUDE_CODE_OAUTH_TOKEN`; the workflow file is on the **default branch** (Actions only triggers issue events from there); the setting in 1f is ticked.
 
@@ -79,7 +100,7 @@ Stop here for a day if you like. You've proven the expensive half.
 **Check everything at once, any time:**
 
 ```bash
-scripts/doctor.sh OWNER/REPO
+bash "$HANDOFF/scripts/doctor.sh" OWNER/REPO
 ```
 
 ## Step 3 — A scoped token for the bot (15 min)
@@ -135,7 +156,7 @@ curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer $BOT_TOKEN" \
 
 ## Step 4 — Coder bot in Grok Bot (20 min)
 
-1. Create a bot named **Coder**. Paste `templates/bots/coder.md` as its description. Replace `OWNER/REPO`.
+1. Create a bot named **Coder**. Paste the contents of `$HANDOFF/templates/bots/coder.md` as its description. Replace `OWNER/REPO`.
 2. **No second token hand-off is needed here.** Coder reaches GitHub through the connector you configured above, which already holds the token. Grok Bot's **secure secret request** (the bot asks, you paste into a masked field) is the right channel *if a bot ever needs a secret of its own* — but not for this. Either way, never paste a token into chat.
 3. Tell Coder: *"Open an issue asking @claude to add a `docs/HELLO.md` with one sentence."*
 
@@ -176,7 +197,7 @@ Must be `write` or `admin`.
 
 ## Step 5 — Return path (15 min)
 
-1. Create the routine on the **Coder** bot — in Phase 1 it is the only bot that exists. Send it the message block in `templates/routines/pr-ready.md` verbatim. Once you create the Chief of Staff in Step 7, move the routine there; reporting is its job.
+1. Create the routine on the **Coder** bot — in Phase 1 it is the only bot that exists. Send it the message block in `$HANDOFF/templates/routines/pr-ready.md` verbatim. Once you create the Chief of Staff in Step 7, move the routine there; reporting is its job.
 2. Trigger: the bot's **built-in GitHub connection**, pull request opened, on the target repo. Not an inbound webhook — the webhook trigger is the one Cursor staff flagged as not counting as user intent, and we have never tested it.
 3. Action: post one line in the project group chat with the PR link and CI status.
 
@@ -193,7 +214,7 @@ never timed. Do not treat any particular latency as expected.
 
 ## Step 6 — Guardrails (10 min)
 
-1. In Grok Bot → Auto Review, add the rules from `templates/auto-review-rules.md`.
+1. In Grok Bot → Auto Review, add the rules from `$HANDOFF/templates/auto-review-rules.md`.
 2. Set the Cursor account **on-demand limit** to `$0` (or a small number) so the weekly pool can't silently spill.
 3. Add to **every bot's description** (there is no channel charter — see below): *"At most three rounds of bot-to-bot discussion before reporting to me."*
 
@@ -201,7 +222,7 @@ never timed. Do not treat any particular latency as expected.
 
 ## Step 7 — Create the Chief of Staff (10 min)
 
-Paste `templates/bots/chief-of-staff.md` into **Bot actions → Edit Profile → description**. Then create a **group chat** (New → select 2–6 bots) containing the Chief of Staff and the Coder.
+Paste the contents of `$HANDOFF/templates/bots/chief-of-staff.md` into **Bot actions → Edit Profile → description**. Then create a **group chat** (New → select 2–6 bots) containing the Chief of Staff and the Coder.
 
 Note what a group chat is and is not: it holds **bots only, 2–6 of them**, plus you as the message sender. There is no second human, and there is **no charter or instructions field** — standing rules live in each bot's description. Group chats also count against the account cap of **50 bots and group chats combined**.
 
