@@ -339,3 +339,18 @@ Both issues Grok Bot opened through its GitHub connector:
 - Allowance sizes are user-inferred; no vendor has confirmed them.
 - Several reports reach us through third-party trackers; the forum threads marked "primary" were read directly.
 - Both products change weekly. Re-verify before each build phase.
+
+### 2026-09-08 — runbook drills R2 and R7 (task 1.6)
+
+Two of the three drills in task 1.6, triggered deliberately. What follows is what was seen, not what was expected.
+
+| Drill | Run | What actually happened |
+|---|---|---|
+| **R2 — expired credentials** | `34155909253`, throwaway repo `handoff-drill-r2` with a deliberately invalid `CLAUDE_CODE_OAUTH_TOKEN` | Job failed at **`Run Claude Code` after ~2s**. The misrouted-issue guard and `actions/checkout` both **succeeded** first, so the run list shows a failure without saying where. **`Open the pull request` was `skipped`** — the `branch_name` guard held, so a bad token produces no broken pull request. The Claude App commented on the issue: *"Claude encountered an error after 2s"* with a job link. **No plain "invalid credentials" line appears in the log** — the credential is masked as `***` throughout, so do not go looking for one |
+| **R7 — cancel a run** | `34156267717`, trial repo | `gh run cancel` ended it `cancelled`. **No branch and no pull request left behind.** But the Claude App's comment is frozen mid-task — *"Working on it"* with a half-ticked todo list — and is **never updated to say it was cancelled**. The issue looks like a run still in progress, permanently |
+
+**R1 was not run.** It needs a second GitHub account with read-only access to trigger the write-access rejection, and this project has no way to create one. The row stays marked unobserved in `04-operations.md` rather than assumed.
+
+**What R7 does not prove.** We cancelled a *healthy* run to see what cancelling looks like. Nothing here shows that a genuinely runaway agent is detectable, or stoppable in time — only that `gh run cancel` behaves as documented and what it leaves behind afterwards. The runbook now separates those two things.
+
+**The most useful finding is the smallest one.** Both drills leave a **stale, misleading comment on the issue** — R2's says an error occurred, which is fair; R7's says work is in progress, which is false and stays false. In both cases the issue thread is the first place a person looks, and in one of them it lies. `04-operations.md` gained an R7a entry for exactly that symptom, because it is indistinguishable from a hung run.
