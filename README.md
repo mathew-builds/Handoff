@@ -215,6 +215,7 @@ bash ~/handoff/scripts/setup.sh
 | [06-roadmap](docs/06-roadmap.md) | Phases, acceptance tests, when a server comes back |
 | [07-evidence](docs/07-evidence.md) | The research behind the pain point, and our own runs |
 | [08-measurements](docs/08-measurements.md) | What a real task actually cost |
+| [09-second-agent-design](docs/09-second-agent-design.md) | What a second coding agent would take — designed, **not built** |
 
 **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md) · **Release history:** [CHANGELOG.md](CHANGELOG.md) · **Installing with an agent:** [AGENTS.md](AGENTS.md)
 

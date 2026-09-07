@@ -239,3 +239,21 @@ Three properties that make it safe to ship in a template other people copy:
 **Verified 2026-09-07** by extracting the step and running it against six inputs: absent line, matching line, mismatch on a new issue (refuses **and** comments), mismatch on a comment (refuses, does **not** comment), differing case, and "repo:" appearing in ordinary prose. All six as specified.
 **Not verified:** a live two-repository run. This is proven by execution, not in place.
 **Reverses if:** the bot gains a reliable native way to bind a conversation to a repository, making the declaration redundant. The enforcement step should stay regardless — it is cheap and it fails closed.
+
+### D15 — Design the second coding agent; do not build it yet
+**Date:** 2026-09-07
+**Decision:** Write the design for a second coding-agent workflow and stop there. No `templates/` file, no vendor chosen, no build. The design lives in [09-second-agent-design.md](09-second-agent-design.md), and the draft workflow is a fenced block inside it rather than a file.
+**Beat:**
+- *(a) Build it now.* The strongest hedge against the layer-2 risk, and it is weeks of product work on a project declared finished at v1.0.0 — competing directly with the two open gates for the only scarce resource here, which is review attention.
+- *(b) Do nothing until the risk fires.* Cheapest, and it bets on having 2–4 weeks of warning. Vendor features ship without notice, so that is a bet on somebody else's release schedule.
+- *(c) Put a draft `templates/codex.yml` in the repo now.* Rejected on a concrete mechanism, not on taste: `scripts/setup.sh` copies `templates/*.yml` into a consumer's repository, so a draft there gets installed into somebody's repo by an unmodified installer.
+**Why:** The design is the cheap half of the work and it answers the question that actually decides the build — *can a second agent run on a subscription the user already pays for?* If it cannot, the whole exercise produces a generic CI-runs-an-agent pattern and D2's billing argument does not apply to it. Answering that on paper costs one document; discovering it after building costs the build.
+
+Writing it also surfaced a live defect that had nothing to do with second agents:
+
+- **`scripts/check-workflow-caps.py` hardcodes `AGENT_PREFIX = "anthropics/"`.** A step counts as running the agent only if it uses an action published by that owner. **Reproduced 2026-09-07** in a scratch copy: a `templates/codex.yml` running `some-other-vendor/coding-agent-action@v1` with no turn cap of any kind passed at **exit 0**. `MUST_RUN_AGENT` names only `templates/claude.yml`, so nothing failed loudly either. Note the failure is subtler than the bug in the checker's own header — that one *asserted* `--max-turns present` when the flag was absent, whereas this one honestly lists only the brakes it verified and simply stays silent about the third. It is still a hole, because a check that reports instead of failing reads as a pass.
+- **Consequence, recorded so it is not rediscovered:** the checker must be made vendor-aware **before** any second workflow lands, and the fix must be proven by deleting the new cap and watching CI go red. Not after, and not in the same change.
+
+**Also identified:** the pull-request step reads `steps.claude.outputs.branch_name`, which only Anthropic's action publishes. A second agent must be checked for whether it opens the PR itself (step not needed), publishes the branch under another name (one-line change), or publishes nothing (do not guess from a naming convention). D12's constraint still applies — the step cannot be split into an `on: push` workflow.
+**Not verified:** every candidate vendor. No second agent's documentation has been read and none has been run, so the note records what to check rather than what is true. Naming confident properties for an unread vendor is the exact defect class this repository exists to catch.
+**Reverses if:** xAI ships a per-bot meter, a spend cap or a model picker for Grok Bot; or a second vendor ships a first-party action with subscription authentication; or someone outside the project asks for a specific second agent. Until then, leading with layer 1 is the hedge that actually protects the project, and it costs nothing.
