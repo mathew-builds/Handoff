@@ -68,6 +68,22 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 
 Coding is not the *only* drain, but it is the one that (a) is the most token-hungry per task and (b) has a clean, flat-rate home elsewhere. That is why this project moves coding and leaves the rest.
 
+**Number 1 is confirmed first-party, not inferred.** This ranking was originally assembled from community reports. The top item is now backed by the vendor's own staff. From the Cursor community forum thread *"Grok Bot: weekly usage hits 100% after bot-to-bot reviews the user asked to stop"* ([170271](https://forum.cursor.com/t/grok-bot-weekly-usage-hits-100-after-bot-to-bot-reviews-the-user-asked-to-stop/170271)), read 2026-09-08:
+
+> each bot-to-bot message runs a turn that counts toward your weekly usage
+
+> Asking them in chat to "stay quiet" is only a hint they can ignore
+
+— Mohit, Cursor staff, 2026-09-02. The suggested remedies were to consolidate into one agent using subagents, or to delete unused specialist bots.
+
+A user in the same thread on 2026-09-04:
+
+> I just had 5 of my agents talking to each other for 7hours straight with NO Human interaction and burned through a lot of my on demand usage.
+
+They asked where to appeal for a refund. **Staff did not answer that question in the thread**, and we do not know whether a refund was given — do not imply one either way.
+
+**Why this is worth recording rather than celebrating.** It is evidence *against* the easiest version of this project's pitch. Drain 1 is the loudest complaint, staff have confirmed it is both real and not user-controllable, and **Handoff does not fix it.** Handoff moves drain 3. Anyone recruited on the strength of drain 1 will install this, watch their allowance keep draining, and be right to conclude it did not work. The README's drain diagram and the "Handoff will not fix that" sentence are the honest reading of this quote, and they should stay.
+
 ## The offload pattern already exists
 
 - **Locum** — delegates Grok Bot coding to a local Claude Code/Codex over an MCP tunnel; its stated purpose is to stop the bot burning Grok Bot usage on its own agent loop.
