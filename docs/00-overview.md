@@ -2,15 +2,15 @@
 
 ## Why this exists
 
-Grok Bot (xAI + Cursor, public beta since 11 Aug 2026) is a good command centre: a persistent cloud computer, a chief-of-staff pattern, group chats, routines, browser reach. It is a poor place to *do* engineering:
+Grok Bot (xAI + Cursor) is a good command centre: a persistent cloud computer, a chief-of-staff pattern, group chats, routines, browser reach. It is a poor place to *do* engineering:
 
-- Usage is a **weekly** allowance whose size is unpublished.
+- Usage is a **weekly** allowance published only as a per-plan ranking — "Highest weekly usage", "Generous weekly usage, below Ultra", "Weekly usage, below Pro+" — and never as a number (Cursor's Grok Bot plans page, read 2026-09-07).
 - There is **no model picker** — the router can serve expensive models for simple work.
 - There is **no Grok Bot-specific spend cap**; when the pool empties, usage continues on shared on-demand spend *if you have that enabled*. The account-wide on-demand limit is the only brake, and you can set it to `$0`.
 - Coding loops, bot-to-bot chatter and short-interval routines are the fastest drains (staff-confirmed on the Cursor forum, Sep 2026).
 
 Claude Code on a Claude Max plan is the opposite where it counts: flat monthly price, your choice of
-model, and generous rolling limits. It is also missing most of what makes Grok Bot a good command
+model, and it runs your tests. It is also missing most of what makes Grok Bot a good command
 centre — which is the whole reason this is a bridge and not a replacement.
 
 <picture>
@@ -23,8 +23,12 @@ the vendor's own documentation (`07-evidence.md`, re-verified against the live p
 Claude Code's from this repository's own "what it is not" list. They are not defects — they are the
 shape of two tools built for different jobs.
 
-*("The best terminal coding agent available" used to appear in this paragraph. It was removed on
-2026-09-07: it is a superlative with nothing behind it, and this project does not get to make those.)*
+*(Three claims were removed from this section on 2026-09-07, all for the same reason. "The best
+terminal coding agent available" and "generous rolling limits" are adjectives with nothing behind
+them, and this project does not get to make those. "Public beta since 11 Aug 2026" was a specific
+vendor date with no source anywhere in this repository; the vendor's own overview page does not
+carry one either (read 2026-09-07), so the date is gone rather than guessed at. The gaps diagram
+above still shows "Generous rolling limits" — that text has not been re-cut yet.)*
 
 **This project moves coding — and only coding — from the first meter to the second.**
 
