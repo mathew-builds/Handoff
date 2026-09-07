@@ -6,7 +6,12 @@ Because this project's whole discipline is not claiming what it has not run, ent
 
 ## [Unreleased]
 
-Nothing since 1.0.0 was assembled.
+Nothing shipped. Two defects have been found and reproduced since 1.0.0, both open:
+
+- **The cost-brake checker is hardcoded to one vendor** ([#106](https://github.com/mathew-builds/Handoff/issues/106)). `scripts/check-workflow-caps.py` only recognises a step as running the agent if the action comes from `anthropics/`, so a second agent's turn cap would go unchecked while CI stayed green. Reproduced at exit 0 against an uncapped second-vendor workflow. It does not affect `templates/claude.yml`, which is still checked correctly — but it blocks the second-agent design in [09-second-agent-design.md](docs/09-second-agent-design.md) (D15).
+- **The pull-request report-back only ever says `tests pending`** ([#108](https://github.com/mathew-builds/Handoff/issues/108)), and its `green`/`red` branches have never run anywhere, because the trial repo has no CI. Documented behaviour rather than a regression — but two of three output branches are unproven.
+
+Neither is a regression in shipped behaviour, which is why 1.0.0 is not withdrawn.
 
 ## [1.0.0] — 2026-09-07
 

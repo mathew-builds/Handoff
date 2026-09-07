@@ -85,8 +85,11 @@ you see the constraint behind them.
   note; keep doing that.
 - **Phases were meant to run in order, and no longer do.** Phase 2 measures operating Handoff
   over two weeks of real use; its target repo was dropped on 2026-09-06, so it is **parked**
-  and the work moved to Phase 3. Each Phase 2 issue says so. It becomes actionable the moment
-  a real repository is chosen — do not treat it as abandoned, and do not restart it without one.
+  and the work moved to Phase 3. Each Phase 2 issue says so. **No repository is available and
+  none is expected in the near term** — it is not abandoned, but it has no schedule, so do not
+  plan around it unparking. Do not restart it without a repository, and note the condition that
+  is easy to miss: 2.4 only yields a number on a repository where a chat agent is *already*
+  doing the coding, or it measures zero against zero.
 - **One PR per change**, titled by what changed (`fix:`, `docs:`, `feat:`). The old
   `phase-N: <task>` convention is dead; nothing has used it since Phase 1.
 
