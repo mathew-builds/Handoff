@@ -140,6 +140,71 @@ Meter 3 as a real, small, unpriced cost rather than as nothing.
 
 There is no session state. That is a feature: nothing to back up, nothing to get stuck.
 
+## Running this on more than one repository
+
+**Everything in this repo is written for one target repository, and until 2026-09-07 it never said
+so.** Most people with a chat command centre have several projects, so here is the honest split
+between what scales for free and what does not. **None of this has been run — we have only ever
+operated one repository.**
+
+**Scales for free — layer 1 is per-repo and the copies do not interact:**
+
+| Piece | Why it is fine |
+|---|---|
+| `claude.yml` | A file in each repo. They never see each other. |
+| `CLAUDE.md` | Per repo, which is the point — each one describes its own codebase. |
+| The Claude OAuth token | The same subscription secret works in every repo. GitHub supports an **organisation-level Actions secret** so you set it once rather than N times. |
+| `doctor.sh` | Takes `OWNER/REPO`; run it per repo. |
+| The merge gate | Per repo, unchanged. |
+
+**Does not scale, and these are the real ones:**
+
+1. **Routing — solved 2026-09-07, in three parts.** The Coder must *choose* which project a request
+   belongs to, and the dangerous part was never the guess itself: it was that a wrong guess stayed
+   invisible until Claude had edited the wrong codebase and opened a pull request on it.
+
+   | Part | What it does | Where |
+   |---|---|---|
+   | **Discover** | Candidates are whatever the bot's token can reach, matched against each repository's own GitHub description. No hand-written list, so nothing goes stale when a repo is added or renamed. | `templates/bots/coder.md` |
+   | **Declare** | Every issue opens with `Repo: OWNER/NAME`. Explicit intent, readable by a person and checkable by a machine. | `templates/bots/coder.md` |
+   | **Enforce** | `claude.yml` refuses to run when that line names a different repository — comments once and stops, **before checkout and before Claude reads anything.** | `templates/claude.yml` |
+
+   **The third part is the one that matters.** Discovery and declaration reduce wrong guesses;
+   enforcement makes a wrong guess cost seconds of Actions time and zero model turns instead of a
+   review cycle on the wrong project. Better guessing was never going to be enough on its own.
+
+   Three properties worth knowing before you edit it:
+   - **No `Repo:` line means no check.** Single-repo setups are completely unaffected, so the guard
+     is safe to copy as-is and nobody has to opt out of it.
+   - **It only ever refuses.** It cannot redirect an issue somewhere else, so a bad `Repo:` line is
+     a denial-of-service on your own issue at worst, never a way to steer Claude at a repo it was
+     not invited to.
+   - **The refusal comment deliberately omits the trigger phrase.** A comment containing it would
+     restart this workflow — that is a real loop, and it is why the comment is posted only on a
+     newly opened issue and never in reply to a comment.
+2. **Token blast radius.** A fine-grained token can name several repositories, so one token can
+   cover them all — but D5a's *"one repo limits reach"* stops being true. A stolen token then opens
+   issues on every repo it names. Still spam rather than account compromise, N times over. The
+   alternative is one token per repo, which the connector may or may not support — **unverified.**
+3. **The return path.** One routine per repository is the obvious shape, and routines are capped at
+   **50 per bot** (vendor-documented). Whether a single routine can watch several repositories at
+   once is **unverified** — we have not tried it.
+4. **Cost visibility fragments.** `weekly-cost.yml` reports on `${{ github.repository }}`, so five
+   repos give you five separate weekly reports on five separate issues and no total. Aggregating
+   them is not built.
+5. **Actions minutes are pooled**, per account or organisation. Ten repos share one budget, so the
+   per-task cost stays the same but the ceiling arrives ten times sooner.
+
+**The short version:** the coding half was already multi-repo. Routing is now handled, and handled
+by refusing rather than by guessing better. What is still genuinely open is cost visibility —
+`weekly-cost.yml` reports per repository, so N projects give N reports and no total.
+
+**Tested how far:** the enforcement step has been exercised against six cases — no `Repo:` line, a
+matching one, a mismatch on a new issue, a mismatch on a comment (the loop guard), differing case,
+and the words "repo:" appearing in ordinary prose. All six behave as specified. **What has not
+happened is a live multi-repo run**: two real repositories, one bot, a misrouted issue watched
+being refused on GitHub. Until that happens this is verified-by-execution but not verified-in-place.
+
 ## Trust boundaries
 
 ```mermaid

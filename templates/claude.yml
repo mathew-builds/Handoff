@@ -49,6 +49,75 @@ jobs:
       id-token: write     # required for the action's default GitHub App authentication
       actions: read       # required for Claude to read CI results on PRs
     steps:
+      # ── Refuse an issue that was routed to the wrong repository ───────────
+      # For anyone driving several repos from one chat bot. The bot has to
+      # decide which project a request belongs to, and a wrong guess is
+      # invisible until Claude has already edited the wrong codebase and
+      # opened a pull request on it. This makes that a no-op instead.
+      #
+      # The contract: if the issue body has a `Repo:` line naming a repository,
+      # it must be this one. **No `Repo:` line means no check**, so single-repo
+      # setups are completely unaffected and this is safe to copy as-is.
+      #
+      # Runs before checkout and before Claude, so a misroute costs seconds of
+      # Actions time and zero model turns.
+      - name: Refuse a misrouted issue
+        if: github.event_name == 'issues' || github.event_name == 'issue_comment'
+        env:
+          # Untrusted input goes through env, never inline in the script.
+          BODY: ${{ github.event.issue.body }}
+          THIS_REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number }}
+          IS_NEW_ISSUE: ${{ github.event_name == 'issues' }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # `|| true` is required, not decorative: grep exits 1 when it matches
+          # nothing, and under `set -e` the COMMON case — no Repo: line at all —
+          # would kill the step. That exact bug shipped here once already.
+          LINE="$(printf '%s\n' "${BODY:-}" \
+            | grep -oiE '^[[:space:]]*repo:[[:space:]]*[A-Za-z0-9._-]+/[A-Za-z0-9._-]+' \
+            | head -1 || true)"
+
+          if [ -z "$LINE" ]; then
+            echo "No 'Repo:' line — routing check does not apply."
+            exit 0
+          fi
+
+          DECLARED="$(printf '%s' "$LINE" | sed -E 's/^[^:]*:[[:space:]]*//')"
+          want="$(printf '%s' "$DECLARED"  | tr '[:upper:]' '[:lower:]')"
+          here="$(printf '%s' "$THIS_REPO" | tr '[:upper:]' '[:lower:]')"
+
+          if [ "$want" = "$here" ]; then
+            echo "Routed correctly: issue names $DECLARED, running on $THIS_REPO."
+            exit 0
+          fi
+
+          echo "::error::Issue declares $DECLARED but opened on $THIS_REPO. Refusing."
+
+          # Comment only on a NEWLY OPENED issue. On issue_comment the body we
+          # read is the issue's, so commenting here would re-read the same bad
+          # Repo: line on the next event and comment forever.
+          #
+          # The comment must NOT contain the trigger phrase. A comment carrying
+          # it would start this workflow again — that is the actual loop, and
+          # the events guard above is only the second line of defence.
+          if [ "$IS_NEW_ISSUE" = "true" ]; then
+            # shellcheck disable=SC2016
+            # The backticks below are Markdown code fences in the comment body, not
+            # command substitution. Values are passed as printf arguments, which is
+            # also what keeps issue-supplied text out of the shell.
+            {
+              printf '**Not acting on this issue — it looks misrouted.**\n\n'
+              printf 'It declares `Repo: %s`, but it was opened on `%s`.\n\n' "$DECLARED" "$THIS_REPO"
+              printf 'Nothing here has been read or changed. Open it on `%s` instead, or fix the `Repo:` line and mention Claude again.\n\n' "$DECLARED"
+              printf '_Handoff refuses rather than guesses: acting on a misrouted issue would edit the wrong codebase and open a pull request on it._\n'
+            } > "$RUNNER_TEMP/misrouted.md"
+            gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/misrouted.md"
+          fi
+          exit 1
+
       - uses: actions/checkout@v6
         with:
           fetch-depth: 1

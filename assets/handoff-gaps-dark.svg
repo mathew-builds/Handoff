@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 372" width="660" height="372" role="img" aria-label="Grok Bot and Claude Code compared. Grok Bot is good at group chats, a chief-of-staff pattern, unattended routines, a persistent cloud computer and browser reach; it is missing an allowance of published size, a model picker, a product-specific spend cap, and it gives all your bots one shared computer. Claude Code on the Action is good at a flat monthly price, your choice of model, and running tests and pushing a branch; it is missing a chat or phone surface of its own, memory across tasks, mid-run decisions, interactive use, and it needs a GitHub repository. Each column's missing row is the other column's good-at row.">
+  <title>Each column's Missing row is the other column's Good at row</title>
+  <desc>Two columns, Grok Bot and Claude Code, each split into what it is good at and what it is missing. Two crossing arrows show that each one's missing row is filled by the other's good-at row. Handoff moves exactly one thing across: code.</desc>
+
+  <!-- Hand-authored. No <style> block (GitHub strips it and prints the CSS as visible text).
+       Dark-theme twin of handoff-gaps-light.svg — the two differ only in colour attributes.
+
+       Every "Missing" item is sourced in this repo, not inferred:
+         Grok Bot   — 07-evidence.md:9-13 (vendor-documented), re-verified against the live
+                      vendor pages 2026-09-07.
+         Claude Code— 00-overview.md:33 and :34, :44; 01-architecture.md:141 and :177;
+                      02-decisions.md:12; README.md:56 and :87.
+       "Best terminal coding agent available" appears in 00-overview and is deliberately NOT
+       used here: it is an unevidenced superlative. -->
+
+  <rect x="0" y="0" width="660" height="372" rx="6" fill="#0D1117" stroke="#252B33"/>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+
+    <text x="148" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ECEEF0">Grok Bot</text>
+    <text x="512" y="28" text-anchor="middle" font-size="13.5" font-weight="700" fill="#ECEEF0">Claude Code, on the Action</text>
+
+    <!-- ═══ GOOD AT ═══ -->
+    <rect x="8" y="44" width="280" height="124" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="20" y="62" font-size="9.5" font-weight="700" letter-spacing="1" fill="#737A84">GOOD AT</text>
+    <text x="20" y="84"  font-size="11.5" fill="#ECEEF0">Group chats, chief-of-staff pattern</text>
+    <text x="20" y="102" font-size="11.5" fill="#ECEEF0">Routines that run unattended</text>
+    <text x="20" y="120" font-size="11.5" fill="#ECEEF0">A persistent cloud computer</text>
+    <text x="20" y="138" font-size="11.5" fill="#ECEEF0">Browser reach</text>
+
+    <rect x="372" y="44" width="280" height="124" rx="4" fill="#1A1E23" stroke="#3A424B"/>
+    <text x="384" y="62" font-size="9.5" font-weight="700" letter-spacing="1" fill="#737A84">GOOD AT</text>
+    <text x="384" y="84"  font-size="11.5" fill="#ECEEF0">Flat monthly price</text>
+    <text x="384" y="102" font-size="11.5" fill="#ECEEF0">You choose the model</text>
+    <text x="384" y="120" font-size="11.5" fill="#ECEEF0">Reads the repo, runs your tests</text>
+    <text x="384" y="138" font-size="11.5" fill="#ECEEF0">Generous rolling limits</text>
+
+    <!-- ═══ MISSING ═══ -->
+    <rect x="8" y="184" width="280" height="124" rx="4" fill="#31201D" stroke="#E28376"/>
+    <text x="20" y="202" font-size="9.5" font-weight="700" letter-spacing="1" fill="#E28376">MISSING, FOR CODING</text>
+    <text x="20" y="224" font-size="11.5" fill="#E9A99F">Weekly allowance, size unpublished</text>
+    <text x="20" y="242" font-size="11.5" fill="#E9A99F">No model picker</text>
+    <text x="20" y="260" font-size="11.5" fill="#E9A99F">No product-specific spend cap</text>
+    <text x="20" y="278" font-size="11.5" fill="#E9A99F">One computer shared by all your bots</text>
+
+    <rect x="372" y="184" width="280" height="124" rx="4" fill="#31201D" stroke="#E28376"/>
+    <text x="384" y="202" font-size="9.5" font-weight="700" letter-spacing="1" fill="#E28376">MISSING, FOR OPERATING</text>
+    <text x="384" y="222" font-size="11.5" fill="#E9A99F">No chat or phone surface of its own</text>
+    <text x="384" y="239" font-size="11.5" fill="#E9A99F">No memory across tasks</text>
+    <text x="384" y="256" font-size="11.5" fill="#E9A99F">No mid-run decisions — the PR is the gate</text>
+    <text x="384" y="273" font-size="11.5" fill="#E9A99F">Unattended work only, not interactive</text>
+    <text x="384" y="290" font-size="11.5" fill="#E9A99F">Needs a GitHub repository</text>
+
+    <!-- ═══ the interlock ═══ -->
+    <path d="M 294 232 L 362 128" stroke="#74C39A" stroke-width="1.5"/>
+    <path d="M 366 122 L 359 133 L 368 134 Z" fill="#74C39A"/>
+    <path d="M 366 232 L 298 128" stroke="#74C39A" stroke-width="1.5"/>
+    <path d="M 294 122 L 301 133 L 292 134 Z" fill="#74C39A"/>
+
+    <line x1="8" y1="324" x2="652" y2="324" stroke="#252B33"/>
+    <text x="330" y="343" text-anchor="middle" font-size="12" font-weight="600" fill="#ECEEF0">Each column's Missing row is the other column's Good at row.</text>
+    <text x="330" y="361" text-anchor="middle" font-size="11.5" fill="#A4ABB4">Handoff moves exactly one thing across — code. Nothing else changes hands.</text>
+
+  </g>
+</svg>
