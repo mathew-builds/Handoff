@@ -19,12 +19,28 @@ the shape this repository keeps producing:
   2. It read three hard-coded paths, so a fourth workflow added later would ship
      to consumers with no brakes and a green CI. A scheduled agent run is the
      first item in the roadmap's ideas backlog, so that was not hypothetical.
+  3. Found 2026-09-07, fixed 2026-09-08 (issue #106, D15). It recognised an agent
+     step only by the action's OWNER — `anthropics/`. A workflow running any
+     other vendor's coding agent therefore had zero agent steps, so brake 3 was
+     neither verified nor failed. It was skipped, and the run exited 0.
+     Reproduced: a `templates/codex.yml` running `some-other-vendor/...` with no
+     turn cap at all passed the build.
 
-Two rules follow, and they are the design of this file:
+     Subtler than defect 1 and worth the distinction. Defect 1 ASSERTED a brake
+     it had not checked. This one honestly listed only the brakes it verified
+     and simply said nothing about the third — which still reads as a pass,
+     because four green lines where one is quietly missing a term is not
+     something anyone catches by eye.
+
+Three rules follow, and they are the design of this file:
 
   * Every line printed is derived from what was actually checked. Nothing is
     derived from a filename.
   * When a brake cannot be VERIFIED, that is a failure, not a silent skip.
+  * A workflow this file does not recognise FAILS. It does not pass quietly.
+    Recognising by vendor made "unknown" mean "fine"; the default is inverted,
+    so a new workflow is caught the day it is added rather than the day someone
+    remembers to teach this script about it.
 """
 
 import sys
@@ -56,11 +72,35 @@ REQUIRED = (
 # stops a rename from turning the brake off while the output still claims it on.
 MUST_RUN_AGENT = (Path("templates/claude.yml"),)
 
+# Workflows that deliberately use NO model turns, so brake 3 does not apply.
+# This is an explicit declaration, not an inference: weekly-cost.yml is `gh` and
+# `awk` by design (D-weekly-cost) and ci.yml lints. Demanding a turn cap of them
+# would be wrong rather than stricter.
+#
+# Everything NOT listed here must demonstrate a turn cap. That is the inversion
+# that fixes defect 3: "we don't recognise this workflow" now means "fail",
+# where it used to mean "skip".
+NO_AGENT = (
+    Path("templates/weekly-cost.yml"),
+    Path(".github/workflows/ci.yml"),
+)
+
 # A step runs the agent if it uses an action published by the vendor. Matching
 # the exact repository name meant any rename, fork or wrapper silently disabled
 # brake 3 — so match the owner, and fail loudly if a must-run-agent workflow has
 # no such step at all.
+#
+# This stays vendor-specific ON PURPOSE, and only for MUST_RUN_AGENT: it is what
+# catches `templates/claude.yml` having its action swapped for a wrapper. It is
+# no longer how brake 3 is found — see CAP_FLAGS.
 AGENT_PREFIX = "anthropics/"
+
+# How a turn cap is recognised, whoever published the action. Brake 3 is a
+# property of the workflow, not of the vendor — so look for the brake itself
+# rather than for a brand. A second coding agent with its own flag name adds it
+# here; that is the one line of maintenance, and forgetting it fails loudly
+# instead of passing quietly.
+CAP_FLAGS = ("--max-turns",)
 
 
 def check(target: Path, rel: Path) -> tuple[list[str], list[str]]:
@@ -91,27 +131,51 @@ def check(target: Path, rel: Path) -> tuple[list[str], list[str]]:
     #    stricter. Every agent step must be capped, not merely one of them.
     agent_steps = 0
     capped = 0
+    cap_seen_anywhere = False
     for name, job in jobs.items():
         for step in (job or {}).get("steps") or []:
-            uses = (step or {}).get("uses") or ""
-            if not uses.startswith(AGENT_PREFIX):
+            step = step or {}
+            with_block = step.get("with") or {}
+
+            # Vendor-agnostic: does ANY input on this step carry a turn cap?
+            # Scanning every value rather than the `claude_args` key alone is
+            # what lets a second vendor's differently-named input be seen.
+            for value in with_block.values():
+                if isinstance(value, str) and any(f in value for f in CAP_FLAGS):
+                    cap_seen_anywhere = True
+                    break
+
+            # Vendor-specific, and only to catch a swapped action in claude.yml.
+            if not (step.get("uses") or "").startswith(AGENT_PREFIX):
                 continue
             agent_steps += 1
-            args = ((step.get("with") or {}).get("claude_args")) or ""
-            if "--max-turns" in args:
+            args = with_block.get("claude_args") or ""
+            if any(f in args for f in CAP_FLAGS):
                 capped += 1
             else:
                 failures.append(
                     f"job `{name}` has no `--max-turns` in claude_args — loops are uncapped"
                 )
-    if agent_steps and capped == agent_steps:
-        verified.append("--max-turns")
 
     if rel in MUST_RUN_AGENT and agent_steps == 0:
         failures.append(
             f"no step uses an `{AGENT_PREFIX}...` action, so `--max-turns` could not be "
             "checked — if the action moved, update AGENT_PREFIX rather than lose the brake"
         )
+
+    # The inversion. A workflow that is not declared turn-free must SHOW a cap.
+    # Previously an unrecognised vendor meant brake 3 was skipped in silence;
+    # now it is the failure it always should have been. See defect 3 above.
+    if rel not in NO_AGENT and not cap_seen_anywhere:
+        failures.append(
+            "no turn cap found in any step — this workflow is not listed in NO_AGENT, "
+            "so it must show one of " + ", ".join(f"`{f}`" for f in CAP_FLAGS) + ". "
+            "If it genuinely uses no model turns, add it to NO_AGENT and say why; "
+            "if it runs a coding agent, cap it. Do not leave it unclassified"
+        )
+
+    if cap_seen_anywhere and not failures:
+        verified.append("--max-turns")
 
     return failures, verified
 
