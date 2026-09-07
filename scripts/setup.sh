@@ -26,7 +26,15 @@ command -v gh    >/dev/null || fail "gh CLI not found — https://cli.github.com
 command -v git   >/dev/null || fail "git not found"
 gh auth status   >/dev/null 2>&1 || fail "gh is not logged in — run: gh auth login"
 git rev-parse --git-dir >/dev/null 2>&1 || fail "not inside a git repository"
-ok "gh, git, and a git repo"
+# $0 is the LINK's own path when this script is reached through a symlink — e.g. one you put on
+# PATH to run this against several repos — so the derivation above lands beside the link instead
+# of in the Handoff checkout. Verified 2026-09-07 against a mock checkout: direct, relative and
+# spaces-in-path calls all resolve; a symlinked call does not. Without this line the failure
+# arrives later, at the `cp`, AFTER mkdir has created .github/workflows, as a bare
+# "No such file or directory" with nothing naming the cause.
+[ -f "$HANDOFF_DIR/templates/claude.yml" ] || fail \
+  "cannot find Handoff's templates at $HANDOFF_DIR — reached through a symlink? Set HANDOFF_DIR=/path/to/handoff and re-run."
+ok "gh, git, a git repo, and Handoff's templates at $HANDOFF_DIR"
 
 REPO="$(gh repo view --json nameWithOwner -q .nameWithOwner)"
 # REST, not GraphQL — see the comment in doctor.sh. `defaultBranchRef` is empty on a repo with
@@ -42,6 +50,27 @@ echo "→ Target: $REPO (default branch: $BASE_NOTE, owner type: $OWNER_TYPE)"
 
 if [ "$OWNER_TYPE" = "Organization" ]; then
   ok "owned by an organisation — also supports the D5 machine-account upgrade"
+  # This branch KNOWS the repo is org-owned, and used to print only the reassuring line above.
+  # GitHub keeps a second copy of "Actions may create pull requests" at organisation level:
+  # https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-an-organization
+  # (the anchor GitHub's own 403 body names; read 2026-09-07). Reading it needs an org admin.
+  # Warn rather than block: whether the org value overrides the repo value is UNVERIFIED, so the
+  # repo-level check further down stays the one that decides the exit code.
+  ORG="${REPO%%/*}"
+  if ORG_PR="$(gh api "orgs/$ORG/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null)"; then
+    if [ "$ORG_PR" = "true" ]; then
+      ok "$ORG allows Actions to create pull requests"
+    else
+      warn "$ORG does NOT allow Actions to create pull requests (org-level setting)."
+      warn "  An organisation OWNER must tick it at"
+      warn "    https://github.com/organizations/$ORG/settings/actions"
+      warn "  Repository admin is not enough. On 2026-09-06 the repo-level PUT below was"
+      warn "  refused with 409 Conflict on an org repo in this state; not re-reproduced since."
+    fi
+  else
+    warn "could not read $ORG's Actions pull-request policy — not a failure, we could not look."
+    warn "  Needs an organisation owner, or: gh auth refresh -h github.com -s admin:org"
+  fi
 else
   ok "owned by a personal account — you can create a fine-grained token for a repo you own (D5a)"
 fi
@@ -103,7 +132,8 @@ else
 fi
 
 echo "→ Actions must be allowed to open pull requests"
-# Off by default on every repo. Without it the PR step in claude.yml fails with
+# Off by default on every repo, and on an org-owned repo capped again by the organisation-level
+# setting checked above. Without it the PR step in claude.yml fails with
 # "GitHub Actions is not permitted to create or approve pull requests". (D12)
 if gh api "repos/$REPO/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null | grep -q true; then
   ok "already enabled"
