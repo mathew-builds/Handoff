@@ -159,10 +159,29 @@ operated one repository.**
 
 **Does not scale, and these are the real ones:**
 
-1. **Routing — the unsolved one.** `templates/bots/coder.md` names a single `OWNER/REPO`. With
-   several projects the Coder must *choose*, and nothing in this design tells it how. Guess wrong
-   and the issue lands on the wrong project, where `@claude` will cheerfully act on it. This is a
-   prompt-design problem, not a plumbing one, and it is the thing to solve first.
+1. **Routing — solved 2026-09-07, in three parts.** The Coder must *choose* which project a request
+   belongs to, and the dangerous part was never the guess itself: it was that a wrong guess stayed
+   invisible until Claude had edited the wrong codebase and opened a pull request on it.
+
+   | Part | What it does | Where |
+   |---|---|---|
+   | **Discover** | Candidates are whatever the bot's token can reach, matched against each repository's own GitHub description. No hand-written list, so nothing goes stale when a repo is added or renamed. | `templates/bots/coder.md` |
+   | **Declare** | Every issue opens with `Repo: OWNER/NAME`. Explicit intent, readable by a person and checkable by a machine. | `templates/bots/coder.md` |
+   | **Enforce** | `claude.yml` refuses to run when that line names a different repository — comments once and stops, **before checkout and before Claude reads anything.** | `templates/claude.yml` |
+
+   **The third part is the one that matters.** Discovery and declaration reduce wrong guesses;
+   enforcement makes a wrong guess cost seconds of Actions time and zero model turns instead of a
+   review cycle on the wrong project. Better guessing was never going to be enough on its own.
+
+   Three properties worth knowing before you edit it:
+   - **No `Repo:` line means no check.** Single-repo setups are completely unaffected, so the guard
+     is safe to copy as-is and nobody has to opt out of it.
+   - **It only ever refuses.** It cannot redirect an issue somewhere else, so a bad `Repo:` line is
+     a denial-of-service on your own issue at worst, never a way to steer Claude at a repo it was
+     not invited to.
+   - **The refusal comment deliberately omits the trigger phrase.** A comment containing it would
+     restart this workflow — that is a real loop, and it is why the comment is posted only on a
+     newly opened issue and never in reply to a comment.
 2. **Token blast radius.** A fine-grained token can name several repositories, so one token can
    cover them all — but D5a's *"one repo limits reach"* stops being true. A stolen token then opens
    issues on every repo it names. Still spam rather than account compromise, N times over. The
@@ -176,9 +195,15 @@ operated one repository.**
 5. **Actions minutes are pooled**, per account or organisation. Ten repos share one budget, so the
    per-task cost stays the same but the ceiling arrives ten times sooner.
 
-**The short version:** the coding half is already multi-repo. The *chat* half is not, and routing is
-the blocker. Anyone running this across projects today should expect to name the repository in the
-brief rather than rely on the bot to infer it.
+**The short version:** the coding half was already multi-repo. Routing is now handled, and handled
+by refusing rather than by guessing better. What is still genuinely open is cost visibility —
+`weekly-cost.yml` reports per repository, so N projects give N reports and no total.
+
+**Tested how far:** the enforcement step has been exercised against six cases — no `Repo:` line, a
+matching one, a mismatch on a new issue, a mismatch on a comment (the loop guard), differing case,
+and the words "repo:" appearing in ordinary prose. All six behave as specified. **What has not
+happened is a live multi-repo run**: two real repositories, one bot, a misrouted issue watched
+being refused on GitHub. Until that happens this is verified-by-execution but not verified-in-place.
 
 ## Trust boundaries
 

@@ -218,3 +218,22 @@ We first shipped a *separate* `claude-open-pr.yml` triggered `on: push` to `clau
 **Beat:** Keeping it private; offering it as a hosted service.
 **Why:** The pain point is widely reported and people are hand-rolling worse bridges. A template creates no ToS exposure (each user's own tokens, own repos). A hosted service would.
 **Reverses if:** never for the template. A paid *methodology* around it is a separate question.
+
+### D14 — Multi-repo routing: refuse, don't guess better
+**Date:** 2026-09-07
+**Decision:** A chat bot serving several repositories declares its target in the issue (`Repo: OWNER/NAME`), and `templates/claude.yml` **refuses to run** when that line names a repository other than the one the issue landed on. Candidates come from the bot's own token scope plus each repository's GitHub description, not from a list maintained by hand.
+**Beat:**
+- *(a) A routing table in the bot description.* Stale the first time a repo is added or renamed, and nobody notices until an issue lands in the wrong place. Bot descriptions are prose pasted into a UI; there is no mechanism to keep one in sync.
+- *(b) Better inference and nothing else.* Reduces the rate of wrong guesses; does nothing about the cost of one.
+- *(c) One Coder bot per repository.* Removes the inference for the bot and hands the identical problem to the human, who now has to address the right bot. Also multiplies against the 50-routines-per-bot cap.
+- *(d) Making the human name the repository every time.* Correct, and it defeats the point of a command centre.
+**Why:** The failure was never the guess. It was that a wrong guess stayed invisible until Claude had already edited the wrong codebase and opened a pull request on it. Options (a) and (b) both attack the guess. Enforcement attacks the *consequence*, which is the part that costs a review cycle — and it costs seconds of Actions time and zero model turns to do it.
+
+Three properties that make it safe to ship in a template other people copy:
+- **No `Repo:` line means no check**, so every existing single-repo install is unaffected.
+- **It can only refuse, never redirect.** A bad `Repo:` line cannot steer Claude at a repository it was not invited to; the worst case is refusing your own issue.
+- **The refusal comment omits the trigger phrase**, and is posted only on a newly opened issue. A comment carrying the phrase would restart the workflow, and on an `issue_comment` event the body read is the *issue's* — so it would find the same bad line and comment forever.
+
+**Verified 2026-09-07** by extracting the step and running it against six inputs: absent line, matching line, mismatch on a new issue (refuses **and** comments), mismatch on a comment (refuses, does **not** comment), differing case, and "repo:" appearing in ordinary prose. All six as specified.
+**Not verified:** a live two-repository run. This is proven by execution, not in place.
+**Reverses if:** the bot gains a reliable native way to bind a conversation to a repository, making the declaration redundant. The enforcement step should stay regardless — it is cheap and it fails closed.
