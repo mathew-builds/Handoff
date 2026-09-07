@@ -45,7 +45,7 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 | 27 Aug | Pro user infers a ~$200/week pool from 35% = $69.94 | Cursor forum (primary); staff confirmed the meter is accurate, not the $ figure |
 | 30 Aug – 3 Sep | $275 in credits drained; subagents used models billed outside the Grok Bot pool | Cursor forum (primary) |
 | 1 Sep | Weekly usage hit 100% after bot-to-bot reviews the user asked to stop; 3-day lockout | Cursor forum (primary) |
-| 2 Sep | **A staff reply**, as we read it: every bot-to-bot message runs a turn that counts toward the weekly usage; asking the bots to stay quiet is a hint they can ignore, not a control | Cursor forum (staff) |
+| 2 Sep | **A staff reply.** Recovered, sourced and verified verbatim on 2026-09-08 — see [What drains fastest](#what-drains-fastest-community-consensus--staff) below for the exact wording and the thread URL. This row is no longer a paraphrase | Cursor forum (staff) — **checkable** |
 | 4 Sep | Five agents talked to each other for seven hours unattended; on-demand usage burned | Cursor forum (primary) |
 
 > **Sourcing note, added 2026-09-07 — read this before quoting anything from here.** Everything from
@@ -58,6 +58,16 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 > So: **nothing between here and "Our runs" is verbatim, and none of it is checkable by a reader.** The
 > vendor-documented facts at the top of the file carry a URL and a read date; the "Our runs" section
 > below is what we produced ourselves. This middle stretch is neither.
+>
+> **Amended 2026-09-08 — one exception, and it is a repair rather than a hole.** The 2 Sep staff
+> reply has since been re-found, its thread URL recovered, and its wording verified against the live
+> page. It now appears verbatim, with a link and a read date, under *What drains fastest*. So that
+> one item **is** checkable, and the sentence above no longer applies to it.
+>
+> This is the direction the file is meant to move in: a paraphrase becomes a quotation only by
+> someone going and re-reading the source, never by remembering it more confidently. **Everything
+> else in this stretch remains unchecked**, and finding one URL does not make the neighbouring lines
+> any more reliable than they were.
 
 ## What drains fastest (community consensus + staff)
 
