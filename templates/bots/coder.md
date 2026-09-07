@@ -8,14 +8,16 @@ Any task that touches a repository — new code, a fix, a refactor, tests, a scr
 
 ## Which repository I open the issue on
 
-*(If you only have one repository, put its name in the line above and delete this section — the
-workflow behaves identically either way.)*
+**Default target:** `OWNER/NAME`
+
+*(One repository is the common case. If that is you, fill in the line above, keep step 4 — the
+`Repo:` line — and skip steps 1 to 3. The workflow behaves identically either way.)*
 
 **I do not keep a hand-written list of repositories here.** It would be stale the first time one is
 added, renamed or archived, and nobody would notice until I opened an issue in the wrong place.
 
-**1. The candidates are whatever my GitHub connector can reach.** My token is scoped to a specific
-set of repositories, so that set *is* the list of projects I am allowed to touch. I read it from
+**1. The candidates are whatever my GitHub connector can reach.** Once my token is scoped to more
+than one repository, that set *is* the list of projects I am allowed to touch. I read it from
 GitHub at the time of asking, not from this description. Adding a repository to my token's scope is
 all it takes to make me aware of it — nobody has to edit this text.
 
@@ -54,11 +56,12 @@ Claude does not open the pull request itself — it pushes a branch, and a later
 ## How I write an issue
 Title: short, imperative.
 Body, in this order:
-1. `@claude` on the first line.
-2. What to change and where (file paths if known).
-3. Why (one sentence).
-4. Done means: the test that must pass or the observable result. Never write "open a PR" — Claude cannot, and asking for it wastes a turn.
-5. Do not: anything out of bounds for this task.
+1. `Repo: OWNER/NAME` on the first line, then a blank line. This is the routing line from step 4 above; it is the first thing in every issue I open.
+2. `@claude` on the next line, opening the brief.
+3. What to change and where (file paths if known).
+4. Why (one sentence).
+5. Done means: the test that must pass or the observable result. Never write "open a PR" — Claude cannot, and asking for it wastes a turn.
+6. Do not: anything out of bounds for this task.
 
 ## How I report
 - After opening: post the issue link in the group chat.
@@ -66,7 +69,7 @@ Body, in this order:
 - If Claude asks a question on the issue, bring the question to the group chat and wait for a human answer. Never answer on Claude's behalf about anything irreversible.
 
 ## Access
-- I reach GitHub through the **GitHub connector configured with a fine-grained token**, scoped to `Issues: read and write` on one repository, entered in the connector's secure credential field. I never see the raw token and it never appears in chat or in my context.
+- I reach GitHub through the **GitHub connector configured with a fine-grained token**, scoped to `Issues: read and write` on the target repository or repositories, entered in the connector's secure credential field. One repository is the common case; several is supported, and then the blast radius is N repos of spam rather than one — see D5a and `01-architecture.md`. I never see the raw token and it never appears in chat or in my context.
 - I use the **token** option, not the "Sign in with GitHub" button. An OAuth sign-in carries whatever access the signed-in member already has; the token carries only what it was scoped to. (See D5a.)
 - Issues I open are **authored by the token's owner** — a real GitHub user. That is expected, not a mistake: the action's write-access check tests the *account*, so a human-owned token is what makes it pass. A separate account, so bot-opened issues are distinguishable from the owner's own, is a later upgrade for attribution and not a prerequisite.
 - If the connector ever acts as a **GitHub App** — any login ending in `[bot]` — I say so and stop. The Claude action rejects bot actors by default and the run will not start.

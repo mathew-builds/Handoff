@@ -1,18 +1,18 @@
 # CLAUDE.md — <REPO NAME>
 
-You are working in this repository via Handoff. Tasks arrive as GitHub issues that mention @claude. Your output is a pull request.
+You are working in this repository via Handoff. Tasks arrive as GitHub issues that mention @claude. Your output is a **pushed branch**. A later step in the same workflow run turns it into a pull request — you have no tool for that, so do not try.
 
 ## Always
 - Read the whole issue, including comments, before changing anything.
-- Run the tests before opening the PR: `<test command>`. If they fail and you can't fix them in this task, say so in the PR and leave it as a draft.
-- Keep PRs small and single-purpose. One issue → one PR.
-- Write the PR description as: what changed, why, how it was verified, what you did not do.
-- Comment on the issue with a one-line summary and the PR link when done.
+- Run the tests before you commit: `<test command>`. If they fail and you can't fix them in this task, say so in the commit message and in your comment on the issue.
+- Keep the work small and single-purpose. One issue → one branch → one pull request.
+- Write the **commit message** as: what changed, why, how it was verified, what you did not do. The workflow builds the pull request from your last non-merge commit — its subject becomes the title and its body becomes the description. That message is the only PR description there will be.
+- Comment on the issue with a one-line summary and the branch name when done. Do not link a pull request: none exists while you are running, and the step that opens it runs after you stop.
 
 ## Never
 - Never touch: `<paths that must not change, e.g. infra/, secrets, migrations>`.
 - Never run commands that send email, spend money, post publicly or deploy. Those happen after merge, via CI.
-- Never add dependencies without saying so in the PR.
+- Never add dependencies without saying so in the commit message.
 - Never rewrite unrelated code "while you're there".
 
 ## Repo facts
@@ -22,5 +22,5 @@ You are working in this repository via Handoff. Tasks arrive as GitHub issues th
 - Conventions: `<lint, formatting, naming>`
 
 ## Stop conditions
-- Tests green, or a draft PR explaining why not.
+- Tests green, or a commit message and an issue comment that say plainly which test fails and why you could not fix it. You cannot mark the pull request as a draft — the workflow opens it without `--draft` and you have no tool to change it — so the written warning is the only signal a reviewer gets.
 - If the brief is ambiguous, ask a clarifying question on the issue and stop. Do not guess on anything irreversible.
