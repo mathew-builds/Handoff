@@ -36,7 +36,11 @@ def main() -> int:
     images = 0
 
     for md in sorted(ROOT.rglob("*.md")):
-        if "node_modules" in md.parts:
+        # Skip vendored trees and any dot-directory. `.audit/` holds audit working papers
+        # that quote other files' links and deliberately name paths that do not exist — real
+        # findings, not repo content, and gitignored. Scanning them turned this check red for
+        # 50 targets that were never ours to resolve.
+        if "node_modules" in md.parts or any(p.startswith(".") for p in md.parts):
             continue
         rel_md = md.relative_to(ROOT)
         for lineno, line in enumerate(md.read_text(encoding="utf-8").splitlines(), 1):
