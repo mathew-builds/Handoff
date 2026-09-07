@@ -6,28 +6,58 @@ Why we believe the pain point is real and structural. Compiled 5 Sep 2026 from x
 
 | Fact | Source |
 |---|---|
-| Usage resets **weekly**; the allowance size is not published per plan | Cursor plans doc; xAI Grok Bot docs |
+| Usage resets **weekly**; the allowance is published only as a ranking (Ultra > Pro+ > Pro), never as a number | <https://cursor.com/help/grok-bot/plans>, "How does Grok Bot usage work?" and the tier table, read 2026-09-07 |
 | **"A separate Grok Bot spend cap is not available today. Account-level on-demand controls apply, and the per-product split is on the dashboard usage page."** | <https://docs.x.ai/grok-bot/teams-and-enterprises>, FAQ "Can I set a Grok Bot spend cap?", read 2026-09-07 |
-| No model picker; billing follows the actual serving model | Cursor Grok Bot doc |
-| When the weekly pool is exhausted, usage continues on shared on-demand spend if enabled | Cursor plans doc |
-| All bots share one computer; separate bots are not a security boundary | xAI Grok Bot FAQ |
-| Routines: 50 per bot, last 20 runs kept, test run performs real work, may pause after long absence | xAI skills/routines doc |
+| No customer-facing model picker; billing follows the serving model | <https://docs.x.ai/grok-bot/security>, "Models and data", read 2026-09-07 |
+| When the weekly pool is exhausted, usage continues on shared on-demand spend if on-demand is enabled — and it is **on by default on the Teams plan** | <https://cursor.com/help/grok-bot/plans>, read 2026-09-07 |
+| All of one user's bots share one computer; bots isolate personalities and workspaces, not compute | <https://docs.x.ai/grok-bot/teams-and-enterprises>, "How users are isolated", read 2026-09-07 |
+| Routines: 50 per bot, last 20 runs kept, test run performs real work, may pause after long absence | <https://docs.x.ai/grok-bot/skills-routines-and-automations>, read 2026-09-07 (that page's own "Last updated" is 11 Aug 2026 — the oldest of the set) |
 
 These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, though xAI said efficiency improvements are coming.
+
+> **Corrected 2026-09-07.** Before this date, exactly one of the six rows carried a URL or a read
+> date, in a column headed "Source". Every row now names the page its supporting sentence was read
+> on and the date it was read. Two attributions moved: the model-picker row was credited to a Cursor
+> doc, but the sentence is on `docs.x.ai/grok-bot/security`; the isolation row was credited to the
+> xAI FAQ, but the full statement is on the teams-and-enterprises page. Two wordings were tightened
+> at the same time. The allowance row said the size "is not published per plan", which overstates
+> the silence — a per-plan *ranking* is published, only the quantity is withheld. The isolation row
+> said "separate bots are not a security boundary", which is our sentence rather than the vendor's;
+> the vendor's own framing is used instead.
+>
+> **Read-dates on this table come from a re-verification pass run on 2026-09-07**, in which each
+> page above was fetched and the supporting sentence copied out of the page body. Grok Bot's docs
+> are split across two hosts — the product is documented on `docs.x.ai` and billed and hosted by
+> Cursor — which is why these citations were hard to re-find in the first place.
+>
+> One boundary this table does **not** describe, and which matters if you redraw it: the missing
+> isolation is *within* one user's bots. Between users the vendor documents a real boundary — a
+> dedicated microVM per user, with its own kernel and memory. Same page, same date.
 
 ## What users measured (dated)
 
 | Date | Report | Source type |
 |---|---|---|
 | 14 Aug | ~42% of the weekly allowance on day one, six agents | business user, relayed |
-| 17 Aug | Bought Ultra for Grok Bot; "nearly unusable" — overloaded providers, stuck agents | X |
+| 17 Aug | Bought Ultra for Grok Bot; reported it as close to unusable — overloaded providers, stuck agents | X |
 | 22 Aug | ~100 chat completions + one 10-min script ≈ 5% of a week | r/grok |
 | 23–24 Aug | One workload ≈ half a weekly allowance on Heavy; allowance reverse-engineered at ~16M tokens | r/cursor, relayed |
 | 27 Aug | Pro user infers a ~$200/week pool from 35% = $69.94 | Cursor forum (primary); staff confirmed the meter is accurate, not the $ figure |
 | 30 Aug – 3 Sep | $275 in credits drained; subagents used models billed outside the Grok Bot pool | Cursor forum (primary) |
 | 1 Sep | Weekly usage hit 100% after bot-to-bot reviews the user asked to stop; 3-day lockout | Cursor forum (primary) |
-| 2 Sep | **Staff:** "each bot-to-bot message runs a turn that counts toward your weekly usage… asking them to stay quiet is only a hint they can ignore" | Cursor forum (staff) |
+| 2 Sep | **A staff reply**, as we read it: every bot-to-bot message runs a turn that counts toward the weekly usage; asking the bots to stay quiet is a hint they can ignore, not a control | Cursor forum (staff) |
 | 4 Sep | Five agents talked to each other for seven hours unattended; on-demand usage burned | Cursor forum (primary) |
+
+> **Sourcing note, added 2026-09-07 — read this before quoting anything from here.** Everything from
+> the table above down to "Our runs" is our reading of forum threads, social posts and third-party
+> write-ups whose URLs we did not keep. Several lines were written as quotations in earlier drafts,
+> including two attributed to vendor staff — one to Cursor's, one to xAI's. They are paraphrases
+> now. A quotation nobody can look up is worse than a plain statement of what we understood, and
+> this project's own worst defect class is a sentence in quotation marks that the vendor never wrote.
+>
+> So: **nothing between here and "Our runs" is verbatim, and none of it is checkable by a reader.** The
+> vendor-documented facts at the top of the file carry a URL and a read date; the "Our runs" section
+> below is what we produced ourselves. This middle stretch is neither.
 
 ## What drains fastest (community consensus + staff)
 
@@ -40,11 +70,11 @@ Coding is not the *only* drain, but it is the one that (a) is the most token-hun
 
 ## The offload pattern already exists
 
-- **Locum** — delegates Grok Bot coding to a local Claude Code/Codex over an MCP tunnel; explicitly built to stop "burning Grok Bot usage on its own agent loop."
+- **Locum** — delegates Grok Bot coding to a local Claude Code/Codex over an MCP tunnel; its stated purpose is to stop the bot burning Grok Bot usage on its own agent loop.
 - Setup prompts to install Claude Code / Codex / Cursor CLIs on the bot computer (fragile: installed packages are wiped on image updates).
-- "Grok Bot as orchestrator over SSH" posts.
+- Posts describing Grok Bot as an orchestrator driving a remote box over SSH.
 - Cursor's own path: Grok Bot delegating to **Cursor Cloud Agents**, which bill to the Cursor pool rather than the Grok Bot pool.
-- xAI's own staff describe an engineering-manager bot that "does not code" and delegates.
+- xAI staff have described an engineering-manager bot that delegates rather than writing code itself.
 
 Every one of these is a bridge. All of them need **a server, a tunnel, a second billing pool, or your coding credential on the bot's shared computer.** This project is the version that needs none of the four.
 
@@ -71,9 +101,9 @@ deliberately not written as "no". Corrections welcome — open an issue.
 | Approach | A server you run | A tunnel or inbound endpoint | A second billing pool | Your coding login on the shared bot computer | Survives the bot computer's image updates | Run end to end by us |
 |---|---|---|---|---|---|---|
 | **Handoff** | No | No | No — `$0.00` measured | No — the bot holds an issues-only GitHub token | n/a — nothing is installed there | **Yes** — run `34023564889` |
-| Coding CLI on the bot's own computer | No | No | No, if signed in to your own subscription | **Yes** | **No** — *"installed packages are wiped on image updates"* | No |
+| Coding CLI on the bot's own computer | No | No | No, if signed in to your own subscription | **Yes** | **No** — installed packages are wiped on image updates | No |
 | Locum — MCP tunnel to a local agent | **Yes** — a machine you run | **Yes** — an MCP tunnel | No — its stated purpose is to stop burning Grok Bot usage | `unknown` | `unknown` | No |
-| Cursor Cloud Agents | No — hosted by the vendor | No | **Yes** — *"bill to the Cursor pool rather than the Grok Bot pool"* | No | n/a | No |
+| Cursor Cloud Agents | No — hosted by the vendor | No | **Yes** — they bill to the Cursor pool rather than the Grok Bot pool | No | n/a | No |
 | A persistent session on a VPS | **Yes** — a VPS | `unknown` | `unknown` — probably the same subscription, but we cite no source | `unknown` | n/a | No |
 
 Also named in our decision record: a Jenkins/webhook bridge, and driving a remote box over SSH.
@@ -93,9 +123,9 @@ A matrix with only the other side's costs in it is a sales sheet. These are ours
 
 ## What people like
 
-- The chief-of-staff pattern works: "I set up a researcher and a writer, then a chief of staff… I expected it to fall apart. It didn't." (Aug)
+- The chief-of-staff pattern works. One August write-up set up a researcher, a writer and a chief of staff expecting it to fall apart, and reported that it did not.
 - Browser reach on sites without APIs; mobile take-over for logins; zero-setup persistence.
-- Consensus review line: "Worth trying. Not yet worth reorganizing your business around."
+- The consensus of the reviews we read: worth trying, not yet worth reorganising a business around.
 
 ## What would change the conclusion
 
@@ -123,17 +153,22 @@ Evidence we produced ourselves, rather than collected. Repo: a throwaway private
 | Tests | `npm test` — 3 of 3 passed |
 | Scope discipline | touched nothing it was told not to |
 | Committed as | `claude[bot]` |
-| **Anthropic Console API spend** | **zero** — confirmed by the account owner on the [Console usage page](https://platform.claude.com/usage), the source Anthropic calls authoritative for billing |
+| **Anthropic Console API spend** | **zero** — confirmed by the account owner on the [Console usage page](https://platform.claude.com/usage). Anthropic's docs point there for authoritative billing: *"The figure is an estimate, so for authoritative billing see the Usage page in the Claude Console."* — <https://code.claude.com/docs/en/costs>, read 2026-09-07 |
 
 **The thesis holds.** A coding task was executed and billed to a Claude Max subscription, triggered by a GitHub issue, with no Grok Bot involved and no pay-as-you-go charge.
 
-Note the run log printed `total_cost_usd: 0.157`. That figure is **not** a charge — Anthropic's own docs say the session cost figure "is intended for API users… Max and Pro subscribers have usage included in their subscription, so the session cost figure isn't relevant for billing purposes". It is a notional list-price estimate printed regardless of how you pay.
+Note the run log printed `total_cost_usd: 0.157`. That figure is **not** a charge. Anthropic's own documentation says so:
 
-### The acceptance test as written could not pass
+> "The Session block in `/usage` shows API token usage and is intended for API users. Claude Max and Pro subscribers have usage included in their subscription, so the session cost figure isn't relevant for billing purposes."
+> — <https://code.claude.com/docs/en/costs>, read 2026-09-07
 
-`TASKS.md` 0.2 asked for "a PR opened by the Claude app". **That is impossible** — the action has no PR-creation tool in tag mode (see D12 and issue #41). What actually happens: Claude pushes a branch and posts a pre-filled "Create PR" link.
+It is a notional list-price estimate printed regardless of how you pay.
 
-Recorded as passed on the substance — work delivered, billed to the subscription — with the PR clause corrected rather than quietly ignored.
+### The acceptance test as originally written could not pass
+
+`TASKS.md` 0.2 **originally** asked for "a PR opened by the Claude app". **That is impossible** — the action has no PR-creation tool in tag mode (see D12 and issue #41). What actually happens: Claude pushes a branch and posts a pre-filled "Create PR" link.
+
+Recorded as passed on the substance — work delivered, billed to the subscription — with the PR clause corrected rather than quietly ignored. **That clause has since been corrected in place**, so `TASKS.md` 0.2 now names `github-actions` and the PR step; this section is the record of why it was changed, not a live disagreement between the two files.
 
 ### 2026-09-05 — the return path, first attempt, and why it did not count
 
@@ -186,7 +221,9 @@ Two things Coder did unprompted, both worth recording because they bear on how m
 - Asked the five confirmation questions, it replied *"Checking the saved routine file so these answers match what's actually stored"* before answering — it read its own configuration rather than recalling it.
 - It raised the CI caveat itself: *"since it only fires when the PR opens, CI will often still be `pending` at that moment."* That is the same limitation recorded below, identified by the bot before we tested.
 
-**#57 is answered: on the built-in GitHub connection trigger, the report-back is not gated.** Cursor staff's warning that "a webhook delivery is not treated as user intent" appears to be specific to the *webhook* trigger. **We have not tested the webhook path** and make no claim about it.
+**#57 is answered: on the built-in GitHub connection trigger, the report-back is not gated.** The warning we are working from — our reading of a Cursor staff reply, to the effect that a webhook delivery does not count as user intent — appears to be specific to the *webhook* trigger. **We have not tested the webhook path** and make no claim about it.
+
+**Unverified, and the caveat above rests on it.** That staff warning was written as a quotation here until 2026-09-07 and we hold no thread URL for it, so a reader cannot check it and neither can we. It is recorded as our paraphrase of something we read, not as the vendor's words. What *is* verified is the other half: on the built-in GitHub connection, both passes reported without an approval card.
 
 Pass 2's underlying chain, for the record:
 
@@ -240,7 +277,7 @@ Both issues Grok Bot opened through its GitHub connector:
 | 5 — "bridge test" | `<owner>` | `User` | **none** |
 | 6 — "bridge test 2" | `<owner>` | `User` | **none** |
 
-`performed_via_github_app: none` is the load-bearing field. The action rejects bot actors, so a connector acting as a GitHub *App* would have been refused; this shows it acted as a real user account. Combined with run 33983515065 completing and PR #7 opening, **task 1.2's chain is complete**: issue by that account → action runs (write-access check passes) → pull request opened by `github-actions`.
+`performed_via_github_app: none` is the load-bearing field. The action rejects bot actors, so a connector acting as a GitHub *App* would have been refused; this shows it acted as a real user account. Combined with run 33983515065 completing and PR 7 opening, **task 1.2's chain is complete**: issue by that account → action runs (write-access check passes) → pull request opened by `github-actions`.
 
 **Task 1.1 is a different matter and is deliberately still unticked.** Its acceptance test asks for two `curl` calls proving the token reaches one repo (`200`) and not another (`404`). That output was not kept, and unlike the fields above it **cannot be recovered** — it depends on the token, which is not ours to replay. Re-running it takes about two minutes. Recorded as missing rather than assumed, because the whole point of the test is what the token *cannot* reach.
 
