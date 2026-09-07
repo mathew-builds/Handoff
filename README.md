@@ -91,15 +91,21 @@ flowchart LR
     end
 
     subgraph GB["Grok Bot — layer 2, optional"]
-        YOU([You]) --> CODER[Coder<br/><i>never writes code</i>]
+        YOU(["You — in chat"]):::you --> CODER[Coder<br/><i>never writes code</i>]:::grok
     end
 
-    YOU2([You]) -- "or just open the issue yourself" --> ISSUE
+    YOU2(["You — on GitHub"]):::you -- "or just open the issue yourself" --> ISSUE
     CODER -- "opens issue" --> ISSUE
     ACTION -. "authenticates with" .-> MAX
     PR -- "PR event, routine reports it" --> CODER
     YOU2 -- "review + merge" --> PR
+
+    classDef you fill:#EAF3EE,stroke:#2C6B4F
+    classDef grok fill:#EAF0F9,stroke:#2C4A7C
 ```
+
+Both `You` boxes are the same person — Mermaid puts a node in one subgraph only, so briefing from
+chat and reviewing on GitHub have to be drawn separately.
 
 **Layer 1, which is all you need:**
 
