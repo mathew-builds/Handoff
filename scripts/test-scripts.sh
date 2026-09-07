@@ -139,6 +139,79 @@ else
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# Execution: the cost-brake checker, against deliberately broken workflows.
+#
+# check-workflow-caps.py is the control behind CLAUDE.md's three mandatory
+# brakes, and until 2026-09-07 nobody had ever run it against input it should
+# reject. Two mutants survived. The worse one renamed the action and deleted
+# --max-turns, and the checker printed "--max-turns present" and exited 0 — the
+# string was chosen by the FILENAME, not by the check. That is not a check that
+# cannot fail; it is a check that asserts the opposite of the truth.
+#
+# Same rule as everything above: both directions, and the passing direction
+# first so a checker that has stopped working at all cannot look healthy.
+# ---------------------------------------------------------------------------
+echo "→ check-workflow-caps.py, against broken workflows"
+
+caps_sandbox() {  # a clean tree to mutate; ROOT is derived from the script's path
+  rm -rf "$TMP/caps"
+  mkdir -p "$TMP/caps/scripts" "$TMP/caps/templates" "$TMP/caps/.github/workflows"
+  cp "$ROOT/scripts/check-workflow-caps.py" "$TMP/caps/scripts/"
+  cp "$ROOT"/templates/*.yml "$TMP/caps/templates/"
+  cp "$ROOT"/.github/workflows/*.yml "$TMP/caps/.github/workflows/"
+}
+
+mut_none()          { :; }
+mut_strip_turns()   { perl -pi -e 's/--max-turns 25//' templates/claude.yml; }
+mut_rename_action() { perl -pi -e 's{anthropics/claude-code-action}{acme/claude-wrapper}' templates/claude.yml; }
+mut_rename_strip()  { mut_rename_action; mut_strip_turns; }
+mut_drop_group()    { perl -0pi -e 's/\nconcurrency:\n(?:  .*\n)+/\n/' templates/claude.yml; }
+mut_drop_timeout()  { perl -pi -e 's/^\s*timeout-minutes:.*\n//' templates/claude.yml; }
+mut_delete_needed() { rm -f templates/weekly-cost.yml; }
+mut_new_template()  {   # the roadmap's own next idea: a scheduled agent run
+  {
+    echo 'name: Nightly'
+    echo 'on:'
+    echo '  schedule:'
+    echo '    - cron: "0 3 * * *"'
+    echo 'jobs:'
+    echo '  maintain:'
+    echo '    runs-on: ubuntu-latest'
+    echo '    steps:'
+    echo '      - uses: anthropics/claude-code-action@v1'
+    echo '        with:'
+    echo '          claude_args: --model sonnet'
+  } > templates/nightly.yml
+}
+
+caps_case() {  # name  want_rc  mutation_fn  [string that must NOT appear]
+  caps_sandbox
+  ( cd "$TMP/caps" && "$3" ) >/dev/null 2>&1
+  local out rc
+  out="$( cd "$TMP/caps" && python3 scripts/check-workflow-caps.py 2>&1 )"
+  rc=$?
+  if [ "$rc" != "$2" ]; then
+    bad "caps: $1 — exit $rc, wanted $2"
+    printf '%s\n' "$out" | sed 's/^/       /'
+  elif [ -n "${4:-}" ] && printf '%s\n' "$out" | grep -qF -- "$4"; then
+    bad "caps: $1 — exit was right but the output still claims \"$4\""
+    printf '%s\n' "$out" | sed 's/^/       /'
+  else
+    ok "caps: $1"
+  fi
+}
+
+# The success path first: if this breaks, every case below is meaningless.
+caps_case "unmutated tree passes"                0 mut_none
+caps_case "stripped --max-turns fails"           1 mut_strip_turns   "--max-turns present"
+caps_case "renamed action + stripped brake fails" 1 mut_rename_strip "--max-turns present"
+caps_case "renamed action alone fails loudly"    1 mut_rename_action
+caps_case "missing concurrency group fails"      1 mut_drop_group
+caps_case "missing timeout-minutes fails"        1 mut_drop_timeout
+caps_case "deleted required workflow fails"      1 mut_delete_needed
+caps_case "new uncapped template is checked too" 1 mut_new_template
+
 echo
 if [ "$FAIL" -ne 0 ]; then
   echo "scripts/: FAILED" >&2
