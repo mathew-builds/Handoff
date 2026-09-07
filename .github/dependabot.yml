@@ -1,0 +1,26 @@
+# Watch the actions this repository depends on.
+#
+# docs/05-security.md tells consumers that `@v1` is a mutable major tag, not a
+# pin, and that they should pin a commit SHA if they want supply-chain
+# protection. We were not watching our own three at all, which is one rule for
+# them and another for us — found by the 2026-09-07 pre-public audit (GAP-11).
+#
+# Why watching rather than SHA-pinning everything: a SHA pin here would freeze
+# `actions/checkout` and `actions/setup-python` at a commit nobody would ever
+# revisit, and this repository's whole supply chain is three first-party-ish
+# actions. Watching is the smaller control that addresses the measured gap. Pin
+# SHAs if that stops being true.
+#
+# **This does NOT cover `templates/`.** Dependabot only reads
+# `.github/workflows/`, and the templates are copied into a consumer's repo
+# where their own Dependabot would have to watch them. The security doc says so;
+# do not read a green Dependabot here as covering the product.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+    open-pull-requests-limit: 3
