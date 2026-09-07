@@ -89,13 +89,17 @@ fi
 echo "→ templates/claude.yml misrouted-issue guard"
 
 GUARD="$TMP/guard.sh"
-python3 - "$ROOT" "$GUARD" <<'PY' 2>/dev/null || true
+GUARD_ENV="$TMP/guard.env"
+python3 - "$ROOT" "$GUARD" "$GUARD_ENV" <<'PY' 2>/dev/null || true
 import sys, yaml
-root, out = sys.argv[1], sys.argv[2]
+root, out, envout = sys.argv[1], sys.argv[2], sys.argv[3]
 doc = yaml.safe_load(open(f"{root}/templates/claude.yml"))
 for step in doc["jobs"]["claude"]["steps"]:
     if step.get("name") == "Refuse a misrouted issue":
         open(out, "w").write(step["run"])
+        # The names the workflow actually provides. Taken from the file so the
+        # test reflects the workflow rather than the harness's own guesses.
+        open(envout, "w").write("\n".join(sorted((step.get("env") or {}).keys())) + "\n")
 PY
 
 if [ ! -s "$GUARD" ]; then
@@ -103,15 +107,45 @@ if [ ! -s "$GUARD" ]; then
 else
   bash -n "$GUARD" && ok "guard: bash -n" || bad "guard: bash -n"
 
+  # `gh` works out which repository to act on from the checked-out git remote,
+  # and this step runs BEFORE actions/checkout on purpose. So the workflow must
+  # name the repository itself. It shipped without doing so: the refusal comment
+  # could never be posted in production, and six guard cases passed anyway
+  # because the stub below used to ignore its arguments and always succeed.
+  if grep -qx 'GH_REPO' "$GUARD_ENV"; then
+    ok "guard: step declares GH_REPO, so gh can resolve the repo with no checkout"
+    GUARD_GH_REPO=yes
+  else
+    bad "guard: step does not declare GH_REPO — the refusal comment cannot be posted"
+    GUARD_GH_REPO=no
+  fi
+
   mkdir -p "$TMP/gbin"
-  printf '#!/usr/bin/env bash\necho "called" >> "$COMMENTS_LOG"\n' > "$TMP/gbin/gh"
+  cat > "$TMP/gbin/gh" <<'STUB'
+#!/usr/bin/env bash
+# Reproduce the one real-gh behaviour this guard depends on: with no git remote
+# and neither --repo nor GH_REPO, gh cannot resolve a target and exits non-zero
+# with "failed to run git: fatal: not a git repository". Verified against
+# gh 2.97.0 on 2026-09-07. A stub that always succeeds hides the exact defect
+# this test exists to catch, which is what happened before.
+if [ -z "${GH_REPO:-}" ] && [[ " $* " != *" --repo "* ]]; then
+  echo "failed to run git: fatal: not a git repository" >&2
+  exit 1
+fi
+echo "called" >> "$COMMENTS_LOG"
+STUB
   chmod +x "$TMP/gbin/gh"
 
   guard_case() {  # name  body  this_repo  is_new  want_rc  want_comment
     : > "$TMP/comments.log"
-    ( PATH="$TMP/gbin:$PATH" COMMENTS_LOG="$TMP/comments.log" RUNNER_TEMP="$TMP" \
-      BODY="$2" THIS_REPO="$3" ISSUE=1 IS_NEW_ISSUE="$4" \
-      bash "$GUARD" >/dev/null 2>&1 )
+    local -a envargs=(
+      "PATH=$TMP/gbin:$PATH" "COMMENTS_LOG=$TMP/comments.log" "RUNNER_TEMP=$TMP"
+      "BODY=$2" "THIS_REPO=$3" "ISSUE=1" "IS_NEW_ISSUE=$4"
+    )
+    # Pass GH_REPO only when the workflow itself declares it. The test must fail
+    # when the workflow stops providing it, not paper over the gap.
+    [ "$GUARD_GH_REPO" = yes ] && envargs+=("GH_REPO=$3")
+    ( env "${envargs[@]}" bash "$GUARD" >/dev/null 2>&1 )
     local rc=$? commented=no
     [ -s "$TMP/comments.log" ] && commented=yes
     if [ "$rc" = "$5" ] && [ "$commented" = "$6" ]; then
@@ -132,7 +166,14 @@ else
   # The refusal comment must never carry the trigger phrase: a comment
   # containing it restarts the workflow, and on issue_comment the body read is
   # the ISSUE's, so it would find the same bad line and comment forever.
-  if grep -q '@claude' "$TMP/misrouted.md" 2>/dev/null; then
+  #
+  # Assert the artefact EXISTS before concluding anything from it. `grep -q` on
+  # a missing file exits 2, which makes the `if` false and prints ok — so if the
+  # body's filename ever changed, this check would pass while testing nothing.
+  # That is issue #36's shape: a check that reports instead of failing.
+  if [ ! -s "$TMP/misrouted.md" ]; then
+    bad "guard: no refusal body was written — the trigger-phrase check proves nothing"
+  elif grep -q '@claude' "$TMP/misrouted.md"; then
     bad "guard: the refusal comment contains the trigger phrase — this loops"
   else
     ok "guard: refusal comment carries no trigger phrase"
