@@ -30,11 +30,13 @@ installed there are wiped on image updates. We would rather state the axis than 
 approach that dodges the other three.
 
 Named alternatives, what each one actually requires, and the cost Handoff *does* add — GitHub
-Actions minutes, which we cannot yet price — are in [07-evidence.md](docs/07-evidence.md).
+Actions minutes, which we cannot yet price — are in [07-evidence.md](docs/07-evidence.md). **Every
+alternative there is scored from its documentation, not from running it.** Handoff is the only one
+we have run end to end.
 
 > **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md), including the token-scope control test and a fresh-eyes install. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
 
-> **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the three things it cannot do and must hand back to you, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
+> **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the **two** steps it cannot do and must hand back to you, the **one** it must ask you about first, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
 
 ## Works with
 
@@ -57,7 +59,7 @@ Nothing in the bridge is vendor-specific: it is a GitHub issue in, a pull reques
 
 ## Why layer 1 exists
 
-Coding agents that bill per token get expensive in a way you cannot see until the invoice. Grok Bot in particular meters coding on a **weekly** allowance whose size is not published per plan, with **no model picker** — billing follows whichever model the router serves — and **no Grok Bot-specific spend cap**. When the weekly pool is exhausted, usage continues on shared on-demand spend *if you have that enabled*; you can set the account-wide on-demand limit to `$0`, and [the setup guide](docs/03-setup-guide.md) tells you to. A Claude Pro/Max subscription bills at a flat rate on a model you choose.
+Coding agents that bill per token get expensive in a way you cannot see until the invoice. Grok Bot in particular meters coding on a **weekly** allowance published only as a per-plan ranking and never as a number (Cursor's Grok Bot plans page, read 2026-09-07), with **no model picker** — billing follows whichever model the router serves — and **no Grok Bot-specific spend cap**. When the weekly pool is exhausted, usage continues on shared on-demand spend *if you have that enabled*; you can set the account-wide on-demand limit to `$0`, and [the setup guide](docs/03-setup-guide.md) tells you to. A Claude Pro/Max subscription bills at a flat rate on a model you choose.
 
 Each of those is a vendor-documented fact with a source in [07-evidence.md](docs/07-evidence.md) — **not** a measurement. We have never measured a Grok Bot allowance, and this project does not claim to.
 
@@ -68,8 +70,8 @@ Each of those is a vendor-documented fact with a source in [07-evidence.md](docs
 
 **Read that honestly: Handoff moves number three, and the thing people complain about most is number
 one.** If your allowance is draining, the most likely cause is bots talking to each other in a group
-chat — one forum report on 4 Sep 2026 describes five agents doing that unattended for seven hours,
-producing no code. **Handoff will not fix that.** That is a bot-configuration problem, and
+chat — one forum report on 4 Sep 2026 describes five agents doing that unattended for seven hours.
+**Handoff will not fix that.** That is a bot-configuration problem, and
 [04-operations.md](docs/04-operations.md) R4 is the runbook for it.
 
 What coding has that the other three do not is a clean flat-rate home elsewhere. That is the whole
@@ -77,7 +79,7 @@ reason this project moves coding and leaves the rest alone.
 
 This moves exactly one category of work — code — across that billing boundary, and nothing else.
 
-**Measured, not asserted:** one real task — issue in, reviewable pull request out — took **61 seconds** and **9 of 25** allowed turns, with **$0.00** of pay-as-you-go spend confirmed on the Anthropic Console. See [08-measurements.md](docs/08-measurements.md).
+**Measured, not asserted:** one real task — issue in, reviewable pull request out — took **61 seconds** and **9 of 25** allowed turns, on 2026-09-06. **$0.00** of pay-as-you-go spend was confirmed on the Anthropic Console for a different run, on 2026-09-05; the Console has not been re-read since. Two runs, two dates — see [08-measurements.md](docs/08-measurements.md).
 
 ## What you need
 
@@ -144,10 +146,10 @@ Both layer 2 steps are proven — see the runs in [07-evidence.md](docs/07-evide
 | | |
 |---|---|
 | Servers to run | **0** |
-| Who pays for the code | your Claude subscription — **$0.00** metered spend, confirmed on the Console |
+| Who pays for the code | your Claude subscription — **$0.00** metered spend, confirmed on the Console on 2026-09-05 |
 | Approval gate | your merge |
-| Who can trigger a run | only accounts with repo write access |
-| Measured task time | **61s** issue to pull request, 9 of 25 turns |
+| Who can spend your Claude subscription | only accounts with repo write access — the action fails the run for anyone else. Anyone who can open an issue can still start a runner, so Actions minutes are not gated |
+| Measured task time | **61s** issue to pull request, 9 of 25 turns (2026-09-06) |
 
 **On prompt injection:** the write-access check is *not* an injection defence, and this project used to claim it was. It controls who can start a run; it does not control what text reaches Claude. A comment from someone with no write access is still in the prompt when someone with write access says `@claude`. See [05-security.md](docs/05-security.md) for what actually contains it.
 
@@ -169,7 +171,7 @@ See [docs/03-setup-guide.md](docs/03-setup-guide.md) — it has the checks at ea
 
 ```bash
 # 0. Get Handoff itself. The copies below read from it.
-git clone <this repository's URL> ~/handoff
+git clone <URL of this repository> ~/handoff
 
 # 1. In the repo you want Claude to work on.
 #    setup-token opens a browser; copy what it prints, then paste at the prompt.
