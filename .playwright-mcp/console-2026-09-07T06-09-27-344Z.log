@@ -1,3 +1,0 @@
-[     797ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://github.com/in-product-messaging/budget-threshold-banner?organization=mermaid-js:0
-[   13804ms] [WARNING] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. @ about:blank:0
-[   14265ms] [WARNING] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. @ about:blank:0
