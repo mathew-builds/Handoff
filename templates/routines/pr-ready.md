@@ -47,7 +47,7 @@ is allowed to do without asking me first.
 
 | | What it is | Caveat |
 |---|---|---|
-| **Cursor account integration** | A native GitHub trigger. *"Cursor account integrations can start a routine from an event, such as a Slack message or a GitHub notification."* | *"They are separate from Slack or GitHub plugins and may require their own connection flow."* **Which GitHub events fire it is not documented** — the docs say "a GitHub notification", not "pull_request opened". Verify yours does before relying on it. |
+| **Cursor account integration** | A native GitHub trigger. *"can start a routine from an event, such as a Slack message or a GitHub notification"* — <https://docs.x.ai/grok-bot/skills-routines-and-automations>, read 2026-09-07. | As we read the same page, these integrations are separate from the Slack or GitHub plugins and may need their own connection flow. **Which GitHub events fire it is not documented** — the page says "a GitHub notification", not "pull_request opened". Verify yours does before relying on it. |
 | **Inbound webhook** | The routine exposes a POST URL and a sender key; point a GitHub Actions step or repo webhook at it. | **Not in any vendor documentation** — confirmed only by Cursor staff on the forum, and desktop-only (the URL does not appear on iOS). Newest and roughest surface. |
 
 **Instruction to the bot:**
@@ -67,6 +67,8 @@ Cursor staff have confirmed that **a webhook delivery is not treated as user int
 
 If that applies to posting into a group chat, this routine will **wait for you to tap approve** rather than reporting on its own — which defeats its purpose. Test it before building anything on top.
 
+**That warning is about the webhook trigger.** On the **built-in GitHub connection** — the one the message block above tells you to use — this routine has been observed reporting unattended, with no approval card (2026-09-06; details below). The webhook path is untested and the result does not transfer to it. Run both passes on whichever trigger you actually chose.
+
 **Run two passes. They answer different questions, and only the second one tests live operation.**
 
 | Pass | How you open the PR | What it answers |
@@ -78,7 +80,11 @@ For each pass: set the routine up, open the PR, then watch **without touching th
 
 > **Do not stop after pass 1.** A PR you open by hand comes from your own account; every PR in live operation is opened by `github-actions` using the workflow's `GITHUB_TOKEN`. Passing pass 1 and skipping pass 2 proves nothing about the path that matters — that is exactly the mistake that produced issue 61, where a hand-pushed branch made a broken workflow look like it worked, twice.
 
-**What is already known about pass 2's trigger, as of 2026-09-06:** a PR opened by the workflow's `GITHUB_TOKEN` *does* generate a `pull_request opened` event — observed on the trial repo's events API (`actor=github-actions[bot]`, `action=opened`). **Still unverified:** whether that event is *delivered to a webhook subscriber*. No webhook has ever been configured on that repo, so nothing was delivered and nothing was observed. Pass 2 is what settles it.
+**What each pass settles, and what neither does.** Pass 1 isolates the approval question. Pass 2 isolates the trigger question — whether the routine fires for `github-actions`, the actor that opens every real pull request. **Neither pass tests webhook delivery.**
+
+**What the Handoff project observed on its own trial repo, 2026-09-06.** A pull request opened by the workflow's `GITHUB_TOKEN` does generate a `pull_request opened` event — `actor=github-actions[bot]`, `action=opened`, read from the repository's events API. And on the bot's **built-in GitHub connection**, both passes reported into the group chat **unattended, with no approval card**. That is a contrast rather than an inference: earlier in the same conversation, *saving* the routine did raise an approval card and waited for a tap, so the chat demonstrably renders them.
+
+**Still unverified by either pass:** whether a `pull_request` event is delivered to an **inbound webhook** subscriber, and whether a webhook-triggered report is approval-gated. No webhook has ever been configured on that repo, so nothing was delivered and nothing was observed. If your routine uses the webhook trigger, your own pass 2 answers it for your setup — ours does not, and the result above does not carry over to it.
 
 If it is gated, the options are: an "Always allow" Auto Review rule scoped narrowly to posting in that one group chat (remembering an admin cannot enforce Auto Review and rules do not sync between your machines), or accept a tap per pull request, or use the native Cursor integration trigger instead of a webhook and re-test.
 

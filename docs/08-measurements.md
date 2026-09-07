@@ -36,10 +36,10 @@ One issue in, one reviewable pull request out:
 
 | Meter | Measured | Notes |
 |---|---|---|
-| **Claude Max** | 10 turns, 63s | Well inside `--max-turns 25`. The cap is not the binding constraint on a task this size. |
+| **Claude Max** | 10 turns, 64s | Measured on run `33983515065`, the same run as the row below — the one that both did the work and opened the pull request. Well inside `--max-turns 25`. The cap is not the binding constraint on a task this size. |
 | **Anthropic API (pay-as-you-go)** | **$0.00** | Confirmed on the [Console usage page](https://platform.claude.com/usage), 2026-09-05. This is the number the project exists to keep at zero. |
 | **GitHub Actions** | 64s wall clock, one run | Measured on run `33983515065`, where a single run does the work *and* opens the pull request. The earlier 63s + 12s figure was for the two-workflow design that no longer exists. The Actions timing API reported `billable_ms: 0` for every run on this repo. Reported as-is rather than converted into a minutes figure we cannot substantiate. |
-| **Grok Bot** | not yet measured | Nothing has gone through Grok Bot. Phase 1. |
+| **Grok Bot** | not yet measured | Two tasks have gone through Grok Bot (runs `34023564889`, `34025508553`); the weekly allowance meter itself has never been read. Task 2.4. |
 
 ### Where these numbers come from
 

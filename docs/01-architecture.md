@@ -119,7 +119,7 @@ flowchart LR
 
 The whole project is the arrow from B to D. Everything to the right of it used to be on Meter 1.
 
-**On "no second meter", which the README says and this diagram appears to contradict.** There are
+**On "no second meter", which the banner says and this diagram appears to contradict.** There are
 three meters here, so the claim needs its qualifier stated rather than assumed: Handoff adds no
 second *model* meter — no per-token pool, no second agent subscription. Meter 3 is GitHub Actions
 minutes, which is time on a runner, not tokens. The honest state of Meter 3 is that we cannot price
@@ -159,7 +159,7 @@ operated one repository.**
 
 **Does not scale, and these are the real ones:**
 
-1. **Routing — solved 2026-09-07, in three parts.** The Coder must *choose* which project a request
+1. **Routing — enforced in code 2026-09-07, in three parts.** The Coder must *choose* which project a request
    belongs to, and the dangerous part was never the guess itself: it was that a wrong guess stayed
    invisible until Claude had edited the wrong codebase and opened a pull request on it.
 

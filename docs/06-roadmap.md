@@ -19,7 +19,7 @@ Goal: a PR billed to Claude Max, triggered by an issue, with no Grok Bot involve
 
 **Acceptance:** a pull request exists from an `@claude` issue — opened by `github-actions` via the PR step inside `claude.yml`, **not** by the Claude app, which has no such tool; zero API spend in the Anthropic Console.
 
-**Result, 2026-09-05: passed.** $0.00 metered spend, 63s, 10 of 25 turns. See `07-evidence.md`.
+**Result, 2026-09-05: passed.** $0.00 metered spend. The thesis run (`33961149264`) was 63s / 10 of 25 turns and pushed a branch; the acceptance as written was met the same day by run `33983515065` — 64s, 10 of 25, pull request opened by `github-actions` from the step inside `claude.yml`. See `07-evidence.md`.
 
 **Kill criterion:** the OAuth path won't work on your account after two attempts and the upstream issue has no fix. Then the project's economics change — pause and reassess (API billing may still beat Grok Bot overage, but measure it).
 
