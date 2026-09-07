@@ -175,6 +175,6 @@ See `05-security.md` for the full threat model.
 |---|---|---|
 | VPS / persistent session | Not needed to move billing; adds a server to maintain | You need memory across tasks or private-network access |
 | Permission relay to chat | The PR already gates every change | Tasks need mid-run human decisions |
-| MCP connector / tunnel (Locum) | Extra moving part, ToS grey zone | Never, in this design |
+| MCP connector / tunnel (Locum) | An extra moving part, and it needs a machine of yours kept awake | Never, in this design |
 | Observability stack | GitHub Actions logs + two usage dashboards are enough | A client asks for reports |
 | Self-hosted runner | Hosted runners are free enough and safer | Tasks exceed included minutes or need local tools |
