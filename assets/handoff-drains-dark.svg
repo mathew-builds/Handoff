@@ -18,13 +18,13 @@
     <circle cx="42" cy="46" r="12" fill="none" stroke="#3A424B"/>
     <text x="42" y="46" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#A4ABB4">1</text>
     <text x="68" y="46" dominant-baseline="middle" font-size="12.5" fill="#ECEEF0">Bots talking to each other in group chats</text>
-    <text x="644" y="46" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#737A84">Handoff does not fix this</text>
+    <text x="644" y="46" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#8A929C">Handoff does not fix this</text>
 
     <!-- ── 2 ── -->
     <circle cx="42" cy="92" r="12" fill="none" stroke="#3A424B"/>
     <text x="42" y="92" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#A4ABB4">2</text>
     <text x="68" y="92" dominant-baseline="middle" font-size="12.5" fill="#ECEEF0">Short-interval routines — a 15-minute schedule is ~100 runs a day</text>
-    <text x="644" y="92" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#737A84">Handoff does not fix this</text>
+    <text x="644" y="92" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#8A929C">Handoff does not fix this</text>
 
     <!-- ── 3 · the one this project moves ── -->
     <rect x="16" y="121" width="628" height="34" rx="4" fill="#1B2C24" stroke="#74C39A" stroke-width="2"/>
@@ -37,15 +37,15 @@
     <circle cx="42" cy="184" r="12" fill="none" stroke="#3A424B"/>
     <text x="42" y="184" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#A4ABB4">4</text>
     <text x="68" y="184" dominant-baseline="middle" font-size="12.5" fill="#ECEEF0">Browser and computer-use sessions</text>
-    <text x="644" y="184" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#737A84">Handoff does not fix this</text>
+    <text x="644" y="184" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#8A929C">Handoff does not fix this</text>
 
     <line x1="16" y1="212" x2="644" y2="212" stroke="#252B33"/>
 
     <text x="16" y="236" font-size="11.5" fill="#A4ABB4">Reported on the Cursor forum, 4 Sep 2026: five agents talked to each other for seven hours</text>
     <text x="16" y="254" font-size="11.5" fill="#A4ABB4">unattended, burning on-demand spend. No code was produced.</text>
 
-    <text x="16" y="282" font-size="10.5" fill="#737A84">A ranking from community consensus and Cursor staff replies — not a measurement. Row order carries no magnitude,</text>
-    <text x="16" y="296" font-size="10.5" fill="#737A84">and we have never measured a Grok Bot allowance ourselves.</text>
+    <text x="16" y="282" font-size="10.5" fill="#8A929C">A ranking from community consensus and Cursor staff replies — not a measurement. Row order carries no magnitude,</text>
+    <text x="16" y="296" font-size="10.5" fill="#8A929C">and we have never measured a Grok Bot allowance ourselves.</text>
 
   </g>
 </svg>
