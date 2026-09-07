@@ -27,3 +27,8 @@ NEXT_SESSION_PROMPT.md
 # Audit working papers from the 6–7 Sep sessions. Findings, not product.
 # Kept because ~60 verified-but-unapplied findings live only here.
 .audit/
+
+# Go-to-market work. Private, local only — never published. See marketing/README.md.
+# Enforced by the "private folders are not tracked" check in scripts/test-scripts.sh,
+# because a gitignore line alone cannot stop `git add -f`.
+marketing/

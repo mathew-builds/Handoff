@@ -308,6 +308,35 @@ caps_case "missing timeout-minutes fails"        1 mut_drop_timeout
 caps_case "deleted required workflow fails"      1 mut_delete_needed
 caps_case "new uncapped template is checked too" 1 mut_new_template
 
+# ---------------------------------------------------------------------------
+# Private folders must never become tracked.
+#
+# This repository is public. Two folders are deliberately local-only:
+# `.audit/` (audit working papers) and `marketing/` (go-to-market work, and any
+# asset carrying a vendor logo — which the repository itself may not use).
+#
+# A `.gitignore` line is not a control. It stops untracked files being added and
+# nothing else: `git add -f` walks straight past it, and it is ignored entirely
+# for a path that is already tracked. The evidence is in this repo's own history
+# — `.audit/` was ignored from the start and never leaked, while
+# `.playwright-mcp/` was not ignored, was committed by accident, and reached 56%
+# of the repository before anyone noticed.
+#
+# So: ignore for convenience, and fail the build for enforcement.
+# ---------------------------------------------------------------------------
+echo "→ private folders are not tracked"
+
+for d in marketing .audit; do
+  tracked="$(git -C "$ROOT" ls-files -- "$d" 2>/dev/null)"
+  if [ -z "$tracked" ]; then
+    ok "nothing under $d/ is tracked"
+  else
+    bad "$(printf '%s\n' "$tracked" | grep -c .) file(s) under $d/ are TRACKED — they publish on the next push"
+    printf '%s\n' "$tracked" | head -5 | sed 's/^/       /'
+    echo "       fix: git rm -r --cached $d" >&2
+  fi
+done
+
 echo
 if [ "$FAIL" -ne 0 ]; then
   echo "scripts/: FAILED" >&2
