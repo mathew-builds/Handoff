@@ -35,6 +35,8 @@ Optionally, a chat bot writes the issue and reports the pull request back. That 
 | Installing the coding agent's GitHub App | **cannot** | A GitHub permissions screen. |
 | Allowing Actions to open pull requests | **can — ask first** | One `gh api` call, and you have admin. But it also narrows `default_workflow_permissions`, so it is the human's call. See step 5. |
 
+**On an organisation-owned repository there is a third thing you cannot do.** GitHub carries the same "may Actions create pull requests" setting at *organisation* level as well as repository level, and only an organisation owner can change it. Repository admin is not enough, and neither is your `gh` token. See step 5 — it is the step this catches out.
+
 > **Never run `claude setup-token` yourself.** It prints a secret. If you run it, that secret enters your context and your transcript, and it is the credential that pays for every future run. The human runs it in their own terminal and pipes it straight to `gh secret set`. Relay the commands; do not execute them.
 
 ---
@@ -50,15 +52,17 @@ git clone <the target repository URL> ~/target && cd ~/target
 **If there is no repository yet** — the human asked for Handoff on a *new* repo — create it *with a first commit*:
 
 ```
-gh repo create OWNER/NAME --private --add-readme
-git clone https://github.com/OWNER/NAME ~/target && cd ~/target
+gh repo create OWNER/REPO --private --add-readme
+git clone https://github.com/OWNER/REPO ~/target && cd ~/target
 ```
 
 `--add-readme` is not cosmetic. A repository with no commits has no default branch ref, every step below reads files from that branch, and `doctor.sh` cannot check anything without it.
 
 If the human already has a checkout open, use that instead and skip the clone. Substitute your own path for `~/target` throughout — the paths in this file are examples, not requirements.
 
-Then confirm all five from inside it. **Each one exits non-zero when it fails** — do not read the output and move on. If any fails, tell the human what is missing and stop.
+**`OWNER/REPO` anywhere below means the target repository — substitute it.** It is a placeholder in every command in this file, and running one with the literal text produces a `404` that reads like a permissions problem rather than a typo.
+
+Then confirm all five from inside it. **Each one exits non-zero when it fails** — do not read the output and move on. If any fails, tell the human what is missing and stop. These five need no substitution: the last one derives the repository from the checkout you are standing in.
 
 ```
 gh auth status
@@ -66,8 +70,9 @@ git rev-parse --git-dir
 gh repo view --json nameWithOwner
 test -n "$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)" \
   || { echo "NO DEFAULT BRANCH — this repository has no commits. Push one first."; false; }
-[ "$(gh api repos/OWNER/REPO --jq .permissions.admin)" = "true" ] \
-  || { echo "NOT ADMIN — you cannot set secrets, so the setup cannot be completed."; false; }
+R="$(gh repo view --json nameWithOwner -q .nameWithOwner)" \
+  && [ "$(gh api "repos/$R" --jq .permissions.admin)" = "true" ] \
+  || { echo "NOT ADMIN on $R — you cannot set secrets, so the setup cannot be completed."; false; }
 ```
 
 You need: `gh` logged in, a git repository, **admin** on it, and a default branch that exists. Without admin you cannot set secrets, and the setup cannot be completed.
@@ -120,7 +125,7 @@ gh secret list --repo OWNER/REPO
 
 `CLAUDE_CODE_OAUTH_TOKEN` must be listed. You cannot read its value, and you should not try.
 
-**Do not wait here.** If the human is away, record the request and carry straight on to step 3. Everything from step 3 to step 4 works without the token; only steps 8 and 9 need it. Waiting produces the worst outcome — the human comes back to a setup where nothing happened.
+**Do not wait here.** If the human is away, record the request and carry straight on to step 3. Everything from step 3 to step 7 works without the token; only steps 8 and 9 need it. Waiting produces the worst outcome — the human comes back to a setup where nothing happened.
 
 ---
 
@@ -154,7 +159,7 @@ You can do this yourself: read the repository, work out its test command and its
 
 ## Step 5 — Allow Actions to open pull requests
 
-**This is off by default on every GitHub repository, and it is the single most common way this setup silently fails.** Without it, the coding agent does the work, pushes a branch, and no pull request ever appears.
+**This is off by default on every GitHub repository, and on an organisation-owned repository it is capped by a second setting at organisation level as well. It is the single most common way this setup silently fails.** Without it, the coding agent does the work, pushes a branch, and no pull request ever appears.
 
 The command:
 
@@ -163,6 +168,31 @@ gh api -X PUT repos/OWNER/REPO/actions/permissions/workflow -f default_workflow_
 ```
 
 **Ask before running it.** It also sets `default_workflow_permissions=read`, which would narrow a repository where the human had deliberately chosen `write`. Say so, and let them choose between you running it and them ticking the box at **Settings → Actions → General → Workflow permissions**.
+
+### If the repository is owned by an organisation
+
+Check with `gh api "repos/OWNER/REPO" --jq .owner.type` — `Organization` means this applies to you.
+
+GitHub carries the same setting at organisation level. The endpoint is `GET /orgs/ORG/actions/permissions/workflow`, and it refuses anyone who is not an organisation admin:
+
+```
+$ gh api /orgs/ORG/actions/permissions/workflow          # read-only, run 2026-09-07
+{"message":"You must be an org admin or have the actions policies fine-grained permission.",
+ "documentation_url":"https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-an-organization",
+ "status":"403"}
+```
+
+That is GitHub's own error body naming its own documentation anchor, so the organisation-level setting exists — verified 2026-09-07 by running the call above, and the linked page returned 200 the same day.
+
+**What this means for you.** The repository-level `PUT` above can be refused on an organisation-owned repository, with `409 Conflict` and a message saying the organisation does not allow Actions to create or approve pull requests. That refusal was observed on 2026-09-06 during a fresh install on an organisation repository. **We have not re-reproduced it, and the precedence rule — that the organisation value overrides the repository value — is unverified.** Treat it as a thing to watch for, not a thing we have proven.
+
+You cannot fix it, and neither can a repository admin who is not an organisation owner. Hand it back:
+
+> This repository is owned by an organisation, and GitHub keeps a second copy of the "Allow GitHub Actions to create and approve pull requests" setting at organisation level. An **organisation owner** has to turn it on at **Organisation settings → Actions → General → Workflow permissions** — <https://github.com/organizations/ORG/settings/actions>, substituting your organisation. I do not have the access to do it or to read whether it is already on.
+
+The URL shape was checked on 2026-09-07: signed out it redirects to GitHub's login page, while a made-up sibling path under the same organisation returns `404`.
+
+**Then carry on.** Do not block the rest of the install on this — steps 6 and 7 still work. Step 8 reports the organisation policy where it can read it, and step 9 is the step that will actually fail. If step 9 pushes a branch and no pull request appears on an organisation repo, this is the first thing to suspect.
 
 ---
 
@@ -241,8 +271,9 @@ Tell the human plainly:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Branch pushed, no pull request | Step 5 not done | Enable the setting, then re-run step 9 |
-| Workflow never ran | Workflow not on the default branch, or the app is not installed | Steps 6 and 7 |
+| Branch pushed, no pull request | Step 5 not done — or, on an organisation-owned repo, the organisation-level setting is off | Enable the setting, then re-run step 9. On an org repo an organisation owner has to do it |
+| **No run appears at all** in the Actions tab | Workflow is not on the default branch | Step 7 |
+| **A run appears and fails** with `Claude Code is not installed on this repository` (seen 2026-09-06) | GitHub App not installed | Step 6 |
 | `GitHub Actions is not permitted to create or approve pull requests` | Step 5 | As above |
 | Run started, then `No trigger found` | The issue body does not contain `@claude`, or the issue was *assigned* rather than opened | Open a new issue with `@claude` in the body |
 | The agent edited files it was told not to | `CLAUDE.md` placeholders were never filled in | Step 4 |

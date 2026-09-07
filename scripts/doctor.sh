@@ -10,7 +10,17 @@
 # Exits non-zero if any required check fails. Every failure prints the exact
 # command or click that fixes it — most of these cost an hour the first time
 # you hit them, and all of them are invisible until something breaks.
+#
+# A ! warning means "we could not look", not "it is wrong". Reading secrets and
+# the Actions policy needs admin; without it those two checks are undetermined,
+# and saying "missing" would be a guess.
 set -uo pipefail
+
+# Where Handoff itself lives. The remedies below name files inside it, and you are
+# standing in the consumer repo when you read them — a bare `templates/claude.yml`
+# does not exist there. Derived from this script's own path, the way setup.sh does.
+# Set HANDOFF_DIR yourself if you reached this script through a symlink.
+HANDOFF_DIR="${HANDOFF_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
 
 REPO=""; MACHINE=""; CHECK_TOKEN=0
 while [ $# -gt 0 ]; do
@@ -58,21 +68,50 @@ head_ "Repository"
 OWNER_TYPE="$(gh api "repos/$REPO" --jq .owner.type 2>/dev/null)"
 if [ "$OWNER_TYPE" = "Organization" ]; then
   pass "owned by an organisation — also supports the D5 machine-account upgrade"
+  # Detecting an org used to print only the reassuring line above, which is the one branch that
+  # KNOWS a second gate exists and said nothing about it. GitHub keeps the same
+  # "Actions may create pull requests" setting at organisation level; the endpoint below is
+  # documented at
+  # https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-an-organization
+  # (named by GitHub's own 403 body, read 2026-09-07) and refuses anyone who is not an org admin.
+  # This warns rather than fails: whether the org value overrides the repo value is UNVERIFIED
+  # here, so the repo-level check below stays the one that decides the exit code.
+  ORG="${REPO%%/*}"
+  if ORG_PR="$(gh api "orgs/$ORG/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null)"; then
+    if [ "$ORG_PR" = "true" ]; then
+      pass "$ORG allows Actions to create pull requests"
+    else
+      warn "$ORG does NOT allow Actions to create pull requests (org-level setting)" \
+           "An organisation OWNER must tick it at https://github.com/organizations/$ORG/settings/actions. Repository admin is not enough. On 2026-09-06 the repo-level PUT was refused with 409 Conflict on an org repo in this state; we have not re-reproduced that."
+    fi
+  else
+    warn "could not read $ORG's Actions pull-request policy" \
+         "Not a failure — we could not look. Reading it needs an organisation owner, or: gh auth refresh -h github.com -s admin:org"
+  fi
 else
   pass "owned by a personal account — you can create a fine-grained token for a repo you own (D5a)"
 fi
 if [ "$(gh api "repos/$REPO" --jq .private 2>/dev/null)" = "true" ]; then
   pass "private"
 else
-  warn "public" "Every comment on a thread reaches Claude. On a public repo that is anyone. See docs/05-security.md."
+  warn "public" "Every comment on a thread reaches Claude. On a public repo that is anyone. See $HANDOFF_DIR/docs/05-security.md."
 fi
 
 head_ "Claude side"
-if gh secret list --repo "$REPO" 2>/dev/null | grep -q '^CLAUDE_CODE_OAUTH_TOKEN'; then
-  pass "CLAUDE_CODE_OAUTH_TOKEN secret is set"
+# Key off gh's exit status, same lesson as the BASE read above. Piping straight into grep threw
+# it away, so a 403 read as "the secret is missing" and sent the caller off to run `gh secret set`
+# — which 403s too. Verified 2026-09-07: `gh secret list` exits 0 with NO output on a repo that
+# simply has no secrets, and exits 1 when it cannot read them, so the two states are separable.
+if SECRETS="$(gh secret list --repo "$REPO" 2>/dev/null)"; then
+  if printf '%s\n' "$SECRETS" | grep -q '^CLAUDE_CODE_OAUTH_TOKEN'; then
+    pass "CLAUDE_CODE_OAUTH_TOKEN secret is set"
+  else
+    fail "CLAUDE_CODE_OAUTH_TOKEN secret is missing" \
+         "claude setup-token   then   gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $REPO"
+  fi
 else
-  fail "CLAUDE_CODE_OAUTH_TOKEN secret is missing" \
-       "claude setup-token   then   gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $REPO"
+  warn "could not read the secrets on $REPO — this is NOT 'the secret is missing'" \
+       "Reading secrets needs admin on $REPO. Re-run as someone who has it, or ask them to check. Setting the secret needs admin too, so do not follow the missing-secret advice yet."
 fi
 
 if gh api "repos/$REPO/contents/.github/workflows/claude.yml?ref=$BASE" >/dev/null 2>&1; then
@@ -97,14 +136,14 @@ if gh api "repos/$REPO/contents/.github/workflows/claude.yml?ref=$BASE" >/dev/nu
       pass "claude.yml still has its three cost brakes and the PR step"
     else
       fail "the installed claude.yml is missing:$MISSING" \
-           "This copy has been edited or truncated. Re-copy templates/claude.yml. Without the brakes a runaway run is unbounded; without the PR step no pull request is ever opened."
+           "This copy has been edited or truncated. Re-copy $HANDOFF_DIR/templates/claude.yml. Without the brakes a runaway run is unbounded; without the PR step no pull request is ever opened."
     fi
   fi
 elif gh api "repos/$REPO/contents/.github/workflows/claude.yml" >/dev/null 2>&1; then
   fail "claude.yml exists but is NOT on $BASE" \
        "Actions only triggers issue events from the default branch. Merge it to $BASE."
 else
-  fail "claude.yml is missing" "cp templates/claude.yml .github/workflows/ then commit and push to $BASE"
+  fail "claude.yml is missing" "cp \"$HANDOFF_DIR/templates/claude.yml\" .github/workflows/ then commit and push to $BASE"
 fi
 
 # The workflow can be perfect and the run still useless: Claude reads CLAUDE.md first on every
@@ -121,15 +160,24 @@ if CM="$(gh api "repos/$REPO/contents/CLAUDE.md?ref=$BASE" --jq .content 2>/dev/
          "Claude reads this file first on every run, so it is currently briefed on the template rather than your repository. Fill them in — AGENTS.md step 4."
   fi
 else
-  warn "no CLAUDE.md on $BASE" "Claude will run without repository-specific instructions. Copy templates/CLAUDE.md.template and fill it in."
+  warn "no CLAUDE.md on $BASE" "Claude will run without repository-specific instructions. Copy $HANDOFF_DIR/templates/CLAUDE.md.template and fill it in."
 fi
 
 head_ "Pull requests"
-if [ "$(gh api "repos/$REPO/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null)" = "true" ]; then
-  pass "Actions may create pull requests"
+# Same fix as the secret check. This used to compare the raw response against "true", so a 403
+# error body — which is not "true" — reported as "not enabled" and sent the caller to a Settings
+# page they cannot open. Verified 2026-09-07 against a repo readable but not administered:
+# `gh api …/actions/permissions/workflow --jq …` exits 1 and prints the error JSON to stdout.
+if REPO_PR="$(gh api "repos/$REPO/actions/permissions/workflow" --jq .can_approve_pull_request_reviews 2>/dev/null)"; then
+  if [ "$REPO_PR" = "true" ]; then
+    pass "Actions may create pull requests"
+  else
+    fail "Actions may NOT create pull requests — off by default on every repo, and capped again by the organisation policy on org-owned repos" \
+         "Settings → Actions → General → Workflow permissions → tick 'Allow GitHub Actions to create and approve pull requests'. Without it the PR step in claude.yml fails and no pull request is ever opened. On an org-owned repo see the org-level warning above — an organisation owner has to enable it there too."
+  fi
 else
-  fail "Actions may NOT create pull requests — off by default on every repo" \
-       "Settings → Actions → General → Workflow permissions → tick 'Allow GitHub Actions to create and approve pull requests'. Without it the PR step in claude.yml fails and no pull request is ever opened."
+  warn "could not read the pull-request setting on $REPO — this is NOT 'not enabled'" \
+       "Reading it needs admin on $REPO. Re-run as someone who has it. Changing it needs admin too, so do not follow the not-enabled advice yet."
 fi
 
 head_ "Machine account"
@@ -162,7 +210,7 @@ if [ "$CHECK_TOKEN" = "1" ]; then
     if [ "$CODE" = "200" ]; then
       pass "token can read issues on $REPO"
       warn "reach checked, scope NOT checked" \
-           "This proves the token reaches $REPO. It does not prove it is limited to it — a token scoped to every repo passes this identically. Run the two-call check in docs/03-setup-guide.md against a control repo you own, and read the trap note there before choosing one."
+           "This proves the token reaches $REPO. It does not prove it is limited to it — a token scoped to every repo passes this identically. Run the two-call check in $HANDOFF_DIR/docs/03-setup-guide.md against a control repo you own, and read the trap note there before choosing one."
     else fail "token cannot reach $REPO issues (HTTP $CODE)" "Check the resource owner is the ORG, and that an org owner approved the token."; fi
     if [ -n "$EXP" ]; then
       pass "token expires: $EXP"
@@ -179,9 +227,9 @@ else
   warn "skipped — pass --token with \$BOT_TOKEN set to check reach and expiry"
 fi
 
-head_ "Cannot be checked from here"
+head_ "Cannot be checked from here — but check it FIRST"
 warn "Claude GitHub App installed on $REPO" \
-     "No API can confirm this without the app's own credentials. Check by eye: https://github.com/$REPO/settings/installations"
+     "Listed last, but it is the first thing the run does. Until the app is installed a missing token cannot be diagnosed: the run dies at app-token exchange before the token is ever used (observed 2026-09-06). No API can confirm this without the app's own credentials. Check by eye: https://github.com/$REPO/settings/installations"
 
 printf '\n'
 if [ "$FAILED" -gt 0 ]; then
