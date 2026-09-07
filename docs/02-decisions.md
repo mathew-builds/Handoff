@@ -43,6 +43,8 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 What it still buys is **attribution**: you can tell at a glance which issues a bot opened. That is worth having eventually. It is not worth an organisation, a second account with its own email, an org-owner token approval and a repo migration *before you have seen the thing work once*.
 
 Note that #46 does **not** apply here: GitHub only blocks fine-grained tokens for repos where you are an *outside or repository collaborator*. On a repo you own, it is fine.
+
+**What neither path buys, ever: per-bot isolation.** Grok Bot connectors are account-wide — see the quotation and source in D5, "The sharp edge that does not go away". Whichever account holds the token, every bot on that account can use it. So "one token per bot" is not a thing you can configure, on your own account or on a machine account. `05-security.md` rule 4 says the same thing; if you change one, change the other.
 **Reverses if:** you want bot-authored issues distinguishable from your own — real work on a shared repo, or anything with an audit requirement. Then do D5 properly. It is an upgrade, not a prerequisite.
 
 ### D5 — A GitHub machine account for the Coder bot
@@ -185,6 +187,13 @@ table still holds. Two things worth adding, both read on the live page that day:
 
 Task 0.1 is ticked on the strength of these two runs.
 
+### D11 — Publish as an MIT template
+**Date:** 2026-09-05
+**Decision:** Open source, template-shaped.
+**Beat:** Keeping it private; offering it as a hosted service.
+**Why:** The pain point is widely reported and people are hand-rolling worse bridges. A template creates no ToS exposure (each user's own tokens, own repos). A hosted service would.
+**Reverses if:** never for the template. A paid *methodology* around it is a separate question.
+
 ### D12 — A step inside `claude.yml` opens the pull request; Claude does not
 **Date:** 2026-09-05
 **Decision:** A step **inside `claude.yml`**, immediately after the action, opens the pull request using the action's `branch_name` output.
@@ -200,7 +209,7 @@ We first shipped a *separate* `claude-open-pr.yml` triggered `on: push` to `clau
 
 **Caught by:** running the bridge end to end from Grok Bot. Issue 5 on the trial repo produced a branch with the work and **no pull request**. Issue #61.
 
-**Verified after the fix, on the real path:** issue 6 → Claude ran → branch `claude/issue-6-20260905-1816` → **PR #7 opened automatically**, titled from Claude's commit, with `Closes #6`. No human push anywhere in that chain.
+**Verified after the fix, on the real path:** issue 6 → Claude ran → branch `claude/issue-6-20260905-1816` → **PR 7 opened automatically**, titled from Claude's commit, with `Closes #6`. No human push anywhere in that chain.
 **Requires a repo setting:** Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**. This is **off by default** and the workflow fails with `GitHub Actions is not permitted to create or approve pull requests` until you turn it on. Discovered by running it, 2026-09-05.
 **Reverses if:** the action gains a PR-creation tool in tag mode. Then delete this workflow.
 
@@ -211,13 +220,6 @@ We first shipped a *separate* `claude-open-pr.yml` triggered `on: push` to `clau
 **Why:** The project tells consumers to gate everything on tests and then shipped an unlinted template; PR #20 merged with zero checks. A check that reports instead of failing reads as a pass. The caps check in particular turns the `CLAUDE.md` ground rule about `concurrency`/`timeout-minutes`/`--max-turns` from a sentence someone might read into a control that blocks a merge.
 **Verified:** both scripts were run against good input (exit 0) *and* deliberately broken input (exit 1) before being trusted.
 **Reverses if:** never. Add checks; do not remove them.
-
-### D11 — Publish as an MIT template
-**Date:** 2026-09-05
-**Decision:** Open source, template-shaped.
-**Beat:** Keeping it private; offering it as a hosted service.
-**Why:** The pain point is widely reported and people are hand-rolling worse bridges. A template creates no ToS exposure (each user's own tokens, own repos). A hosted service would.
-**Reverses if:** never for the template. A paid *methodology* around it is a separate question.
 
 ### D14 — Multi-repo routing: refuse, don't guess better
 **Date:** 2026-09-07
