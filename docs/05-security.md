@@ -12,7 +12,7 @@ flowchart TB
         ISSUES["Issues on the target repo"]
         SEC["Repo Secrets — trusted<br/>CLAUDE_CODE_OAUTH_TOKEN"]
     end
-    subgraph RUN["Ephemeral runner — trusted, short-lived"]
+    subgraph RUN["Ephemeral runner — destroyed each run,<br/>but reads untrusted text while holding live tokens"]
         T4["Repo checkout + Claude Code<br/>+ a GitHub token with contents:write"]
     end
     subgraph NO["Never on the bot computer"]
