@@ -138,8 +138,8 @@ Include: the command or the trigger, what you expected, what happened, and the r
 
 ## Security
 
-Don't open a public issue for a security problem. Use GitHub's **private vulnerability reporting** on this repository instead — its security tab carries a **Report a vulnerability** button.
+Don't open a public issue for a security problem. **[`SECURITY.md`](SECURITY.md) is the policy** — it covers how to report, what is in and out of scope, and which risks are known and accepted rather than bugs.
 
-Two things about that channel, both read from GitHub's own documentation on 2026-09-07: it is available on **public repositories only**, and a maintainer has to switch it on before the button appears. If you cannot see the button, open a public issue saying you have a security report **and nothing else** — no details, no reproduction — and ask for the channel to be turned on.
+The short version: use the **Security** tab → **Report a vulnerability**. That channel was switched on for this repository on 2026-09-07, so the button is there. (It is a public-repository-only feature and off by default, which is why it needed enabling.)
 
 `docs/05-security.md` has the threat model and is honest about what this design does *not* protect against — prompt injection is reduced, not prevented, and anyone who can comment on a thread can put text in front of the coding agent.
