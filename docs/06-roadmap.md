@@ -62,8 +62,9 @@ Goal: someone else can set this up from the README in under two hours.
 
 **Result, 2026-09-06: partly passed.** `setup.sh`, `doctor.sh` and the weekly cost report are done
 and evidenced (tasks 3.1–3.3). **Not done:** nobody outside the project has installed Handoff from
-the README (3.4), and `v1.0.0` is deliberately untagged until the repository moves to an
-organisation and goes public (3.5).
+the README (3.4), and `v1.0.0` is not yet tagged (3.5). The ownership question that held the tag
+was settled on 2026-09-07 — the repository stays on its personal account — so the tag is now
+waiting only on the decision to publish.
 
 ## What would make us add a server (the parked v3 design)
 

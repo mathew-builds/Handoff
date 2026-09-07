@@ -116,9 +116,14 @@ This is not theoretical: a `doctor.sh` check added on 2026-09-06 could not fail,
 `grep` matched the template's own comments. Found only by commenting a brake out and watching
 it pass.
 
-**`actionlint` does not check shell inside a `run:` block.** A heredoc in
-`templates/weekly-cost.yml` broke on an apostrophe in the prose and linted clean. If you touch
-shell in a workflow, extract it and check it:
+**`actionlint` runs shellcheck inside `run:` blocks, but do not rely on it alone.** This file used
+to say actionlint does not check shell there at all. **That is wrong** — corrected 2026-09-07, when
+it flagged `SC2016` inside a newly added step and failed the build. What actually happened with the
+heredoc in `templates/weekly-cost.yml` is narrower: it broke on an apostrophe in the prose and
+*shellcheck did not catch that particular bug*, so the run linted clean and still failed at runtime.
+
+The practice is unchanged and still necessary — extract the shell and check it yourself, because a
+clean lint is not evidence the block runs:
 
 ```bash
 python3 -c "import yaml;d=yaml.safe_load(open('templates/weekly-cost.yml'));print(d['jobs']['report']['steps'][0]['run'])" > /tmp/s.sh

@@ -6,10 +6,25 @@ Grok Bot (xAI + Cursor, public beta since 11 Aug 2026) is a good command centre:
 
 - Usage is a **weekly** allowance whose size is unpublished.
 - There is **no model picker** — the router can serve expensive models for simple work.
-- There is **no Grok Bot-specific spend cap**; when the pool empties it spills into paid on-demand and credits.
+- There is **no Grok Bot-specific spend cap**; when the pool empties, usage continues on shared on-demand spend *if you have that enabled*. The account-wide on-demand limit is the only brake, and you can set it to `$0`.
 - Coding loops, bot-to-bot chatter and short-interval routines are the fastest drains (staff-confirmed on the Cursor forum, Sep 2026).
 
-Claude Code on a Claude Max plan is the opposite: flat monthly price, your choice of model, generous rolling limits, and the best terminal coding agent available.
+Claude Code on a Claude Max plan is the opposite where it counts: flat monthly price, your choice of
+model, and generous rolling limits. It is also missing most of what makes Grok Bot a good command
+centre — which is the whole reason this is a bridge and not a replacement.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/handoff-gaps-dark.svg">
+  <img src="../assets/handoff-gaps-light.svg" width="660" alt="Grok Bot is good at group chats, a chief-of-staff pattern, unattended routines, a persistent cloud computer and browser reach, but for coding it lacks a published allowance size, a model picker and a product-specific spend cap, and gives all your bots one shared computer. Claude Code on the Action has a flat monthly price, your choice of model, generous rolling limits and runs your tests, but it has no chat or phone surface of its own, no memory across tasks, no mid-run decisions, is unattended-only, and needs a GitHub repository. Each column's missing row is the other column's good-at row.">
+</picture>
+
+**Neither product is being criticised here.** Every "Missing" entry above is sourced: Grok Bot's from
+the vendor's own documentation (`07-evidence.md`, re-verified against the live pages 2026-09-07),
+Claude Code's from this repository's own "what it is not" list. They are not defects — they are the
+shape of two tools built for different jobs.
+
+*("The best terminal coding agent available" used to appear in this paragraph. It was removed on
+2026-09-07: it is a superlative with nothing behind it, and this project does not get to make those.)*
 
 **This project moves coding — and only coding — from the first meter to the second.**
 

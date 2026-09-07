@@ -8,11 +8,11 @@ Because this project's whole discipline is not claiming what it has not run, ent
 
 Nothing since 1.0.0 was assembled.
 
-## [1.0.0] — not yet tagged
+## [1.0.0] — 2026-09-07
 
-The tag and the GitHub release are deliberately held until the repository moves to an organisation
-and goes public: the tag is the thing people link to, and it should not be cut twice
-(`TASKS.md` 3.5). Everything below is in `main` today.
+Owner settled 2026-09-07: the repository stays on its personal account rather than moving to an
+organisation, so the tag is safe to cut — it will not need cutting twice. Everything below is in
+`main`.
 
 First release. The bridge has been watched working end to end — issue in, reviewable pull request out, reported back into a chat — on 2026-09-06. Claims below are split into what was observed and what was not; the front page carries the same split.
 
@@ -54,8 +54,8 @@ First release. The bridge has been watched working end to end — issue in, revi
 - **"Allow GitHub Actions to create and approve pull requests" is off by default on every repository.** Without it the coding agent does the work, pushes a branch, and no pull request ever appears. This is the single most common silent failure.
 - **The write-access check is not a prompt-injection defence.** It controls who can *start* a run, not what text reaches the agent. Anyone who can comment on a thread — including a read-only collaborator — can put text in front of it.
 
-<!-- Link definitions for [Unreleased] and [1.0.0] belong here once v1.0.0 is actually tagged
-     and the repository is public (TASKS.md 3.5). Until then they would both 404, so the two
-     headings render as plain text on purpose. Restore them as the last step of cutting the tag:
-       [Unreleased]: https://github.com/OWNER/Handoff/compare/v1.0.0...HEAD
-       [1.0.0]: https://github.com/OWNER/Handoff/releases/tag/v1.0.0 -->
+<!-- Owner settled 2026-09-07: the repository stays on the personal account. These two links
+     go live the moment v1.0.0 is tagged — tag BEFORE making the repository public and they
+     are never briefly broken for a reader. -->
+[Unreleased]: https://github.com/mathew-builds/Handoff/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/mathew-builds/Handoff/releases/tag/v1.0.0
