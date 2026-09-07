@@ -140,6 +140,46 @@ Meter 3 as a real, small, unpriced cost rather than as nothing.
 
 There is no session state. That is a feature: nothing to back up, nothing to get stuck.
 
+## Running this on more than one repository
+
+**Everything in this repo is written for one target repository, and until 2026-09-07 it never said
+so.** Most people with a chat command centre have several projects, so here is the honest split
+between what scales for free and what does not. **None of this has been run — we have only ever
+operated one repository.**
+
+**Scales for free — layer 1 is per-repo and the copies do not interact:**
+
+| Piece | Why it is fine |
+|---|---|
+| `claude.yml` | A file in each repo. They never see each other. |
+| `CLAUDE.md` | Per repo, which is the point — each one describes its own codebase. |
+| The Claude OAuth token | The same subscription secret works in every repo. GitHub supports an **organisation-level Actions secret** so you set it once rather than N times. |
+| `doctor.sh` | Takes `OWNER/REPO`; run it per repo. |
+| The merge gate | Per repo, unchanged. |
+
+**Does not scale, and these are the real ones:**
+
+1. **Routing — the unsolved one.** `templates/bots/coder.md` names a single `OWNER/REPO`. With
+   several projects the Coder must *choose*, and nothing in this design tells it how. Guess wrong
+   and the issue lands on the wrong project, where `@claude` will cheerfully act on it. This is a
+   prompt-design problem, not a plumbing one, and it is the thing to solve first.
+2. **Token blast radius.** A fine-grained token can name several repositories, so one token can
+   cover them all — but D5a's *"one repo limits reach"* stops being true. A stolen token then opens
+   issues on every repo it names. Still spam rather than account compromise, N times over. The
+   alternative is one token per repo, which the connector may or may not support — **unverified.**
+3. **The return path.** One routine per repository is the obvious shape, and routines are capped at
+   **50 per bot** (vendor-documented). Whether a single routine can watch several repositories at
+   once is **unverified** — we have not tried it.
+4. **Cost visibility fragments.** `weekly-cost.yml` reports on `${{ github.repository }}`, so five
+   repos give you five separate weekly reports on five separate issues and no total. Aggregating
+   them is not built.
+5. **Actions minutes are pooled**, per account or organisation. Ten repos share one budget, so the
+   per-task cost stays the same but the ceiling arrives ten times sooner.
+
+**The short version:** the coding half is already multi-repo. The *chat* half is not, and routing is
+the blocker. Anyone running this across projects today should expect to name the repository in the
+brief rather than rely on the bot to infer it.
+
 ## Trust boundaries
 
 ```mermaid

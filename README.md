@@ -158,6 +158,7 @@ This project's history is confident claims that turned out to be false — four 
 - **Never run against a large or complex codebase.** Every measurement here comes from a small trial repo. A real project will look different and we have not measured one.
 - **The report-back in layer 2 usually says `tests pending`** — by design. It fires when the pull request opens, while checks are still queued.
 - **One run per test.** Nothing here speaks to reliability over weeks.
+- **Written for one repository.** The coding half already works across as many repos as you like — it is just a workflow file in each. The *chat* half is not solved: the Coder bot has to decide which project a request belongs to, and getting that wrong opens an issue on the wrong codebase. See [01-architecture.md](docs/01-architecture.md#running-this-on-more-than-one-repository) for what scales for free and what does not. **Untested — we have only ever operated one repository.**
 - Anything not verified by a run says so, in [07-evidence.md](docs/07-evidence.md).
 
 ## Quick start
