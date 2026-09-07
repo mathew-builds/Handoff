@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 306" width="660" height="306" role="img" aria-label="What drains a Grok Bot weekly allowance fastest, ranked: 1 bots talking to each other in group chats, 2 short-interval routines, 3 long coding and agent loops, 4 browser and computer-use sessions. Handoff moves only number three. It does not fix the other three.">
+  <title>What drains the allowance fastest — and the one Handoff moves</title>
+  <desc>A ranked list of four drains on a Grok Bot weekly allowance. Handoff moves only the third, long coding and agent loops. The first, second and fourth are marked as things Handoff does not fix. A footnote records that this is a ranking from community consensus and staff replies, not a measurement, so no magnitudes are implied.</desc>
+
+  <!-- Hand-authored. No <style> block (GitHub strips it and prints the CSS as visible text).
+       Light-theme twin of handoff-drains-dark.svg — the two differ only in colour attributes.
+
+       DELIBERATELY NOT A BAR CHART. The source gives a RANK, not sizes: docs/07-evidence.md
+       records four drains in order from community consensus and Cursor staff replies, and
+       nobody has measured their relative magnitude. Bars of different lengths would invent
+       data. Equal rows carry the ordering and claim nothing else. -->
+
+  <rect x="0" y="0" width="660" height="306" rx="6" fill="#FCFBF9" stroke="#E4DFD3"/>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+
+    <!-- ── 1 ── -->
+    <circle cx="42" cy="46" r="12" fill="none" stroke="#C9C3B6"/>
+    <text x="42" y="46" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#565B63">1</text>
+    <text x="68" y="46" dominant-baseline="middle" font-size="12.5" fill="#1A1D22">Bots talking to each other in group chats</text>
+    <text x="644" y="46" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#8A9099">Handoff does not fix this</text>
+
+    <!-- ── 2 ── -->
+    <circle cx="42" cy="92" r="12" fill="none" stroke="#C9C3B6"/>
+    <text x="42" y="92" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#565B63">2</text>
+    <text x="68" y="92" dominant-baseline="middle" font-size="12.5" fill="#1A1D22">Short-interval routines — a 15-minute schedule is ~100 runs a day</text>
+    <text x="644" y="92" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#8A9099">Handoff does not fix this</text>
+
+    <!-- ── 3 · the one this project moves ── -->
+    <rect x="16" y="121" width="628" height="34" rx="4" fill="#EAF3EE" stroke="#2C6B4F" stroke-width="2"/>
+    <circle cx="42" cy="138" r="12" fill="none" stroke="#2C6B4F"/>
+    <text x="42" y="138" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#1F5138">3</text>
+    <text x="68" y="138" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1F5138">Long coding and agent loops</text>
+    <text x="628" y="138" text-anchor="end" dominant-baseline="middle" font-size="11" font-weight="700" fill="#1F5138">Handoff moves this one</text>
+
+    <!-- ── 4 ── -->
+    <circle cx="42" cy="184" r="12" fill="none" stroke="#C9C3B6"/>
+    <text x="42" y="184" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="700" fill="#565B63">4</text>
+    <text x="68" y="184" dominant-baseline="middle" font-size="12.5" fill="#1A1D22">Browser and computer-use sessions</text>
+    <text x="644" y="184" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#8A9099">Handoff does not fix this</text>
+
+    <line x1="16" y1="212" x2="644" y2="212" stroke="#E4DFD3"/>
+
+    <text x="16" y="236" font-size="11.5" fill="#565B63">Reported on the Cursor forum, 4 Sep 2026: five agents talked to each other for seven hours</text>
+    <text x="16" y="254" font-size="11.5" fill="#565B63">unattended, burning on-demand spend. No code was produced.</text>
+
+    <text x="16" y="282" font-size="10.5" fill="#8A9099">A ranking from community consensus and Cursor staff replies — not a measurement. Row order carries no magnitude,</text>
+    <text x="16" y="296" font-size="10.5" fill="#8A9099">and we have never measured a Grok Bot allowance ourselves.</text>
+
+  </g>
+</svg>
