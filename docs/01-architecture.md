@@ -49,11 +49,11 @@ flowchart LR
     COS -- "④ 'PR ready'" --> YOU
     YOU -- "⑤ review + merge" --> PR
 
-    classDef you fill:#EAF3EE,stroke:#2C6B4F
-    classDef grok fill:#EAF0F9,stroke:#2C4A7C
-    classDef coder fill:#FBEEE8,stroke:#B85A36,stroke-width:2px
-    classDef gh fill:#F5F3EF,stroke:#5C626B
-    classDef claude fill:#FBEEE8,stroke:#B85A36
+    classDef you stroke:#2C6B4F
+    classDef grok stroke:#2C4A7C
+    classDef coder stroke:#B85A36,stroke-width:2px
+    classDef gh stroke:#5C626B
+    classDef claude stroke:#B85A36
 ```
 
 **The layer numbers match the README, and until 2026-09-07 they did not.** This diagram used to
@@ -112,9 +112,9 @@ flowchart LR
     B == "the one arrow this project adds" ==> D
     G -. "PR event" .-> C
     H -. "runs alongside" .-> D
-    style M1 fill:#EAF0F9,stroke:#2C4A7C
-    style M2 fill:#FBEEE8,stroke:#B85A36
-    style M3 fill:#F5F3EF,stroke:#5C626B
+    style M1 stroke:#2C4A7C
+    style M2 stroke:#B85A36
+    style M3 stroke:#5C626B
 ```
 
 The whole project is the arrow from B to D. Everything to the right of it used to be on Meter 1.
@@ -157,9 +157,9 @@ flowchart LR
     GBVM -- "opens / comments on issues" --> ISSUES
     ISSUES -- "triggers workflow" --> RUNNER
     SECRETS -. "injected at run time" .-> RUNNER
-    style U fill:#FBECEA,stroke:#A02B20
-    style G fill:#F5F3EF,stroke:#5C626B
-    style T fill:#EAF3EE,stroke:#2C6B4F
+    style U stroke:#A02B20
+    style G stroke:#5C626B
+    style T stroke:#2C6B4F
 ```
 
 - The Grok Bot computer is shared by every bot on the account. It holds a GitHub token for one repo. **That token is a spam control, not a privilege control** — the action checks the *account's* write access, not the *token's* scope, so anyone holding it can start a full run. See D5 and `05-security.md`.
