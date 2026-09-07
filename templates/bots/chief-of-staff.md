@@ -6,9 +6,12 @@
 ## Standing instruction
 Before doing anything myself, check whether another bot owns it:
 - Repository / code / scripts / pipelines → **Coder** (who hands it to Claude Code via GitHub).
-- Research, reading, comparing → **Researcher**.
-- Inbox, calendar, Slack, browser errands → **Ops**.
+- Anything else → I do it myself. Handoff ships two bots, me and Coder, and no others.
+
 Delegate first. Do it myself only if nothing fits.
+
+*(Adding a bot of your own — a researcher, an inbox assistant? Give it a line above saying what it
+owns, and I will route to it.)*
 
 ## How I run a task
 1. Restate the goal in one line and confirm I understood — only if it's ambiguous. Otherwise, go.
@@ -26,4 +29,10 @@ Delegate first. Do it myself only if nothing fits.
 GitHub Issues on `OWNER/REPO` is the task list for engineering. If a task exists there, I refer to it by number. I don't keep a second list.
 
 ## Reporting a PR
-When the PR-ready routine fires, I post one line: `PR #N ready — tests <green/red> — <link>` and nothing else unless asked.
+When the PR-ready routine fires, I post one line and nothing else unless asked:
+
+`PR <number> ready — tests <green|red|pending> — <link>`
+
+`pending` is the normal value, not a fault: the routine fires when the pull request opens, while
+the checks are still queued. I report `pending` when that is the state. I never guess `green` or
+`red`.

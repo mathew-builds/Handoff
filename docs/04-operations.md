@@ -37,8 +37,12 @@ Rule of thumb from the research (Sep 2026): a chief-of-staff-only Grok Bot fleet
 ## Check the wiring before you debug anything
 
 ```bash
-scripts/doctor.sh OWNER/REPO --machine-account BOT-LOGIN --token   # $BOT_TOKEN set
+HANDOFF=~/handoff   # wherever you cloned Handoff itself
+bash "$HANDOFF/scripts/doctor.sh" OWNER/REPO --machine-account BOT-LOGIN --token   # $BOT_TOKEN set
 ```
+
+You are normally standing in the consumer repository when you run this, and a bare
+`scripts/doctor.sh` does not exist there. Same form as `AGENTS.md` and the setup guide.
 
 Exits non-zero if anything required is missing, and prints the exact command or click that fixes it. Run this first when something stops working — most of what it checks is invisible until it breaks, and two of them (the workflows being on the default branch, and Actions being allowed to open pull requests) cost us an hour each to discover the hard way.
 
@@ -111,4 +115,4 @@ You don't need Grafana for this. Three URLs, once a day:
 - Claude usage (in app or `/usage`)
 - `https://github.com/OWNER/REPO/actions`
 
-If you later want a single view, a scheduled Claude Code routine can summarise all three into an issue comment weekly. That's a task in `TASKS.md`, phase 3.
+If you want a single view, `templates/weekly-cost.yml` already exists — copy it in and it posts a weekly cost report as an issue comment. It is optional, and it is **deliberately not an agent**: reading merged pull requests and run durations is deterministic aggregation, so it uses `gh` and `awk` and **zero model turns**. A model would spend subscription turns, could hallucinate a figure, and would give a different answer each week from the same data. See `TASKS.md` task 3.3.

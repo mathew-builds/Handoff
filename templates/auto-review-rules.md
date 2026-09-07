@@ -18,5 +18,11 @@ Also set, outside Grok Bot:
 
 **Two limits on Auto Review worth knowing before you rely on it.**
 
-1. **An admin cannot force it on.** *"Each member's own Auto Review setting remains the off switch… An organization-level lock is not available."* Personal rules are stored per desktop install and do not sync — verify them on every machine you use.
-2. **It is model-based, and does not cover everything.** *"Auto Review is model-based and should complement, not replace, least privilege."* It *"does not review every side effect; memory writes and most settings changes are examples."*
+1. **An admin cannot force it on.** As we read it, each member's own Auto Review setting is the off switch, and there is no organisation-level lock. Personal rules are stored per desktop install and do not sync — verify them on every machine you use.
+2. **It is model-based, and does not cover everything.** As we read it, Auto Review is model-based and is meant to complement least privilege rather than replace it, and it does not review every side effect — memory writes and most settings changes being the examples given.
+
+> **Unverified, 2026-09-07.** The two points above were quotations in earlier drafts. We hold no
+> URL for either, and searching the vendor pages we could fetch did not turn up the wording, so
+> they are our reading of the documentation rather than the vendor's words. Treat them as a
+> prompt to check the current settings yourself, not as a citation. A quotation nobody can look
+> up is worse than a plain statement of what we understood.
