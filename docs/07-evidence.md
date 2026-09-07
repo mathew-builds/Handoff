@@ -7,7 +7,7 @@ Why we believe the pain point is real and structural. Compiled 5 Sep 2026 from x
 | Fact | Source |
 |---|---|
 | Usage resets **weekly**; the allowance size is not published per plan | Cursor plans doc; xAI Grok Bot docs |
-| "There is no Grok Bot-specific spend cap yet" | Cursor teams/billing doc |
+| **"A separate Grok Bot spend cap is not available today. Account-level on-demand controls apply, and the per-product split is on the dashboard usage page."** | <https://docs.x.ai/grok-bot/teams-and-enterprises>, FAQ "Can I set a Grok Bot spend cap?", read 2026-09-07 |
 | No model picker; billing follows the actual serving model | Cursor Grok Bot doc |
 | When the weekly pool is exhausted, usage continues on shared on-demand spend if enabled | Cursor plans doc |
 | All bots share one computer; separate bots are not a security boundary | xAI Grok Bot FAQ |
@@ -46,7 +46,21 @@ Coding is not the *only* drain, but it is the one that (a) is the most token-hun
 - Cursor's own path: Grok Bot delegating to **Cursor Cloud Agents**, which bill to the Cursor pool rather than the Grok Bot pool.
 - xAI's own staff describe an engineering-manager bot that "does not code" and delegates.
 
-Every one of these is a bridge. All of them need a server, a tunnel, or a second metered pool. This project is the version that needs none.
+Every one of these is a bridge. All of them need **a server, a tunnel, a second billing pool, or your coding credential on the bot's shared computer.** This project is the version that needs none of the four.
+
+> **Corrected 2026-09-07, and the correction matters.** This paragraph previously said "a server, a
+> tunnel, or a second metered pool" — three axes. The second bullet above falsifies that: installing
+> the coding CLI on the bot's own computer needs no server you provision, no tunnel, and — signed in
+> to your own subscription — no second pool. On the three axes as written it beat us.
+>
+> The fourth axis is what it actually costs, and this project already documents it as unacceptable:
+> `05-security.md` says to assume that computer is compromised and lists a coding login under
+> **Never on the bot computer**, the vendor states that all a user's bots share one computer and that
+> any permitted connector is available to every bot they run, and the bullet above records that
+> installed packages are wiped on image updates.
+>
+> "Second **billing** pool", not "metered pool": we can evidence that Cursor Cloud Agents bill to a
+> *different* pool; we have not evidenced that that pool is metered per token.
 
 ## What people like
 
