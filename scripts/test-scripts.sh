@@ -78,6 +78,67 @@ else
   fi
 fi
 
+# ---------------------------------------------------------------------------
+# Execution: the misrouted-issue guard in templates/claude.yml (D14).
+#
+# This is product code that ships to consumers, it is shell, and it contains a
+# `|| true` whose absence would break the COMMON case — no `Repo:` line at all.
+# That is the same shape as the setup.sh bug of 2026-09-06. Tested here so a
+# regression fails the build rather than a stranger's install.
+# ---------------------------------------------------------------------------
+echo "→ templates/claude.yml misrouted-issue guard"
+
+GUARD="$TMP/guard.sh"
+python3 - "$ROOT" "$GUARD" <<'PY' 2>/dev/null || true
+import sys, yaml
+root, out = sys.argv[1], sys.argv[2]
+doc = yaml.safe_load(open(f"{root}/templates/claude.yml"))
+for step in doc["jobs"]["claude"]["steps"]:
+    if step.get("name") == "Refuse a misrouted issue":
+        open(out, "w").write(step["run"])
+PY
+
+if [ ! -s "$GUARD" ]; then
+  bad "could not extract the 'Refuse a misrouted issue' step — renamed or removed? (D14)"
+else
+  bash -n "$GUARD" && ok "guard: bash -n" || bad "guard: bash -n"
+
+  mkdir -p "$TMP/gbin"
+  printf '#!/usr/bin/env bash\necho "called" >> "$COMMENTS_LOG"\n' > "$TMP/gbin/gh"
+  chmod +x "$TMP/gbin/gh"
+
+  guard_case() {  # name  body  this_repo  is_new  want_rc  want_comment
+    : > "$TMP/comments.log"
+    ( PATH="$TMP/gbin:$PATH" COMMENTS_LOG="$TMP/comments.log" RUNNER_TEMP="$TMP" \
+      BODY="$2" THIS_REPO="$3" ISSUE=1 IS_NEW_ISSUE="$4" \
+      bash "$GUARD" >/dev/null 2>&1 )
+    local rc=$? commented=no
+    [ -s "$TMP/comments.log" ] && commented=yes
+    if [ "$rc" = "$5" ] && [ "$commented" = "$6" ]; then
+      ok "guard: $1"
+    else
+      bad "guard: $1 — got exit=$rc commented=$commented, wanted exit=$5 commented=$6"
+    fi
+  }
+
+  # The success path first. If this breaks, every single-repo install breaks.
+  guard_case "no Repo: line runs normally"        "@claude go"                    "o/r" true  0 no
+  guard_case "matching Repo: runs normally"       "Repo: o/r"$'\n\n'"@claude go"  "o/r" true  0 no
+  guard_case "case-insensitive match runs"        "repo: O/R"$'\n\n'"@claude go"  "o/r" true  0 no
+  guard_case "prose 'repo:' is not a declaration" "the repo: is fine @claude"     "o/r" true  0 no
+  guard_case "mismatch refuses and comments"      "Repo: o/x"$'\n\n'"@claude go"  "o/r" true  1 yes
+  guard_case "mismatch on a comment cannot loop"  "Repo: o/x"$'\n\n'"@claude go"  "o/r" false 1 no
+
+  # The refusal comment must never carry the trigger phrase: a comment
+  # containing it restarts the workflow, and on issue_comment the body read is
+  # the ISSUE's, so it would find the same bad line and comment forever.
+  if grep -q '@claude' "$TMP/misrouted.md" 2>/dev/null; then
+    bad "guard: the refusal comment contains the trigger phrase — this loops"
+  else
+    ok "guard: refusal comment carries no trigger phrase"
+  fi
+fi
+
 echo
 if [ "$FAIL" -ne 0 ]; then
   echo "scripts/: FAILED" >&2
