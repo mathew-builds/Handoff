@@ -79,6 +79,45 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# The placeholder token list is written out in THREE places — setup.sh,
+# doctor.sh, and the sed above — and until 2026-09-07 nothing made them agree.
+# Add a placeholder to CLAUDE.md.template and forget one script, and that script
+# silently stops noticing it: the check still passes, having tested less. Assert
+# agreement rather than hoping for it (GUARD-01).
+# ---------------------------------------------------------------------------
+echo "→ placeholder list agrees across setup.sh, doctor.sh and the template"
+
+PL_OUT="$(python3 - "$ROOT" <<'PY'
+import re, sys
+root = sys.argv[1]
+
+def pattern(name):
+    src = open(f"{root}/scripts/{name}").read()
+    m = re.search(r"grep -oE '(<\(.*?\)>)'", src)
+    return m.group(1) if m else None
+
+ps, pd = pattern("setup.sh"), pattern("doctor.sh")
+if ps is None or pd is None:
+    print(f"FAIL both scripts must grep a '<(...)>' placeholder pattern (setup={ps!r} doctor={pd!r})")
+elif ps != pd:
+    print("FAIL setup.sh and doctor.sh grep DIFFERENT placeholder patterns, so they disagree about what counts as unfilled")
+else:
+    tmpl = open(f"{root}/templates/CLAUDE.md.template").read()
+    toks = sorted(set(re.findall(r"<[^>\n]+>", tmpl)))
+    rx = re.compile(ps)
+    missed = [t for t in toks if not rx.fullmatch(t)]
+    if missed:
+        print("FAIL placeholders present in the template that neither script would notice: " + " ".join(missed))
+    else:
+        print(f"OK {len(toks)} placeholder(s), pattern identical in both scripts")
+PY
+)"
+case "$PL_OUT" in
+  OK*) ok "placeholders: ${PL_OUT#OK }" ;;
+  *)   bad "placeholders: ${PL_OUT#FAIL }" ;;
+esac
+
+# ---------------------------------------------------------------------------
 # Execution: the misrouted-issue guard in templates/claude.yml (D14).
 #
 # This is product code that ships to consumers, it is shell, and it contains a

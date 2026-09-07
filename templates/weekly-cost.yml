@@ -61,9 +61,17 @@ jobs:
             --jq "[.[] | select(.mergedAt >= \"${SINCE}T00:00:00Z\") | select(.headRefName | startswith(\"claude/\"))] | length")"
 
           # --- Claude workflow runs in the window -----------------------------
-          RUNS="$(gh run list --repo "$REPO" --workflow claude.yml --limit 200 \
+          # `|| echo '[]'` used to sit on the end of this. It turned ANY failure —
+          # a 404 because claude.yml is not installed, a permissions error, a
+          # network blip — into an empty list, so the report printed a confident
+          # "0 runs" and exited 0. A broken report that looks like a quiet week is
+          # worse than no report: you would act on it. Fail loudly instead.
+          if ! RUNS="$(gh run list --repo "$REPO" --workflow claude.yml --limit 200 \
             --json databaseId,conclusion,createdAt,startedAt,updatedAt \
-            --jq "[.[] | select(.createdAt >= \"${SINCE}T00:00:00Z\")]" 2>/dev/null || echo '[]')"
+            --jq "[.[] | select(.createdAt >= \"${SINCE}T00:00:00Z\")]")"; then
+            echo "::error::Could not read workflow runs for $REPO. Not posting a report, because the numbers would be wrong rather than merely absent. Check that claude.yml exists on the default branch and that this token can read Actions."
+            exit 1
+          fi
           # Count only runs that DID work. A run whose `if:` gate does not match is
           # reported as "skipped": it costs a few seconds of runner start-up and no
           # model turns at all. Counting those in "runs per PR" made a healthy repo
