@@ -41,7 +41,7 @@ A change that is correct in one context is often wrong in the other. Most of the
 
 ## Before you open a pull request
 
-Run all three. They are what CI runs, so this reproduces it exactly.
+Run all four.
 
 ```bash
 pip install pyyaml    # once
@@ -49,11 +49,18 @@ pip install pyyaml    # once
 actionlint -ignore 'unexpected key "queue" for "concurrency" section' .github/workflows/*.yml templates/*.yml
 python3 scripts/check-links.py
 python3 scripts/check-workflow-caps.py
+bash scripts/test-scripts.sh
 ```
 
 Each exits non-zero on failure. The `-ignore` flag is dated and justified in `ci.yml`; drop it once actionlint learns the `queue` key.
 
-**`actionlint` will not catch a bug in a `run:` block.** Shell inside a workflow is invisible to it — a heredoc broke on an apostrophe in this repo and linted clean. If you touch shell in a workflow, extract it and check it:
+`test-scripts.sh` is the one people leave out and the one you are most likely to need. It is the only check that **runs** `scripts/*.sh` rather than reading them, and the only check that exercises the misrouted-issue guard in `templates/claude.yml` (D14). This block used to say "run all three", omitting it — corrected 2026-09-07.
+
+CI runs a fifth thing these four do not: a `grep` tripwire for credential-shaped strings. So a clean local run is close to CI, not identical to it.
+
+**`actionlint` runs shellcheck inside `run:` blocks, but do not rely on it alone.** This file used to say shell inside a workflow was invisible to it. That is wrong, and it was corrected on 2026-09-07 after actionlint flagged an `SC2016` inside a newly added step and failed the build. What actually happened with the heredoc in `templates/weekly-cost.yml` is narrower: it broke on an apostrophe in the prose, and shellcheck did not catch *that particular* bug — so the run linted clean and still failed at runtime.
+
+A clean lint is therefore not evidence the block runs. If you touch shell in a workflow, extract it and check it yourself:
 
 ```bash
 python3 -c "import yaml;d=yaml.safe_load(open('templates/weekly-cost.yml'));print(d['jobs']['report']['steps'][0]['run'])" > /tmp/s.sh
@@ -66,7 +73,7 @@ bash -n /tmp/s.sh
 
 - **One pull request per change**, with a title that says what changed rather than which files moved.
 - **If a decision changes, update `docs/02-decisions.md` in the same pull request.** That file is the load-bearing one: every non-obvious choice is there with what it beat and what would reverse it, including the entries where we were wrong. Several decisions look arbitrary until you read the constraint behind them.
-- **Every workflow change keeps the three cost brakes** — a `concurrency` group, a `timeout-minutes`, and `--max-turns` in `claude_args`. `check-workflow-caps.py` enforces this and will fail your build.
+- **Every workflow change keeps the three cost brakes** — a `concurrency` group, a `timeout-minutes`, and `--max-turns` in `claude_args`. `check-workflow-caps.py` enforces those three and will fail your build. A fourth thing must survive too — the **misrouted-issue guard** in `templates/claude.yml` (D14) — and `check-workflow-caps.py` does not see it. `test-scripts.sh` is the only check that does.
 - **Date anything that can go stale** — prices, limits, vendor behaviour.
 - **Never commit secrets.** Tokens live in GitHub Secrets or on your own machine.
 - **Keep it vendor-neutral where you can.** Grok Bot to Claude Code is the first supported pair, not the only intended one.
@@ -131,4 +138,8 @@ Include: the command or the trigger, what you expected, what happened, and the r
 
 ## Security
 
-Don't open a public issue for a security problem. `docs/05-security.md` has the threat model and is honest about what this design does *not* protect against — prompt injection is reduced, not prevented, and anyone who can comment on a thread can put text in front of the coding agent.
+Don't open a public issue for a security problem. Use GitHub's **private vulnerability reporting** on this repository instead — its security tab carries a **Report a vulnerability** button.
+
+Two things about that channel, both read from GitHub's own documentation on 2026-09-07: it is available on **public repositories only**, and a maintainer has to switch it on before the button appears. If you cannot see the button, open a public issue saying you have a security report **and nothing else** — no details, no reproduction — and ask for the channel to be turned on.
+
+`docs/05-security.md` has the threat model and is honest about what this design does *not* protect against — prompt injection is reduced, not prevented, and anyone who can comment on a thread can put text in front of the coding agent.
