@@ -152,6 +152,14 @@ jobs:
           fi
           exit 1
 
+      # `@v6` is deliberate and is NOT drift, even though this repo's own
+      # .github/workflows/ci.yml moved to @v7 on 2026-09-07. Dependabot watches
+      # .github/workflows/ only, never templates/ — the templates run in a
+      # consumer's repo. This file tracks upstream's reference example, which
+      # still uses @v6 (checked 2026-09-07 against
+      # anthropics/claude-code-action/examples/claude.yml; actions/checkout
+      # v7.0.1 exists, upstream has not adopted it). Bump this when upstream
+      # does, not when our CI does.
       - uses: actions/checkout@v6
         with:
           fetch-depth: 1
