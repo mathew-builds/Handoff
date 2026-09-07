@@ -45,7 +45,7 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 | 27 Aug | Pro user infers a ~$200/week pool from 35% = $69.94 | Cursor forum (primary); staff confirmed the meter is accurate, not the $ figure |
 | 30 Aug – 3 Sep | $275 in credits drained; subagents used models billed outside the Grok Bot pool | Cursor forum (primary) |
 | 1 Sep | Weekly usage hit 100% after bot-to-bot reviews the user asked to stop; 3-day lockout | Cursor forum (primary) |
-| 2 Sep | **A staff reply**, as we read it: every bot-to-bot message runs a turn that counts toward the weekly usage; asking the bots to stay quiet is a hint they can ignore, not a control | Cursor forum (staff) |
+| 2 Sep | **A staff reply.** Recovered, sourced and verified verbatim on 2026-09-08 — see [What drains fastest](#what-drains-fastest-community-consensus--staff) below for the exact wording and the thread URL. This row is no longer a paraphrase | Cursor forum (staff) — **checkable** |
 | 4 Sep | Five agents talked to each other for seven hours unattended; on-demand usage burned | Cursor forum (primary) |
 
 > **Sourcing note, added 2026-09-07 — read this before quoting anything from here.** Everything from
@@ -58,6 +58,16 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 > So: **nothing between here and "Our runs" is verbatim, and none of it is checkable by a reader.** The
 > vendor-documented facts at the top of the file carry a URL and a read date; the "Our runs" section
 > below is what we produced ourselves. This middle stretch is neither.
+>
+> **Amended 2026-09-08 — one exception, and it is a repair rather than a hole.** The 2 Sep staff
+> reply has since been re-found, its thread URL recovered, and its wording verified against the live
+> page. It now appears verbatim, with a link and a read date, under *What drains fastest*. So that
+> one item **is** checkable, and the sentence above no longer applies to it.
+>
+> This is the direction the file is meant to move in: a paraphrase becomes a quotation only by
+> someone going and re-reading the source, never by remembering it more confidently. **Everything
+> else in this stretch remains unchecked**, and finding one URL does not make the neighbouring lines
+> any more reliable than they were.
 
 ## What drains fastest (community consensus + staff)
 
@@ -67,6 +77,22 @@ These are design choices, not bugs. None had shipped a change as of 5 Sep 2026, 
 4. Browser / computer-use sessions
 
 Coding is not the *only* drain, but it is the one that (a) is the most token-hungry per task and (b) has a clean, flat-rate home elsewhere. That is why this project moves coding and leaves the rest.
+
+**Number 1 is confirmed first-party, not inferred.** This ranking was originally assembled from community reports. The top item is now backed by the vendor's own staff. From the Cursor community forum thread *"Grok Bot: weekly usage hits 100% after bot-to-bot reviews the user asked to stop"* ([170271](https://forum.cursor.com/t/grok-bot-weekly-usage-hits-100-after-bot-to-bot-reviews-the-user-asked-to-stop/170271)), read 2026-09-08:
+
+> each bot-to-bot message runs a turn that counts toward your weekly usage
+
+> Asking them in chat to "stay quiet" is only a hint they can ignore
+
+— Mohit, Cursor staff, 2026-09-02. The suggested remedies were to consolidate into one agent using subagents, or to delete unused specialist bots.
+
+A user in the same thread on 2026-09-04:
+
+> I just had 5 of my agents talking to each other for 7hours straight with NO Human interaction and burned through a lot of my on demand usage.
+
+They asked where to appeal for a refund. **Staff did not answer that question in the thread**, and we do not know whether a refund was given — do not imply one either way.
+
+**Why this is worth recording rather than celebrating.** It is evidence *against* the easiest version of this project's pitch. Drain 1 is the loudest complaint, staff have confirmed it is both real and not user-controllable, and **Handoff does not fix it.** Handoff moves drain 3. Anyone recruited on the strength of drain 1 will install this, watch their allowance keep draining, and be right to conclude it did not work. The README's drain diagram and the "Handoff will not fix that" sentence are the honest reading of this quote, and they should stay.
 
 ## The offload pattern already exists
 
