@@ -61,6 +61,20 @@ Coding agents that bill per token get expensive in a way you cannot see until th
 
 Each of those is a vendor-documented fact with a source in [07-evidence.md](docs/07-evidence.md) — **not** a measurement. We have never measured a Grok Bot allowance, and this project does not claim to.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/handoff-drains-dark.svg">
+  <img src="assets/handoff-drains-light.svg" width="660" alt="What drains a Grok Bot weekly allowance fastest, ranked: one, bots talking to each other in group chats; two, short-interval routines; three, long coding and agent loops; four, browser and computer-use sessions. Handoff moves only number three and does not fix the other three.">
+</picture>
+
+**Read that honestly: Handoff moves number three, and the thing people complain about most is number
+one.** If your allowance is draining, the most likely cause is bots talking to each other in a group
+chat — one forum report on 4 Sep 2026 describes five agents doing that unattended for seven hours,
+producing no code. **Handoff will not fix that.** That is a bot-configuration problem, and
+[04-operations.md](docs/04-operations.md) R4 is the runbook for it.
+
+What coding has that the other three do not is a clean flat-rate home elsewhere. That is the whole
+reason this project moves coding and leaves the rest alone.
+
 This moves exactly one category of work — code — across that billing boundary, and nothing else.
 
 **Measured, not asserted:** one real task — issue in, reviewable pull request out — took **61 seconds** and **9 of 25** allowed turns, with **$0.00** of pay-as-you-go spend confirmed on the Anthropic Console. See [08-measurements.md](docs/08-measurements.md).
