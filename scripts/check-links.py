@@ -30,6 +30,26 @@ IMAGES = (
 SKIP_PREFIXES = ("http://", "https://", "mailto:", "#", "data:")
 
 
+def case_exact(resolved: Path) -> bool:
+    """True if every path component matches its on-disk spelling exactly.
+
+    macOS is case-insensitive; GitHub serves from Linux, which is not. So
+    `Path.exists()` returns True locally for `Assets/foo.svg` when the directory
+    is really `assets/`, and the link 404s for readers only after the repo is
+    public. Comparing against the real directory entries is the only way to see
+    it from a Mac; CI's Linux runner would catch it, but not until push.
+    """
+    current = ROOT
+    for part in resolved.relative_to(ROOT).parts:
+        try:
+            if part not in (entry.name for entry in current.iterdir()):
+                return False
+        except OSError:
+            return False
+        current = current / part
+    return True
+
+
 def main() -> int:
     broken: list[str] = []
     checked = 0
@@ -72,9 +92,14 @@ def main() -> int:
                         images -= 1
                     continue
 
+                kind = "image" if is_image else "link"
                 if not resolved.exists():
-                    kind = "image" if is_image else "link"
                     broken.append(f"{rel_md}:{lineno}  ({kind})  ->  {target}")
+                elif not case_exact(resolved):
+                    broken.append(
+                        f"{rel_md}:{lineno}  ({kind})  ->  {target}"
+                        "   (wrong case — resolves on macOS, 404s on GitHub)"
+                    )
 
     print(f"checked {checked} relative target(s) across the repo — {images} of them images")
     if broken:

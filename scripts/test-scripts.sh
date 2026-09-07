@@ -163,6 +163,22 @@ STUB
   guard_case "mismatch refuses and comments"      "Repo: o/x"$'\n\n'"@claude go"  "o/r" true  1 yes
   guard_case "mismatch on a comment cannot loop"  "Repo: o/x"$'\n\n'"@claude go"  "o/r" false 1 no
 
+  # A bot writes Markdown. Before 2026-09-07 every one of these silently
+  # disabled the check — and logged "No 'Repo:' line — routing check does not
+  # apply" while doing it, which reads as reassurance at the moment of defeat.
+  guard_case "bold mismatch still refuses"        "**Repo: o/x**"$'\n\n'"@claude go"                "o/r" true 1 yes
+  guard_case "bold label mismatch still refuses"  "**Repo:** o/x"$'\n\n'"@claude go"                "o/r" true 1 yes
+  guard_case "backticked mismatch still refuses"  '`Repo: o/x`'$'\n\n'"@claude go"                  "o/r" true 1 yes
+  guard_case "blockquoted mismatch still refuses" "> Repo: o/x"$'\n\n'"@claude go"                  "o/r" true 1 yes
+  guard_case "URL-form mismatch still refuses"    "Repo: https://github.com/o/x"$'\n\n'"@claude go" "o/r" true 1 yes
+
+  # The mirror image, and the worse failure of the two: refusing an issue that
+  # was routed CORRECTLY. Punctuation must not cost a consumer a run.
+  guard_case "trailing full stop still runs"      "Repo: o/r."$'\n\n'"@claude go"                   "o/r" true 0 no
+  guard_case ".git suffix still runs"             "Repo: o/r.git"$'\n\n'"@claude go"                "o/r" true 0 no
+  guard_case "bold correct declaration runs"      "**Repo: o/r**"$'\n\n'"@claude go"                "o/r" true 0 no
+  guard_case "URL-form correct declaration runs"  "Repo: https://github.com/o/r"$'\n\n'"@claude go" "o/r" true 0 no
+
   # The refusal comment must never carry the trigger phrase: a comment
   # containing it restarts the workflow, and on issue_comment the body read is
   # the ISSUE's, so it would find the same bad line and comment forever.
