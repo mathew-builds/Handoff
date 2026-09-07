@@ -36,7 +36,13 @@ jobs:
       - name: Install actionlint
         run: |
           set -euo pipefail
-          bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          # Pinned to a release tag, not `main`. This pipes a third party's
+          # script straight into bash, and 05-security.md tells consumers to pin
+          # what they depend on — doing otherwise here would be one rule for
+          # them and another for us. v1.7.12 was the latest release when this
+          # was pinned (published 2026-03-30, checked 2026-09-07). Bump it
+          # deliberately; a moving `main` is a supply chain we do not control.
+          bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.12/scripts/download-actionlint.bash)
           ./actionlint --version
 
       - name: Lint every workflow, including the templates consumers copy
