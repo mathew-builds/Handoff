@@ -22,14 +22,14 @@
 
     <!-- ═══ GOOD AT ═══ -->
     <rect x="8" y="44" width="280" height="124" rx="4" fill="#1A1E23" stroke="#3A424B"/>
-    <text x="20" y="62" font-size="9.5" font-weight="700" letter-spacing="1" fill="#737A84">GOOD AT</text>
+    <text x="20" y="62" font-size="9.5" font-weight="700" letter-spacing="1" fill="#8A929C">GOOD AT</text>
     <text x="20" y="84"  font-size="11.5" fill="#ECEEF0">Group chats, chief-of-staff pattern</text>
     <text x="20" y="102" font-size="11.5" fill="#ECEEF0">Routines that run unattended</text>
     <text x="20" y="120" font-size="11.5" fill="#ECEEF0">A persistent cloud computer</text>
     <text x="20" y="138" font-size="11.5" fill="#ECEEF0">Browser reach</text>
 
     <rect x="372" y="44" width="280" height="124" rx="4" fill="#1A1E23" stroke="#3A424B"/>
-    <text x="384" y="62" font-size="9.5" font-weight="700" letter-spacing="1" fill="#737A84">GOOD AT</text>
+    <text x="384" y="62" font-size="9.5" font-weight="700" letter-spacing="1" fill="#8A929C">GOOD AT</text>
     <text x="384" y="84"  font-size="11.5" fill="#ECEEF0">Flat monthly price</text>
     <text x="384" y="102" font-size="11.5" fill="#ECEEF0">You choose the model</text>
     <text x="384" y="120" font-size="11.5" fill="#ECEEF0">Reads the repo, runs your tests</text>
