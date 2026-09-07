@@ -84,8 +84,21 @@ jobs:
           # `|| true` is required, not decorative: grep exits 1 when it matches
           # nothing, and under `set -e` the COMMON case — no Repo: line at all —
           # would kill the step. That exact bug shipped here once already.
+          #
+          # Decoration is tolerated in the ANCHOR, never in the captured value.
+          # A bot writing `**Repo: o/r**`, a blockquoted line, a backticked one
+          # or a pasted github.com URL used to slip past the old anchor — and
+          # the step then logged "No 'Repo:' line — routing check does not
+          # apply", reporting reassurance at the exact moment the check had been
+          # defeated. The value keeps the closed [A-Za-z0-9._-] class, which is
+          # what keeps issue-supplied text out of the shell.
+          #
+          # shellcheck disable=SC2016
+          # The backticks inside the character class are literal Markdown code
+          # fences we tolerate in the anchor, not command substitution. The
+          # expression must stay single-quoted so the shell leaves it alone.
           LINE="$(printf '%s\n' "${BODY:-}" \
-            | grep -oiE '^[[:space:]]*repo:[[:space:]]*[A-Za-z0-9._-]+/[A-Za-z0-9._-]+' \
+            | grep -oiE '^[[:space:]>*_`]*repo:[[:space:]*_`]*(https?://github\.com/)?[A-Za-z0-9._-]+/[A-Za-z0-9._-]+' \
             | head -1 || true)"
 
           if [ -z "$LINE" ]; then
@@ -93,8 +106,21 @@ jobs:
             exit 0
           fi
 
-          DECLARED="$(printf '%s' "$LINE" | sed -E 's/^[^:]*:[[:space:]]*//')"
+          # Drop the label, then decoration, then a link prefix, then trailing
+          # punctuation. A correctly routed issue written `Repo: acme/api.` or
+          # `Repo: acme/api.git` must not be refused over the full stop.
+          #
+          # shellcheck disable=SC2016
+          # The `$` below is a sed end-of-line anchor, not a shell variable, and
+          # the expressions must stay single-quoted so the shell leaves them
+          # alone. Same reason as the printf block further down.
+          DECLARED="$(printf '%s' "$LINE" \
+            | sed -E -e 's/^[^:]*:[[:space:]]*//' \
+                     -e 's/^[*_`[:space:]]+//' \
+                     -e 's#^https?://github\.com/##' \
+                     -e 's/[.,;:*_`[:space:]]+$//')"
           want="$(printf '%s' "$DECLARED"  | tr '[:upper:]' '[:lower:]')"
+          want="${want%.git}"
           here="$(printf '%s' "$THIS_REPO" | tr '[:upper:]' '[:lower:]')"
 
           if [ "$want" = "$here" ]; then
@@ -162,9 +188,19 @@ jobs:
           #    no allow-list that avoids it.
           #
           #    What actually contains it: the runner is ephemeral and holds no
-          #    production credentials, the repo is private, and only accounts with
-          #    write access can trigger a run. If that is not enough for your repo,
-          #    remove the pull-request triggers above and run issue-only.
+          #    production credentials, and only accounts with write access can
+          #    trigger a run.
+          #
+          #    A fourth control applies ONLY IF your repository is private: then
+          #    nobody outside the people you have added can put text in front of
+          #    Claude at all. This template cannot know whether that is true of
+          #    your repo, and nothing in the install requires it — so do not read
+          #    it as a promise. **On a public repository it does not hold**, and
+          #    write access is the only thing standing between a stranger's text
+          #    and a run on your subscription. See docs/05-security.md.
+          #
+          #    If that is not enough for your repo, remove the pull-request
+          #    triggers above and run issue-only.
           #
           #    Deliberately NOT in the default list: `npm ci` / `npm install`
           #    (execute PR-authored preinstall/postinstall scripts) and
