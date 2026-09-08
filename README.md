@@ -34,7 +34,7 @@ Actions minutes, which we cannot yet price — are in [07-evidence.md](docs/07-e
 alternative there is scored from its documentation, not from running it.** Handoff is the only one
 we have run end to end.
 
-> **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md) — the token-scope control test, a fresh-eyes install, and, in the **Post-1.0** section, two defects found after the release. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
+> **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md) — chiefly the token-scope control test, the runbook's read-only drill, and an install by somebody who did not write this. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
 
 > **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the **two** steps it cannot do and must hand back to you, the **one** it must ask you about first, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
 
@@ -197,7 +197,7 @@ See [docs/03-setup-guide.md](docs/03-setup-guide.md) — it has the checks at ea
 
 ```bash
 # 0. Get Handoff itself. The copies below read from it.
-git clone <URL of this repository> ~/handoff
+git clone https://github.com/mathew-builds/Handoff.git ~/handoff
 
 # 1. In the repo you want Claude to work on.
 #    setup-token opens a browser; copy what it prints, then paste at the prompt.

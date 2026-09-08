@@ -87,10 +87,16 @@ That silence is still a hole, for the reason `CLAUDE.md` gives: **a check that r
 failing reads as a pass.** Anyone scanning four green lines for the word "present" would have to
 notice that one line is missing a term the others have.
 
-**Do not add a second workflow before this is fixed.** The fix is to make `AGENT_PREFIX` a
-per-workflow mapping and add the new file to both `REQUIRED` and `MUST_RUN_AGENT` — then prove it
-red by deleting the new cap and watching CI fail, because a check that has never failed has not been
-tested.
+> **Fixed 2026-09-08 (issue #106), and not the way this section proposed.** The suggestion above was
+> a per-workflow vendor mapping. That was the wrong fix: it needs extending for every new agent and
+> fails **silently** whenever somebody forgets — the original defect wearing a longer list. What
+> shipped inverts the default instead. The cap is found by looking for the **brake** (`CAP_FLAGS`)
+> rather than the vendor, and any workflow not explicitly declared turn-free in `NO_AGENT` must show
+> one; unrecognised now means fail. Proven in both directions, test first. **The blocker on this
+> document is therefore cleared** — a second workflow can land without turning brake 3 off.
+>
+> Line numbers deliberately removed from this section: they moved when the fix landed, and citing
+> them again would only go stale again. Read the file.
 
 ### 2. The pull-request step depends on an output only Anthropic's action publishes
 
@@ -155,11 +161,17 @@ them must fail loudly rather than pass quietly.
 
 ### Why the draft is not a file
 
-It is a fenced block in this document rather than `templates/codex.yml` on purpose. `scripts/setup.sh`
-copies `templates/*.yml` into a consumer's repository, and `actionlint` in CI globs `templates/*.yml`.
-A draft sitting there would either be installed into somebody's repo by an unmodified `setup.sh`, or
-would have to be made lint-clean before it is even known whether the vendor exists. Neither is
-wanted from a design note.
+It is a fenced block in this document rather than `templates/codex.yml` on purpose: `.github/workflows/ci.yml`
+globs `templates/*.yml` into an `actionlint` run, and `scripts/check-workflow-caps.py` globs the same
+directory for cost brakes. A draft sitting there would have to be lint-clean and carry all three brakes
+before anyone knows whether the vendor exists — and a reader cannot tell a draft from a supported
+template, so `AGENTS.md` and the setup guide would have to explain which `.yml` files are real.
+
+> **Corrected 2026-09-08.** This paragraph used to add that `scripts/setup.sh` "copies `templates/*.yml`
+> into a consumer's repository", so a draft "would be installed into somebody's repo by an unmodified
+> `setup.sh`". **That is false.** `setup.sh` copies two named files — `templates/claude.yml` and
+> `templates/CLAUDE.md.template` — and contains no glob. The same fabricated mechanism appeared in D15
+> and is corrected there too. The conclusion was right; one of its two reasons was invented.
 
 Placeholders are written in `ANGLE_BRACKETS` so the file cannot be copied and run by accident.
 
