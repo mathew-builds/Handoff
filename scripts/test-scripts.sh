@@ -281,6 +281,51 @@ mut_new_template()  {   # the roadmap's own next idea: a scheduled agent run
   } > templates/nightly.yml
 }
 
+mut_second_vendor() {   # a coding agent from ANY other vendor, with no turn cap
+  # The defect this catches: the checker used to recognise an agent step only by
+  # the action's owner, so a workflow running someone else's coding agent had
+  # zero agent steps — and brake 3 was neither verified nor failed, just skipped.
+  # Reproduced at exit 0 on 2026-09-07. See issue #106 and D15.
+  {
+    echo 'name: Codex'
+    echo 'on:'
+    echo '  issues:'
+    echo '    types: [opened]'
+    echo 'concurrency:'
+    echo '  group: codex-${{ github.event.issue.number }}'
+    echo 'jobs:'
+    echo '  agent:'
+    echo '    runs-on: ubuntu-latest'
+    echo '    timeout-minutes: 30'
+    echo '    steps:'
+    echo '      - uses: some-other-vendor/coding-agent-action@v1'
+    echo '        with:'
+    echo '          token: ${{ secrets.OTHER_TOKEN }}'
+  } > templates/codex.yml
+}
+
+mut_second_vendor_capped() {   # same workflow, but properly capped — must PASS
+  # The control. Without it, the case above could pass for the wrong reason:
+  # a checker that failed every unrecognised workflow unconditionally would look
+  # correct and would make a capped second agent unshippable.
+  {
+    echo 'name: Codex'
+    echo 'on:'
+    echo '  issues:'
+    echo '    types: [opened]'
+    echo 'concurrency:'
+    echo '  group: codex-${{ github.event.issue.number }}'
+    echo 'jobs:'
+    echo '  agent:'
+    echo '    runs-on: ubuntu-latest'
+    echo '    timeout-minutes: 30'
+    echo '    steps:'
+    echo '      - uses: some-other-vendor/coding-agent-action@v1'
+    echo '        with:'
+    echo '          claude_args: --max-turns 25'
+  } > templates/codex.yml
+}
+
 caps_case() {  # name  want_rc  mutation_fn  [string that must NOT appear]
   caps_sandbox
   ( cd "$TMP/caps" && "$3" ) >/dev/null 2>&1
@@ -307,6 +352,8 @@ caps_case "missing concurrency group fails"      1 mut_drop_group
 caps_case "missing timeout-minutes fails"        1 mut_drop_timeout
 caps_case "deleted required workflow fails"      1 mut_delete_needed
 caps_case "new uncapped template is checked too" 1 mut_new_template
+caps_case "uncapped SECOND-VENDOR agent fails"   1 mut_second_vendor
+caps_case "capped second-vendor agent passes"    0 mut_second_vendor_capped
 
 # ---------------------------------------------------------------------------
 # Private folders must never become tracked.

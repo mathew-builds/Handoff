@@ -56,16 +56,21 @@ It cannot confirm the Claude GitHub App is installed — no API exposes that wit
 > | Entry | Basis |
 > |---|---|
 > | R1 "no run at all" — workflow not on the default branch | **Observed.** Cost us an hour; it is why `doctor.sh` checks it. |
-> | R1 read-only account fails rather than being ignored | Read in the action's source and docs. **The deliberate trigger is task 1.6 and has not been run.** |
-> | R2 expired credentials | Upstream issue reports, not our run. **Not reproduced here.** |
+> | R1 read-only account fails rather than being ignored | Read in the action's source and docs. **Still not run** — the drill needs a second GitHub account, which we do not have. |
+> | R2 expired credentials | **Observed 2026-09-08**, run `34155909253`, on a throwaway repo with a deliberately invalid token. Corrected below. |
 > | R3 both halves | **Observed.** Shipped as issue 61 and corrected after watching it. |
 > | R4 allowance exhaustion | Vendor staff statement. Our own meter has **never been read** — see `08-measurements.md`. |
 > | R5, R6 | **Neither has happened to us.** Written from the vendor's behaviour as documented. |
-> | R7 runaway action | `gh run cancel` is standard; the *runaway* it responds to has never occurred here. |
+> | R7 runaway action | **Cancellation observed 2026-09-08**, run `34156267717`. The *runaway* it responds to has still never occurred here — we cancelled a healthy run. |
 >
-> Task 1.6 exists to execute three of these deliberately and correct whatever reality disagrees
-> with. Until it is ticked, treat the unobserved rows as the best available expectation rather
-> than as fact.
+> **Task 1.6 ran two of its three drills on 2026-09-08.** R2 and R7 were triggered deliberately and
+> both entries below were corrected from what was actually seen. **R1 was not run**: it needs a
+> second GitHub account with read-only access, and creating one is not something this project can do
+> for itself. That row stays honest rather than quietly assumed.
+>
+> Note what R7 proved and what it did not. We cancelled a **healthy** run to see what cancelling
+> looks like. Nothing here says a genuinely runaway agent is detectable or stoppable in time — only
+> that `gh run cancel` does what it says, and what it leaves behind.
 
 ### R1 — Action doesn't start
 
@@ -81,6 +86,11 @@ Read-only accounts are **not** silently ignored — that used to be written here
 
 ### R2 — "Could not resolve authentication credentials"
 - Regenerate: `claude setup-token`, update the secret, re-run.
+- **Observed 2026-09-08** (task 1.6, run `34155909253` on a throwaway repo with a deliberately invalid token). What you actually see:
+  - The job fails at **`Run Claude Code`, after about two seconds.** Everything before it succeeds — the misrouted-issue guard and `actions/checkout` both pass — so a glance at the run list shows a failure that looks like it could be anywhere.
+  - **`Open the pull request` is `skipped`, correctly.** The `if: steps.claude.outputs.branch_name != ''` guard holds, so a bad token produces no empty or broken pull request.
+  - **You do get told, on the issue.** The Claude App comments *"Claude encountered an error after 2s"* with a link to the job. That is the fastest route to the cause — faster than the run list, which does not say what failed.
+  - The failing step's log does **not** print a plain "invalid credentials" line; the credential is masked throughout as `***`. Do not go looking for one.
 - **Do not stop debugging if you never changed plans.** This was written as a Pro→Max upgrade issue. Upstream (`anthropics/claude-code-action#1281`, still open as of 2026-08-19) includes reports from accounts that were **never on Pro**, so the trigger is broader than an upgrade.
 - Temporary fallback: `anthropic_api_key` with a Console key. **This moves your CI off the subscription and onto metered spend** — the exact thing this project exists to avoid. Treat it as a stopgap and switch back.
 
@@ -106,6 +116,11 @@ Check which half is failing before changing anything.
 
 ### R7 — Runaway action
 - `gh run cancel <id>`. Then lower `--max-turns` or `timeout-minutes`. Check the brief: vague stop conditions cause loops.
+- **Observed 2026-09-08** (task 1.6, run `34156267717`). Cancelling is clean where it matters: the run ends `cancelled`, and **no branch and no pull request are left behind** — so there is nothing to tidy up in git.
+- **But go back and close the issue comment yourself.** The Claude App's comment is left frozen mid-task — *"Working on it"* with a half-ticked todo list — and it is **never updated to say the run was cancelled**. Anyone returning to that issue, including you next week, sees what looks like a run still in progress. That is the whole visible trace of a cancellation, and it is misleading.
+
+### R7a — you cancelled it, so nothing is wrong
+Worth separating from R7, because the symptom is identical to a hung run. If an issue shows Claude *"Working on it"* and nothing has changed for a long time, check `gh run list` before debugging anything: a cancelled run leaves exactly that comment behind forever.
 
 ## Monitoring without a stack
 

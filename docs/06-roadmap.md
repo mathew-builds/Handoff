@@ -3,7 +3,7 @@
 | Phase | Goal | Status | Still unticked |
 |---|---|---|---|
 | **0 · Prove** | A pull request billed to a subscription, triggered by an issue | **Done** — 2026-09-05 | — |
-| **1 · Bridge** | A chat agent opens the issue; the finished PR reports itself back | **In progress** — 3 of 6 | 1.1 token scope · 1.4 native connector · 1.6 runbook rehearsal |
+| **1 · Bridge** | A chat agent opens the issue; the finished PR reports itself back | **In progress** — 4 of 6 | 1.1 token scope · 1.6 runbook rehearsal |
 | **2 · Team** | You talk only to the Chief of Staff | **Parked** since 2026-09-06 — no target repository and **no expected date** | All five |
 | **3 · Publish** | Someone else can set this up from the README | **In progress** — 4 of 5 | 3.4 fresh-eyes install |
 
@@ -35,7 +35,9 @@ Goal: a Grok Bot Coder can open the issue; the Chief of Staff hears about the PR
 **Result, 2026-09-06: partly passed.** Criteria one and three are evidenced — issue → action → PR →
 routine report, both passes, and `/workspace` checked clean (`07-evidence.md`, tasks 1.2, 1.3, 1.5).
 **Criterion two is not met:** the Grok Bot meter has never been read, and `08-measurements.md`
-records it as "not yet measured". Tasks 1.1, 1.4 and 1.6 remain unticked. **Phase 1 is not complete.**
+records it as "not yet measured". **Phase 1 is not complete.**
+
+**1.4 was ticked on 2026-09-08** — the connector acts as the signed-in member, so the answer is *no by default* and the Coder template stays as it is. Tasks **1.1** and **1.6** remain unticked, and criterion two — the meter — cannot be met without a repository, so Phase 1 does not close on the strength of 1.4.
 
 ## Phase 2 — The team (week 2) — **PARKED since 2026-09-06**
 

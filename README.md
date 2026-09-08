@@ -34,7 +34,7 @@ Actions minutes, which we cannot yet price — are in [07-evidence.md](docs/07-e
 alternative there is scored from its documentation, not from running it.** Handoff is the only one
 we have run end to end.
 
-> **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md), including the token-scope control test and a fresh-eyes install. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
+> **Status: the bridge works end to end. The project is not finished.** An issue becomes a reviewable pull request, and the result reports itself back into a group chat — both watched happening on 2026-09-06, not read out of vendor docs. What is still open is unticked in [TASKS.md](TASKS.md) — the token-scope control test, a fresh-eyes install, and, in the **Post-1.0** section, two defects found after the release. Every claim below links to the run that produced it — see [07-evidence.md](docs/07-evidence.md).
 
 > **Setting this up with an AI agent?** Point it at **[AGENTS.md](AGENTS.md)** — the install guide written for agents rather than people. It covers what the agent can do on its own, the **two** steps it cannot do and must hand back to you, the **one** it must ask you about first, and how to check the result. Handing your agent this repository's URL and saying "set this up" is a supported way to install Handoff.
 
@@ -227,6 +227,7 @@ bash ~/handoff/scripts/setup.sh
 | File | What it adds |
 |---|---|
 | [`templates/weekly-cost.yml`](templates/weekly-cost.yml) | A Monday report on a labelled issue: pull requests merged, how many runs it took, runner time per merged pull request. **Uses no model turns** — it is `gh` and `awk`, not an agent. Copy it next to `claude.yml` if you want it. |
+| [`templates/pr-checks-report.yml`](templates/pr-checks-report.yml) | Comments **green or red on the pull request once its checks finish.** The chat report-back fires when the pull request *opens*, so it says `tests pending` almost every time — this is the part that tells you whether the change is any good. **Uses no model turns.** One line to edit: name your CI workflow. |
 
 ## Documentation
 

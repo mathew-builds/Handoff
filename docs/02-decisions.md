@@ -66,11 +66,36 @@ Note that #46 does **not** apply here: GitHub only blocks fine-grained tokens fo
 
 xAI states it twice, in two separate documents:
 
-> Bots act as the signed-in member. A Bot can never hold more access than the person it belongs to, every action stays attributable to a named member.
-> — <https://docs.x.ai/grok-bot/security>
+> Bots act as the signed-in member. A Bot can never hold more access than the person it belongs to, every action stays attributable to a named member, and there is no separate machine identity outside your identity provider to provision, rotate, or audit. **Team-managed connectors are the one exception: they may use team or service-account credentials.**
+> — <https://docs.x.ai/grok-bot/security>, "Identity and sign-ins". Page last modified 2026-09-03; re-verified 2026-09-08.
 
 > A Bot has no identity of its own and cannot hold more access than the signed-in member.
-> — <https://docs.x.ai/grok-bot/security-faq>
+> — <https://docs.x.ai/grok-bot/security-faq>, "What can a Bot access?". Page last modified 2026-09-03; re-verified 2026-09-08.
+
+> **Corrected 2026-09-08, and the correction is the point of task 1.6's discipline applied to
+> ourselves.** The first quotation used to stop at *"attributable to a named member."* — ending the
+> sentence with a full stop where the page has a comma, and cutting the clause that follows. What it
+> cut was **the sentence's own carve-out**: team-managed connectors may use team or service-account
+> credentials. A reader of the old quotation could not know an exception existed.
+>
+> Both quotations were re-fetched on 2026-09-08 and matched the live pages character-for-character.
+> The pages' own `dateModified` is **2026-09-03**, which is *before* they were first read — so no
+> vendor change occurred in the interval; the defect was ours, in the transcription.
+>
+> **Two limits on what these quotations support, now stated rather than implied:**
+>
+> 1. **Neither page mentions GitHub, anywhere.** Both are general statements about Bots. The
+>    conclusion below — that the *GitHub* connector acts as you — is an **inference** from a general
+>    principle plus the first-hand walkthrough, not a documented statement about that connector.
+>    The inference looks sound; it is not a citation, and it should not read as one.
+> 2. **Whether the GitHub connection can be "team-managed" is unverified**, and it is the exception
+>    that would break the inference. There is no connector-inventory page to check —
+>    `/grok-bot/plugins`, `/grok-bot/connectors`, `/grok-bot/integrations` and `/grok-bot/github` all
+>    return 404.
+>
+> One further accuracy note: these pages are served from `docs.x.ai`, but their prose refers
+> throughout to **Cursor** — *"Connector tokens stay on Cursor's backend"*, *"give it its own Cursor
+> user"*. Grok Bot is documented by xAI and billed and hosted by Cursor; attribute accordingly.
 
 Corroborated first-hand: in a published walkthrough the Bot's cloud computer was already signed in as the author's personal GitHub account, and the Bot closed an issue **as that account** — no `[bot]` suffix, no App identity.
 
@@ -253,6 +278,7 @@ Writing it also surfaced a live defect that had nothing to do with second agents
 
 - **`scripts/check-workflow-caps.py` hardcodes `AGENT_PREFIX = "anthropics/"`.** A step counts as running the agent only if it uses an action published by that owner. **Reproduced 2026-09-07** in a scratch copy: a `templates/codex.yml` running `some-other-vendor/coding-agent-action@v1` with no turn cap of any kind passed at **exit 0**. `MUST_RUN_AGENT` names only `templates/claude.yml`, so nothing failed loudly either. Note the failure is subtler than the bug in the checker's own header — that one *asserted* `--max-turns present` when the flag was absent, whereas this one honestly lists only the brakes it verified and simply stays silent about the third. It is still a hole, because a check that reports instead of failing reads as a pass.
 - **Consequence, recorded so it is not rediscovered:** the checker must be made vendor-aware **before** any second workflow lands, and the fix must be proven by deleting the new cap and watching CI go red. Not after, and not in the same change.
+- **Done 2026-09-08 (issue #106), and it was not the fix this entry expected.** "Vendor-aware" would have meant a list of known agent vendors — extended for every new agent, and failing *silently* whenever somebody forgot, which is the original defect wearing a longer list. The shipped fix inverts the default instead: brake 3 is found by looking for the **brake** (`CAP_FLAGS`) rather than the **vendor**, and any workflow not explicitly declared turn-free in `NO_AGENT` must show one. Unrecognised now means fail. The vendor prefix survives only as the guard that catches `claude.yml` having its action swapped for a wrapper — a different check from brake 3, which is why the two are now separate in the code. **This entry's blocker is cleared: a second workflow can now land without turning brake 3 off.**
 
 **Also identified:** the pull-request step reads `steps.claude.outputs.branch_name`, which only Anthropic's action publishes. A second agent must be checked for whether it opens the PR itself (step not needed), publishes the branch under another name (one-line change), or publishes nothing (do not guess from a naming convention). D12's constraint still applies — the step cannot be split into an `on: push` workflow.
 **Not verified:** every candidate vendor. No second agent's documentation has been read and none has been run, so the note records what to check rather than what is true. Naming confident properties for an unread vendor is the exact defect class this repository exists to catch.
