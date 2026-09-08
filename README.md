@@ -249,3 +249,11 @@ bash ~/handoff/scripts/setup.sh
 ## Licence
 
 MIT. This is a template: every user runs it with their own tokens in their own repos. Nothing here routes anyone else's requests through your subscription.
+
+## Getting in touch
+
+**Tried it and something confused you? That is the most useful thing you can send.** Open an issue,
+or reach the author on [LinkedIn](https://www.linkedin.com/in/gtm-engineer-mathew/).
+
+Security reports have their own channel — see [SECURITY.md](SECURITY.md). Please do not open a
+public issue for those.
