@@ -42,12 +42,30 @@ we have run end to end.
 
 Named in text, not logos — these are other companies' trademarks, and Handoff is not affiliated with or endorsed by any of them.
 
-| | Chat side | Coding side |
-|---|---|---|
-| **Supported today** | Grok Bot (xAI / Cursor) | Claude Code |
-| **Designed for, not yet built** | any chat agent that can open a GitHub issue | any coding agent with a GitHub Action |
+**The two sides are not equally open, and the difference is the useful part.**
 
-Nothing in the bridge is vendor-specific: it is a GitHub issue in, a pull request out. Adding a coding agent means a different workflow file, not a different design.
+| | Chat side — what files the issue | Coding side — what does the work |
+|---|---|---|
+| **Proven** | Grok Bot (xAI / Cursor) — run end to end, 2026-09-06 | Claude Code — run end to end |
+| **Works today, untested by us** | **any agent that can open a GitHub issue.** Needs no Handoff code, no new file, no change of any kind | — |
+| **Needs a new workflow file first** | — | any coding agent that has a GitHub Action *and* can bill to a subscription |
+
+**On the chat side there is nothing to build.** Layer 1 is triggered by an issue containing
+`@claude` — [`templates/claude.yml`](templates/claude.yml) does not mention Grok Bot, or any chat
+vendor, anywhere in it. If your assistant can open a GitHub issue, it already works. The only
+Grok-Bot-specific things in this repository are four **prose** files — bot descriptions and routine
+text you paste into Grok Bot — and layer 1 does not need them. We say *untested* rather than
+*supported* because we have only run Grok Bot; that is a gap in our evidence, not in the product.
+
+**On the coding side there is genuinely something to build**, and it is not just a logo. The trigger
+phrase, the action reference, the authentication input, the turn-cap syntax and the branch output
+are all vendor-shaped — see [09-second-agent-design.md](docs/09-second-agent-design.md). A candidate
+also has to clear one bar before it counts: **it must run on a subscription the user already pays
+for.** An agent that authenticates only with an API key produces a metered CI runner, which is a
+different product and not what this is.
+
+**No logos here for anything we have not run.** A list of names that mostly do not work yet would
+make the one that does look like a claim too.
 
 ## Two layers. The first one is the product.
 
