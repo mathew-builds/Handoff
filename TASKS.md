@@ -19,7 +19,11 @@ Rules: one PR per change, titled by what changed (`fix:`, `docs:`, `feat:`). Eac
 
 ## Phase 2 — The team — **PARKED since 2026-09-06**
 
-Parked, not abandoned. Every task here measures Handoff over two weeks of real use, and the target repository was dropped on 2026-09-06. It becomes actionable the moment a real repository is chosen; do not restart it without one. Phase 3 was brought forward instead.
+Parked, not abandoned. Every task here measures Handoff over two weeks of real use, and the target repository was dropped on 2026-09-06. Phase 3 was brought forward instead.
+
+**No repository is available and none is expected in the near term — treat this phase as having no schedule.** Until 2026-09-08 this read "it becomes actionable the moment a real repository is chosen", which implied a single pending decision. Do not restart the phase without a repository, and do not read the park as imminent.
+
+**The repository has to meet a condition that is easy to miss.** Task 2.4 measures the weekly allowance before minus after, so it only produces a number on a repository where a chat agent is **already doing the coding**. Somewhere worked on by hand, or where a coding agent already runs locally, measures zero against zero — Handoff can work perfectly there and prove nothing.
 
 - [ ] **2.1 Chief of Staff** from template; pinned; one project group chat. *Accept:* a two-step task with no routing hints is researched, delegated to Coder, and reported once.
 - [ ] **2.2 Auto Review rules** from `templates/auto-review-rules.md`; Cursor on-demand limit set. *Accept:* "email the client" is stopped and asks; a screenshot in evidence.

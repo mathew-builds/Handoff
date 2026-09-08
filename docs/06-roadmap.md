@@ -4,8 +4,8 @@
 |---|---|---|---|
 | **0 · Prove** | A pull request billed to a subscription, triggered by an issue | **Done** — 2026-09-05 | — |
 | **1 · Bridge** | A chat agent opens the issue; the finished PR reports itself back | **In progress** — 3 of 6 | 1.1 token scope · 1.4 native connector · 1.6 runbook rehearsal |
-| **2 · Team** | You talk only to the Chief of Staff | **Parked** since 2026-09-06 | All five. Needs a real repository — the target was dropped. |
-| **3 · Publish** | Someone else can set this up from the README | **In progress** — 3 of 5 | 3.4 fresh-eyes install · 3.5 the `v1.0.0` tag |
+| **2 · Team** | You talk only to the Chief of Staff | **Parked** since 2026-09-06 — no target repository and **no expected date** | All five |
+| **3 · Publish** | Someone else can set this up from the README | **In progress** — 4 of 5 | 3.4 fresh-eyes install |
 
 **Phase 2 is parked and Phase 3 was brought forward.** This was a Gantt chart until 2026-09-07.
 It was removed rather than corrected: every real event happened inside 48 hours, so four bars on a
@@ -41,7 +41,11 @@ records it as "not yet measured". Tasks 1.1, 1.4 and 1.6 remain unticked. **Phas
 
 Goal: you talk only to the Chief of Staff.
 
-**Parked, not abandoned.** Every acceptance test below needs two weeks of real use on a real repository, and the target repository was dropped on 2026-09-06. Phase 3 was brought forward. The trigger to unpark is a chosen repository — nothing else.
+**Parked, not abandoned.** Every acceptance test below needs two weeks of real use on a real repository, and the target repository was dropped on 2026-09-06. Phase 3 was brought forward.
+
+**The trigger to unpark is a suitable repository becoming available. There is no expected date for that.** Until 2026-09-08 this said the trigger was "a chosen repository — nothing else", which read as though Phase 2 were one small decision away. It is not: no repository is available to point Handoff at, and none is expected in the near term. Treat Phase 2 as having no schedule rather than an imminent one.
+
+**One criterion for that repository is easy to miss, and it invalidates the whole phase if it is wrong.** Task 2.4 measures the Grok Bot weekly allowance *before* minus *after*. That only yields a number if the repository is one where a chat agent is **already** doing the coding. Point Handoff at a repository worked on by hand, or one where a coding agent is already used locally, and the measurement is zero against zero — the bridge can work perfectly and still prove nothing.
 
 **Acceptance:**
 - Two-step task with no routing hints is researched, delegated, reported once.
@@ -60,11 +64,21 @@ Goal: someone else can set this up from the README in under two hours.
 - A stranger (or a fresh Claude Code session with only the README) completes setup on a new repo.
 - Tagged `v1.0.0`, MIT licence, `CONTRIBUTING.md`.
 
-**Result, 2026-09-06: partly passed.** `setup.sh`, `doctor.sh` and the weekly cost report are done
-and evidenced (tasks 3.1–3.3). **Not done:** nobody outside the project has installed Handoff from
-the README (3.4), and `v1.0.0` is not yet tagged (3.5). The ownership question that held the tag
-was settled on 2026-09-07 — the repository stays on its personal account — so the tag is now
-waiting only on the decision to publish.
+**Result: 4 of 5.** `setup.sh`, `doctor.sh` and the weekly cost report are done and evidenced (tasks
+3.1–3.3). **`v1.0.0` was tagged and released on 2026-09-07, and the repository is public** (3.5) —
+verified afterwards against the live public page, unauthenticated, rather than assumed.
+
+**Still not done:** nobody outside the project has installed Handoff from the README (3.4). Two
+attempts have been made and both were by agents inside the project; both stopped at the steps only a
+human can do — generating the token and installing the GitHub App. That is the half the task exists
+to test.
+
+> **Corrected 2026-09-08.** Until this date the block above said *"`v1.0.0` is not yet tagged"* and
+> *"the tag is now waiting only on the decision to publish"*. Both had been false since 2026-09-07,
+> and this file is public — so for a day it told every reader the release had not happened, while
+> `TASKS.md` and `CHANGELOG.md` said it had. **A status line in a plan goes stale the moment someone
+> acts on the plan.** `TASKS.md:40` already carries the defence against this and points readers at
+> the live artefact instead of the record; this file did not.
 
 ## What would make us add a server (the parked v3 design)
 
@@ -77,7 +91,9 @@ Only these triggers. Not "it would be nice."
 | A client wants the whole stack self-hosted | Gitea + Woodpecker, two-node brain/hands split, OTel + Grafana |
 | Grok Bot ships a model picker, published allowances and a spend cap | possibly *less* — reconsider whether the bridge is needed at all |
 
-The full v3 design (two Hetzner nodes, gateway, channels, relay, the eleven-gap scoreboard) is preserved as the answer to those triggers. It is not the plan.
+**The v3 design is not kept in this repository.** Earlier wording here said it "is preserved as the answer to those triggers", without saying where — and `02-decisions.md` D1 points *back* at this file for it, so the two references form a loop around an artifact that is not in the tree. Corrected 2026-09-08: a grep for its distinctive terms across every tracked file returns only pointers, never the document.
+
+What survives is the shape of it, recorded in the trigger table above and in D1: a VPS for cross-run memory, a self-hosted runner for private infrastructure, and a two-node self-hosted stack for a client who wants one. **If any of those triggers ever fires, the design is a fresh piece of work, not a document to retrieve.** Say that plainly rather than promising a file that does not exist.
 
 ## Ideas backlog (unscheduled)
 

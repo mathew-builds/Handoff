@@ -60,7 +60,7 @@ It is a notional list-price estimate, printed regardless of how you pay. The Con
 
 ## Not measured yet
 
-- **Grok Bot weekly allowance** under coordination-only load (task 2.4). Needs Phase 1 and 2 first, and two weeks of elapsed time.
+- **Grok Bot weekly allowance** under coordination-only load (task 2.4). Needs a repository to run against and two weeks of elapsed time; none is available and none is expected in the near term. **Corrected 2026-09-08:** this used to say "Needs Phase 1 and 2 first", an ordering claim `TASKS.md` retired — phases no longer run in order, and what actually blocks this is the repository, not the phase before it. Note also that the repository must be one where a chat agent is *already* doing the coding, or the before/after is zero against zero.
 - **Cost per merged PR** (`04-operations.md`, weekly review). Needs several real tasks, not one trivial one.
 - **A task that fails.** Every measurement here is of a task that went right the first time. The interesting number is what a *rejected* PR costs, and we have none.
 - **Actions minutes in money.** The timing API reports zero billable milliseconds on this repo; whether that is a free-tier allowance or an unpopulated field is unresolved.

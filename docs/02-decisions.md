@@ -9,7 +9,7 @@ Each entry: the decision, what it beat, why, and what would reverse it. Dated be
 **Decision:** Grok Bot delegates by opening a GitHub issue; Claude Code runs via the official GitHub Action; results return as a PR event.
 **Beat:** (a) Locum-style MCP connector over a tunnel to a VPS; (b) Claude Code Channels into a persistent firstmate session on a VPS; (c) Jenkins/webhook bridge.
 **Why:** The pain point is billing, not orchestration. Both products already speak GitHub. Zero servers, zero tunnels, one fewer thing to secure.
-**Reverses if:** you need memory across tasks, mid-run approvals, or access to private infrastructure the hosted runner can't reach. Then the v3 design (docs kept in `06-roadmap.md`) applies.
+**Reverses if:** you need memory across tasks, mid-run approvals, or access to private infrastructure the hosted runner can't reach. The triggers are tabulated in [06-roadmap.md](06-roadmap.md#what-would-make-us-add-a-server-the-parked-v3-design). **Corrected 2026-09-08:** this line used to say "the v3 design (docs kept in `06-roadmap.md`) applies" — but that file said the design was preserved *elsewhere*, so the two pointed at each other around a document that is not in the tree. There is no v3 design to retrieve; if a trigger fires it is fresh work.
 
 ### D2 — Authenticate the action with a subscription OAuth token, not an API key
 **Date:** 2026-09-05
