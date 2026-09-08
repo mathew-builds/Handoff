@@ -16,6 +16,14 @@ Two defects were found after 1.0.0 and **both are now fixed**. Neither was a reg
 
   The first design used `check_suite: completed` and produced **zero runs**, because GitHub does not fire that event for suites created by GitHub Actions — so it can never report on CI that runs in Actions. `workflow_run` is the documented alternative and needs the upstream workflow named by its `name:` field. **That one line must be edited on install**, and getting it wrong fails silently.
 
+- **Issue forms, and a code of conduct.** `.github/ISSUE_TEMPLATE/` gains a **setup-friction** form and a bug-report form, plus a chooser that sends security reports to the Security tab instead of a public issue — a rule `SECURITY.md` already stated and now no longer relies on being read.
+
+  The friction form is the one that does work. Task 3.4's acceptance is *"every point of confusion becomes a doc fix"*, and until now those reports arrived as freeform prose that had to be re-derived each time; the fields are the ones `CONTRIBUTING.md` already asked for. It says explicitly that **an unfinished install is still worth filing** — where somebody stopped is the finding, and asking them to solve it first destroys the data. Timing was the argument for doing it now: a first install only produces its confusion once.
+
+  `CODE_OF_CONDUCT.md` is Contributor Covenant 2.1. The contact route is the maintainer's LinkedIn rather than an email address, matching the README, and it states plainly that the project has one maintainer and a best-effort response time rather than implying a moderation team.
+
+  **Not observed:** the forms are YAML- and schema-checked locally and have **never been rendered by GitHub**. Blank issues stay enabled on purpose — a report in a shape we did not anticipate beats no report. `Discussions` was checked and is disabled, so nothing links to it.
+
 ### Fixed
 
 - **The cost-brake checker no longer depends on the vendor** ([#106](https://github.com/mathew-builds/Handoff/issues/106)). `scripts/check-workflow-caps.py` recognised an agent step only when the action came from `anthropics/`, so a workflow running any other coding agent had no agent step and its turn cap went unchecked while CI stayed green — reproduced at exit 0 against an uncapped second-vendor workflow.

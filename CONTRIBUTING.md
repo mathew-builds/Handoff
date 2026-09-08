@@ -2,6 +2,8 @@
 
 Thanks for looking. This is a small, opinionated project and the conventions below exist because each one was learned by getting it wrong first.
 
+By taking part you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ---
 
 ## The one rule that matters
@@ -132,9 +134,13 @@ syntax-highlighted code block rather than a diagram.
 
 ## Reporting a bug
 
+**There are issue forms** — [choose one](https://github.com/mathew-builds/Handoff/issues/new/choose) and it asks for exactly what is below, so you do not have to remember it. Blank issues stay enabled on purpose: a report in a shape we did not anticipate beats no report.
+
 The most useful bug report here is one that names **what you ran and what you saw**, because that is the only kind this project can act on without re-deriving it.
 
 Include: the command or the trigger, what you expected, what happened, and the run URL if there is one. If a workflow behaved oddly, `scripts/doctor.sh OWNER/REPO` output is usually the fastest thing to paste.
+
+**If you got stuck *installing* it, use the setup-friction form rather than this one.** That report is worth more to this project than a bug report: every point of confusion becomes a documentation fix, and **you do not need to have finished the install to file one** — where you stopped is the finding.
 
 ## Security
 
