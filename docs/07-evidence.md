@@ -191,7 +191,7 @@ give both — but the artefact goes first, because it is the one that will still
 
 Evidence we produced ourselves, rather than collected. Repo: a throwaway private repo built for this test — a dependency-free Node project with three real tests, so "the tests must pass" exercises something.
 
-**Why the run IDs are not links.** These runs happened on **private** repositories, so the URLs would 404 for every reader — a link that cannot be followed is worse than an identifier that is honest about being one. The account and repository names are omitted deliberately: this is a template for other people, and it should not carry its author's GitHub handle. The run IDs are kept because they are what makes each claim traceable *by us*, and because inventing them would be the one thing this document exists to prevent.
+**Why the run IDs are not links.** These runs happened on **private** repositories, so the URLs would 404 for every reader — a link that cannot be followed is worse than an identifier that is honest about being one. The account and repository names are omitted deliberately: this is a template for other people, and it should not carry its author's GitHub handle. The run IDs are kept because inventing them would be the one thing this document exists to prevent. **They no longer make anything traceable, including by us** — see the section above: the repository was deleted and restored on 2026-09-08, and the Actions history did not come back. They are now a record that a specific run happened, not a way to go and look at it. The durable evidence is the pull requests and comments those runs produced.
 
 ### 2026-09-05 — the thesis test (task 0.2)
 

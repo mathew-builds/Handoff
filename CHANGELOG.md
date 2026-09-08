@@ -6,7 +6,7 @@ Because this project's whole discipline is not claiming what it has not run, ent
 
 ## [Unreleased]
 
-Two defects were found after 1.0.0 and **both are now fixed**. Neither was a regression in shipped behaviour, which is why 1.0.0 was not withdrawn.
+Two defects were found after 1.0.0 and **both are now fixed**. Neither was a regression in shipped behaviour, which is why 1.0.0 was not withdrawn. Documentation corrections shipped alongside them are listed at the end.
 
 ### Added
 
@@ -21,6 +21,12 @@ Two defects were found after 1.0.0 and **both are now fixed**. Neither was a reg
 - **The cost-brake checker no longer depends on the vendor** ([#106](https://github.com/mathew-builds/Handoff/issues/106)). `scripts/check-workflow-caps.py` recognised an agent step only when the action came from `anthropics/`, so a workflow running any other coding agent had no agent step and its turn cap went unchecked while CI stayed green — reproduced at exit 0 against an uncapped second-vendor workflow.
 
   Fixed by **inverting the default** rather than by listing vendors: the cap is now found by looking for the brake itself, and any workflow not explicitly declared turn-free must show one. Unrecognised means fail. Proven in both directions — the test was written first and watched failing against the old code. It caught its first real workflow within the hour.
+
+### Documentation corrected
+
+- **The "Works with" table was understating the product.** It marked *"any chat agent that can open a GitHub issue"* as *"designed for, not yet built"*. `templates/claude.yml` contains no reference to any chat vendor, so anything that can open an issue works today with no code change. The table now separates three states rather than two: proven, works-today-untested-by-us, and needs-a-new-file. Only the coding side is the third.
+- **A contact route** — the README now points at GitHub issues and the author's LinkedIn, and routes security reports to `SECURITY.md`.
+- **Several claims that had gone stale or were never true** were corrected in place with dated notes, including one decision record that justified itself with a mechanism that does not exist.
 
 ### Also in main, not user-facing
 
