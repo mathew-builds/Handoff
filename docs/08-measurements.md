@@ -1,6 +1,15 @@
 # 08 — Measurements
 
-Numbers we produced by running the thing. Every row links to the run it came from. Nothing here is estimated; where a figure is unavailable it says so rather than being filled in.
+Numbers we produced by running the thing. Every row names the run it came from. Nothing here is estimated; where a figure is unavailable it says so rather than being filled in.
+
+> **The run IDs below no longer resolve, and that is worth knowing before you try one.** The private
+> repository these runs happened on was deleted by accident on 2026-09-08 and restored from GitHub's
+> 90-day window. The restore recovered code, branches, pull requests and issues; it did **not**
+> recover the Actions history. So every ID here now returns `404` — **to us as much as to any
+> reader**. The numbers are not withdrawn: they were read off the runs when the runs existed, and the
+> pull requests those runs produced still exist. But nobody can re-derive them now, and a reader is
+> entitled to know that rather than discovering it. See the same note in
+> [07-evidence.md](07-evidence.md).
 
 ## Runs on the trial repo, 2026-09-05
 
