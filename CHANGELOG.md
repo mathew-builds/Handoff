@@ -6,12 +6,25 @@ Because this project's whole discipline is not claiming what it has not run, ent
 
 ## [Unreleased]
 
-Nothing shipped. Two defects have been found and reproduced since 1.0.0, both open:
+Two defects were found after 1.0.0 and **both are now fixed**. Neither was a regression in shipped behaviour, which is why 1.0.0 was not withdrawn.
 
-- **The cost-brake checker is hardcoded to one vendor** ([#106](https://github.com/mathew-builds/Handoff/issues/106)). `scripts/check-workflow-caps.py` only recognises a step as running the agent if the action comes from `anthropics/`, so a second agent's turn cap would go unchecked while CI stayed green. Reproduced at exit 0 against an uncapped second-vendor workflow. It does not affect `templates/claude.yml`, which is still checked correctly — but it blocks the second-agent design in [09-second-agent-design.md](docs/09-second-agent-design.md) (D15).
-- **The pull-request report-back only ever says `tests pending`** ([#108](https://github.com/mathew-builds/Handoff/issues/108)), and its `green`/`red` branches have never run anywhere, because the trial repo has no CI. Documented behaviour rather than a regression — but two of three output branches are unproven.
+### Added
 
-Neither is a regression in shipped behaviour, which is why 1.0.0 is not withdrawn.
+- **`templates/pr-checks-report.yml`** — optional. Comments **green or red** on a pull request once its checks finish, closing the gap where the layer-2 report-back fires on `pull_request opened` and therefore says `tests pending` almost every time. **Uses no model turns**: `gh` and shell, in the same spirit as `weekly-cost.yml`. It assumes nothing about any chat vendor's connector — GitHub does the waiting and the verdict arrives as an ordinary pull-request comment.
+
+  **Observed on both branches, which had never happened before** ([#108](https://github.com/mathew-builds/Handoff/issues/108)): a passing pull request produced `Checks green — 1 of 1 passed` and a failing one produced `Checks red — 1 of 1 failed`, runs `34156121781`, `34156121772`, `34156104908`.
+
+  The first design used `check_suite: completed` and produced **zero runs**, because GitHub does not fire that event for suites created by GitHub Actions — so it can never report on CI that runs in Actions. `workflow_run` is the documented alternative and needs the upstream workflow named by its `name:` field. **That one line must be edited on install**, and getting it wrong fails silently.
+
+### Fixed
+
+- **The cost-brake checker no longer depends on the vendor** ([#106](https://github.com/mathew-builds/Handoff/issues/106)). `scripts/check-workflow-caps.py` recognised an agent step only when the action came from `anthropics/`, so a workflow running any other coding agent had no agent step and its turn cap went unchecked while CI stayed green — reproduced at exit 0 against an uncapped second-vendor workflow.
+
+  Fixed by **inverting the default** rather than by listing vendors: the cap is now found by looking for the brake itself, and any workflow not explicitly declared turn-free must show one. Unrecognised means fail. Proven in both directions — the test was written first and watched failing against the old code. It caught its first real workflow within the hour.
+
+### Also in main, not user-facing
+
+- The planning documents were repaired after an audit found six live contradictions between them, including `06-roadmap.md` stating for a day that `v1.0.0` had not been tagged. Post-release work gained a tracked home in `TASKS.md`. Two of three runbook drills were executed for the first time and their entries corrected from what was observed.
 
 ## [1.0.0] — 2026-09-07
 

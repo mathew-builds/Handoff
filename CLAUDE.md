@@ -111,7 +111,7 @@ pip install pyyaml    # once — check-workflow-caps.py needs it
 actionlint -ignore 'unexpected key "queue" for "concurrency" section' \
   .github/workflows/*.yml templates/*.yml   # lint workflows AND the templates
 python3 scripts/check-links.py              # every relative doc link resolves
-python3 scripts/check-workflow-caps.py      # the three cost brakes survive, in all three workflows
+python3 scripts/check-workflow-caps.py      # the three cost brakes survive, in every workflow it finds
 bash scripts/test-scripts.sh                # scripts/*.sh lint AND run, both directions
 ```
 
