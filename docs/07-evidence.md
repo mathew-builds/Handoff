@@ -159,6 +159,34 @@ A matrix with only the other side's costs in it is a sales sheet. These are ours
 - The Claude Code Action loses OAuth/subscription support. Then the economics of this bridge change; API billing might still beat Grok Bot overage, but it must be measured.
 - Verified reports that a mid-tier plan absorbs several daily coding tasks without spillover.
 
+## Every run ID below is permanently unresolvable — read this first
+
+**2026-09-08.** The private trial repository these runs happened on was deleted by accident and
+restored from GitHub's 90-day window the same day. **The restore recovered the code, branches, pull
+requests and issues. It did not recover the Actions history.** `actions/runs` on the restored
+repository returns `total_count: 0`, and every run ID cited anywhere in this file, in
+`08-measurements.md` and in `TASKS.md` now returns `404` — **to us as well as to any reader.**
+
+**Nothing below is withdrawn, and here is why.** The durable artefacts survived: the pull requests
+Claude opened, their diffs, and the comments its workflows posted are all still there. The two that
+matter most for the newest claim are intact and still readable —
+
+- trial PR 16 carries `**Checks green** — 1 of 1 passed.`
+- trial PR 17 carries `**Checks red** — 1 of 1 failed.`
+
+— which is the evidence for the green/red verdict, observed rather than inferred. The run IDs were
+only ever pointers to those outcomes.
+
+**The lesson is about how this file cites things, and it is worth more than the incident.** A run ID
+looked like the most rigorous possible citation: specific, numeric, checkable. It is in fact the
+*least durable* thing we could have cited. GitHub expires run logs after a period, and deletes the
+history outright with the repository — while the pull request, the diff and the comment persist. We
+were citing the receipt rather than the thing it was a receipt for.
+
+**Going forward, cite the artefact and treat the run ID as a secondary detail.** "Trial PR 17 carries
+`Checks red — 1 of 1 failed`" survives things that "run 34156121772" does not. Where both exist,
+give both — but the artefact goes first, because it is the one that will still be there.
+
 ## Our runs
 
 Evidence we produced ourselves, rather than collected. Repo: a throwaway private repo built for this test — a dependency-free Node project with three real tests, so "the tests must pass" exercises something.
