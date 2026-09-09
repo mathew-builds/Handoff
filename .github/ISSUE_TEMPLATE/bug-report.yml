@@ -1,0 +1,60 @@
+name: Bug report
+description: Something in this repository behaved differently from how it is documented.
+title: "Bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The most useful bug report here is one that names **what you ran and what you saw**,
+        because that is the only kind this project can act on without re-deriving it.
+
+        **Not a bug:** a security problem. Do not open a public issue for one —
+        [`SECURITY.md`](https://github.com/mathew-builds/Handoff/blob/main/SECURITY.md) is the
+        policy, and the Security tab is the route.
+
+  - type: textarea
+    id: ran
+    attributes:
+      label: What did you run, or what triggered it?
+      description: The exact command, or the event — an issue comment, a scheduled run, a push.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: saw
+    attributes:
+      label: What did you see instead?
+      description: Paste output exactly rather than summarising it.
+    validations:
+      required: true
+
+  - type: input
+    id: run-url
+    attributes:
+      label: Run URL
+      description: If a GitHub Actions run was involved, the link to it. Skip this if the repository is private — the link would not resolve for anyone else.
+      placeholder: "https://github.com/OWNER/REPO/actions/runs/..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of the diagnostic script
+      description: "If a workflow behaved oddly, `bash scripts/doctor.sh OWNER/REPO` is usually the fastest thing to paste."
+      render: shell
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        **Please do not paste tokens or secrets.** Replace anything credential-shaped with `REDACTED`.

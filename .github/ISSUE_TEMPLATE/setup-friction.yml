@@ -1,0 +1,65 @@
+name: I got stuck setting this up
+description: You tried to install Handoff and something confused you. This is the single most useful report this project can receive.
+title: "Setup friction: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Rough notes are perfect.** A messy list of what confused you, in the order it confused
+        you, is worth more than a tidy summary. Every point of confusion here becomes a
+        documentation fix — that is what this form is for.
+
+        **You do not need to have finished the install.** Stopping partway is itself the finding,
+        and it is the most valuable version of this report. Please do not go and work the problem
+        out before filing — where you got stuck *is* the data.
+
+  - type: textarea
+    id: where
+    attributes:
+      label: Where did you get stuck?
+      description: Which guide were you following, and roughly which step?
+      placeholder: "README, the quick start — or AGENTS.md, around the GitHub App part."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: happened
+    attributes:
+      label: What actually happened?
+      description: If there was an error, paste it exactly as it appeared rather than describing it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of the diagnostic script
+      description: |
+        Optional, and usually the fastest thing to paste: `bash scripts/doctor.sh OWNER/REPO`.
+        It reports what is missing and the command or click that fixes it. Redact the repository
+        name if you would rather not share it.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: anything
+    attributes:
+      label: Anything else that confused you along the way
+      description: Even small things. Especially small things — wording, ordering, a step that assumed knowledge you did not have.
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        **Please do not paste tokens, secrets or private repository names.** If an error message
+        contains one, replace it with `REDACTED`.

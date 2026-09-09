@@ -1,0 +1,13 @@
+# Blank issues stay enabled deliberately. Forcing a stranger through a form is worse than
+# receiving their report in a shape we did not anticipate — and the reports we have not
+# anticipated are the ones worth having.
+blank_issues_enabled: true
+
+contact_links:
+  - name: Security problem — do not open a public issue
+    url: https://github.com/mathew-builds/Handoff/security
+    about: Use the Security tab, then "Report a vulnerability". SECURITY.md is the policy and covers what is in and out of scope.
+
+  - name: Trying to install it and want the guide
+    url: https://github.com/mathew-builds/Handoff/blob/main/AGENTS.md
+    about: The install guide, written for whoever is doing the setup. If something has already gone wrong, run scripts/doctor.sh — it names the fix, not just the fault.
